@@ -2,7 +2,7 @@
 This is the software for an autonomous bird feeder which will do the following: 
 - release food when a bird lands on it.
 - take a picture of the bird and upload it to a server on a Raspberri Pi. 
-- use machine learning to determine the species of the bird.
+- use machine learning to make sure it was a bird that landed on the feeder, and not something else.
 
 A GUI front end will also be created to allow a user to interact with the system easily.
 
