@@ -8,6 +8,8 @@
         width: 35em;
         margin: 0 auto;
         font-family: Tahoma, Verdana, Arial, sans-serif;
+	font-size: 70px;
+	color: #c966a4;
     }
 </style>
 </head>
@@ -25,12 +27,12 @@
 <?php echo "Birds have visted your cafe today: " . date("d/m/y") . "</br>"; ?>
 
 <!-- Provide a link to the statistics page -->
-<a style="font-size:80px;" href="stats_page.php"> View more bird feeder stats!</a>
+<a style="color:#c966a4;font-size:80px;" href="stats_page.php"> View more bird feeder stats!</a>
 <!-- Links to social media sites and GitHub -->
-<p style="color:#c966a4;font-size:70px;" You can view the code for this project at the following link:</p>
-<a style="color:#c966a4;font-size:50px;" href="https://github.com/AymenB98/Bird-Cafe">Bird Cafe GitHub repo </a>
-<a style="color:#c966a4;font-size:50px;" href="https://twitter.com/smartbirdcafe">Twitter - </a>
-<a style="color:#c966a4;font-size:50px;" href="https://www.instagram.com/smartbirdcafe/?igshid=xx0j8aub0pb4">Instagram</a>
+<p style="font-size:70px;" You can view the code for this project at the following link:</p>
+<a style="font-size:50px;" href="https://github.com/AymenB98/Bird-Cafe">Bird Cafe GitHub repo - </a>
+<a style="font-size:50px;" href="https://twitter.com/smartbirdcafe">Twitter - </a>
+<a style="font-size:50px;" href="https://www.instagram.com/smartbirdcafe/?igshid=xx0j8aub0pb4">Instagram</a>
 
 </centre>
 </body>
