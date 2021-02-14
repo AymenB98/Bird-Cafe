@@ -24,6 +24,8 @@
 <!-- PHP code to display the current date -->
 <?php echo "Birds have visted your cafe today: " . date("d/m/y") . "</br>"; ?>
 
+<!-- Provide a link to the statistics page -->
+<a style="font-size:80px;" href="stats_page.php"> View more bird feeder stats!</a>
 <!-- Links to social media sites and GitHub -->
 <p style="color:#c966a4;font-size:70px;" You can view the code for this project at the following link:</p>
 <a style="color:#c966a4;font-size:50px;" href="https://github.com/AymenB98/Bird-Cafe">Bird Cafe GitHub repo </a>
