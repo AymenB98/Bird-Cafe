@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-<!-- Webpage title -->
-<title>Cafe stats</title>
-<style>
+<!DOCTYPE html> <html> <head> <!-- Webpage title --> <title>Cafe 
+stats</title> <style>
     body {
         width: 35em;
         margin: 0 auto;
@@ -21,6 +17,23 @@
 <center><h1 style="font-size:80px;">Cafe Statistics</h1>
 <!-- Tell the user what this page is for. -->
 <p style="color:#c966a4;font-size:70px;"> Take a look at some in-depth stats about your bird feeder!</p>
+
+<?php
+<!-- Mock class to track the number of birds visiting the feeder. -->
+class VisitStats
+{
+public $totalVisits;
+
+	function birdCount($totalVisits)
+	{
+		return $this->totalVisits = $totalVisits;
+	}
+
+}
+
+$crow = new VisitStats();
+$crow->birdCount(10);
+?>
 
 
 <!-- Mock graph which shows how many birds have visisted the feeder over time (also imposters) -->
