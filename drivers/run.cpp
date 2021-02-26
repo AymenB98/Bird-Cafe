@@ -88,7 +88,7 @@ int main ( int argc,char **argv ) {
     std::ofstream outFile ( "birdcafe.ppm",std::ios::binary );
     outFile<<"P6\n"<<Camera.getWidth() <<" "<<Camera.getHeight() <<" 255\n";
     outFile.write ( ( char* ) data, Camera.getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB ) );
-    cout<<"Image saved at raspicam_image.ppm"<<endl;
+    cout<<"Image saved at birdcafe.ppm"<<endl;
     //free resrources    
     delete data;
     return 0;
