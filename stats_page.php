@@ -1,5 +1,9 @@
-<!DOCTYPE html> <html> <head> <!-- Webpage title --> <title>Cafe 
-stats</title> <style>
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Webpage title -->
+<title>Cafe stats</title>
+<style>
     body {
         width: 35em;
         margin: 0 auto;
@@ -18,8 +22,9 @@ stats</title> <style>
 <!-- Tell the user what this page is for. -->
 <p style="color:#c966a4;font-size:70px;"> Take a look at some in-depth stats about your bird feeder!</p>
 
+
 <?php
-<!-- Mock class to track the number of birds visiting the feeder. -->
+// Mock class to track the number of birds visiting the feeder.
 class VisitStats
 {
 public $totalVisits;
@@ -31,8 +36,34 @@ public $totalVisits;
 
 }
 
+// Create data about birds that have visited (10 crows and 5 sparrows)
 $crow = new VisitStats();
-$crow->birdCount(10);
+$crowNumber = $crow->birdCount(10);
+$sparrow = new VisitStats();
+$sparrowNumber = $sparrow->birdCount(5);
+
+// Data that will be written to .csv file
+// This will be a table that is turned into a graph
+// The user will see the graph when they open the stats page
+$stats = array(
+	// The x-axis should show the date and y-axis the number of birds/imposters
+	array("date", "Birds", "Imposters"), 
+	// Fill this with fake data until integration with other code is completed
+	array(date("Y-m-d"), $crowNumber, 2),
+	// In future, find a way to append a row of data to the .csv file in use
+	array("2021-3-2", $sparrowNumber, 1));
+// Open .csv file
+$statsFile = fopen("visits.csv", "w");
+
+// Place the arrays in the .csv file
+foreach($stats as $line)
+{
+	fputcsv($statsFile, $line);
+}
+
+// Now that .csv file has been adapted, close it
+fclose($statsFile);
+
 ?>
 
 
@@ -41,7 +72,7 @@ $crow->birdCount(10);
 	<script type="text/javascript">
 	 g = new Dygraph(
 	     document.getElementById("graphdiv"),
-	     "bird_stats_new.csv",
+	     "visits.csv",
              {
                  legend:'always',
                  ticker: Dygraph.dateTicker
@@ -51,4 +82,3 @@ $crow->birdCount(10);
 
 </body>
 </html>
-

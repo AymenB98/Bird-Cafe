@@ -1,6 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-<!-- Mock test to make sure the number of birds is positive -->
+// Mock test to make sure the number of birds is positive
 class statsPageTest extends TestCase
 {
 	public function testCountIsPositive()

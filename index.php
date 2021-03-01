@@ -15,7 +15,7 @@
 </head>
 <body>
 <!-- Greeting message is centred just like all other text in the file -->
-<center><h1 style="font-size:80px;">Welcome to the Bird Cafe</h1>
+<center><h1 style="font-size:80px;">Welcome to the Bird Cafe!!!</h1>
 
 <!-- Display product logo -->
 <img src="bird_logo_pink.jpg">
