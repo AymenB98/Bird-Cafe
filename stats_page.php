@@ -24,6 +24,7 @@
 
 
 <?php
+use League\Csv\Writer;
 // Mock class to track the number of birds visiting the feeder.
 class VisitStats
 {
@@ -61,11 +62,14 @@ foreach($stats as $line)
 	fputcsv($statsFile, $line);
 }
 
+// Append row to .csv file
+$append = array("2021-3-3", $sparrowNumber, 3);
+fputcsv($statsFile, $append);
+
 // Now that .csv file has been adapted, close it
 fclose($statsFile);
 
 ?>
-
 
 <!-- Mock graph which shows how many birds have visisted the feeder over time (also imposters) -->
 	<div id="graphdiv"></div>
