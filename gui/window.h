@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QPixmap>
 #include <QProcess>
+#include<QDebug>
 
 // class definition 'Window'
 class Window : public QWidget
@@ -19,7 +20,9 @@ public:
 
 
 private slots:
-	void handleButton();
+	void handleStartButton();
+	void handleStopButton();
+	//void qInfo();
 	//bool setAlignment();
 
 // internal variables for the window class
