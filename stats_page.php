@@ -39,55 +39,51 @@ public $totalVisits;
 
 }
 
-/* @brief	Create .csv file so it can be displayed to user
+/* @brief 	Class which creates a .csv file with bird stats to display to user.
  * 
- * @param $birdNumber How many birds have visited the feeder
- * @param $imposterNumber How many animals have visited that are not birds
- * 
- * @retrn none 
  */
-function csvCreate($birdNumber, $imposterNumber)
+class CsvCreate
 {	
-	// Data that will be written to .csv file
-	// This will be a table that is turned into a graph
-	// The user will see the graph when they open the stats page
-	$stats = array(
-		// The x-axis should show the date and y-axis the number of birds/imposters
-		array("date", "Birds", "Imposters"), 
-		// Fill this with fake data until integration with other code is completed
-		array(date("Y-m-d"), $birdNumber, $imposterNumber));
-	// Open .csv file
-	$statsFile = fopen("visits.csv", "w") or die("Cannot open file");
-
-	// Place the arrays in the .csv file
-	foreach($stats as $line)
+public $birdNumber, $imposterNumber, $statsFile;
+	/* @brief	Create .csv file so it can be displayed to user
+	 * 
+	 * @param $birdNumber How many birds have visited the feeder
+	 * @param $imposterNumber How many animals have visited that are not birds
+	 * 
+	 * @return none 
+	 */
+	function __construct($birdNumber, $imposterNumber)
 	{
-		fputcsv($statsFile, $line);
+		// Data that will be written to .csv file
+		// This will be a table that is turned into a graph
+		// The user will see the graph when they open the stats page
+		$stats = array(
+			// The x-axis should show the date and y-axis the number of birds/imposters
+			array("date", "Birds", "Imposters"), 
+			// Fill this with fake data until integration with other code is completed
+			array(date("Y-m-d"), $birdNumber, $imposterNumber));
+		// Open .csv file
+		$statsFile = fopen("visits.csv", "w") or die("Cannot open file");
+
+		// Place the arrays in the .csv file
+		foreach($stats as $line)
+		{
+			fputcsv($statsFile, $line);
+		}
+
+		// Append row to .csv file
+		$append = array(date("Y-m-d"), $birdNumber, $imposterNumber);
+		fputcsv($statsFile, $append);
+
+		// Append some more data to fill in the graph
+		$appendTrialData = array("2021-3-4", 5, 1); 
+		fputcsv($statsFile, $appendTrialData);
+			
+		// Now that .csv file has been adapted, close it
+		fclose($statsFile);
+		// csvAppend($birdNumber, $imposterNumber, $statsFile);
 	}
-
-	csvAppend($birdNumber, $imposterNumber, $statsFile);
-}
-
-/* @brief	Append data to .csv file and close it
- * 
- * @param $birdNumber How many birds have visited the feeder
- * @param $imposterNumber How many animals have visited that are not birds
- * @param $csvFile File handle for .csv file used to generate graph		
- * 
- * @retrn none 
- */
-function csvAppend($birdNumber, $imposterNumber, $csvFile)
-{
-	// Append row to .csv file
-	$append = array(date("Y-m-d"), $birdNumber, $imposterNumber);
-	fputcsv($csvFile, $append);
-
-	// Append some more data to fill in the graph
-	$appendTrialData = array("2021-3-4", 5, 1); 
-	fputcsv($csvFile, $appendTrialData);
-		
-	// Now that .csv file has been adapted, close it
-	fclose($csvFile);	
+	
 }
 
 // Create (mock) data about birds that have visited (10 crows and 5 sparrows)
@@ -96,7 +92,8 @@ $crowNumber = $crow->birdCount(7);
 $sparrow = new VisitStats();
 $sparrowNumber = $sparrow->birdCount(5);
 
-csvCreate($crowNumber, $sparrowNumber);
+// Create new object which will create .csv for user graph
+$csvGraph = new CsvCreate($crowNumber, 2);
 
 ?>
 
