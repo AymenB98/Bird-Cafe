@@ -36,7 +36,7 @@ Window::Window()
        
 //qInfo is qt5.5+ only.
     qInfo() << "Start Button Pressed, taking photo";
-    //currently not functional
+    //currently functional
     process = new QProcess(this);
     process->start("/home/pi/projects/BirdCafe/Bird-Cafe/drivers/build/birdcafe_raspicam");
     process->waitForStarted();
