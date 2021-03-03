@@ -95,6 +95,8 @@ $sparrowNumber = $sparrow->birdCount(5);
 // Create new object which will create .csv for user graph
 $csvGraph = new CsvCreate($crowNumber, 2);
 
+// Perform python script
+system("python helloworld.py");
 ?>
 
 <!-- Mock graph which shows how many birds have visisted the feeder over time (also imposters) -->
