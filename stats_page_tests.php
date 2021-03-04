@@ -10,12 +10,20 @@ class statsPageTest extends TestCase
 		$this->assertGreaterThanOrEqual(0, $count);
 	}
 	
-	Public function testCsvCreate()
+	public function testCsvCreate()
 	{
 		$csvTest = new CsvCreate(7, 2);
 		$this->assertFileExists("visits.csv");
 	}
-
+	
+	public function testPythonExec()
+	{
+		$pythonTest = new csVCreate(3, 1);
+		$execValue = $pythonTest->pythonScript();
+		$this->assertEquals($execValue, "Python script running");
+		
+	}
+	
 }
 
 ?>

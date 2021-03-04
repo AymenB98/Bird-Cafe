@@ -31,7 +31,12 @@
 class VisitStats
 {
 public $totalVisits;
-
+	/* @brief 	Mock class to track the number of birds visiting the feeder.
+	 * 
+	 * @param $totalVisits how many visits has the feeder had
+	 * 
+	 * @return $totalVisits
+	 */
 	function birdCount($totalVisits)
 	{
 		return $this->totalVisits = $totalVisits;
@@ -44,7 +49,7 @@ public $totalVisits;
  */
 class CsvCreate
 {	
-public $birdNumber, $imposterNumber, $statsFile;
+public $birdNumber, $imposterNumber, $statsFile, $stats, $pythonResult, $execResult;
 	/* @brief	Create .csv file so it can be displayed to user
 	 * 
 	 * @param $birdNumber How many birds have visited the feeder
@@ -84,6 +89,19 @@ public $birdNumber, $imposterNumber, $statsFile;
 		// csvAppend($birdNumber, $imposterNumber, $statsFile);
 	}
 	
+	/* @brief	Execute external Python script
+	 * 
+	 * @return $execResult Null when execution has failed, equal to script output when
+	 * successful
+	 */
+	
+	function pythonScript()
+	{
+		// Perform python script
+		$execResult = system("python helloworld.py", $pythonResult);
+		return $execResult;
+	}
+	
 }
 
 // Create (mock) data about birds that have visited (10 crows and 5 sparrows)
@@ -94,9 +112,9 @@ $sparrowNumber = $sparrow->birdCount(5);
 
 // Create new object which will create .csv for user graph
 $csvGraph = new CsvCreate($crowNumber, 2);
+// Execute Python script
+$csvGraph->pythonScript();
 
-// Perform python script
-system("python helloworld.py");
 ?>
 
 <!-- Mock graph which shows how many birds have visisted the feeder over time (also imposters) -->
