@@ -1,7 +1,3 @@
-//Joe Costello
-//16/02
-//Camera Driver
-//adapted from: 
 
 /**********************************************************
  Software developed by AVA ( Ava Group of the University of Cordoba, ava  at uco dot es)
@@ -40,37 +36,38 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ****************************************************************/
 
-#include <ctime>
-//#include <fstream>
-//#include <iostream>
-#include <raspicam/raspicam.h>
 #include "BirdCam.h"
-using namespace std;
- 
-void camStandardConfig( raspicam::RaspiCam &Camera ) //configure camera settings
+
+//setters
+void BirdCam::setFilePath(std::string filePath)
 {
-    Camera.setWidth (1280);
-    Camera.setHeight (960);
-    Camera.setBrightness (55);
-
-    Camera.setSharpness (0);
-    Camera.setContrast (0);
-    Camera.setSaturation (5);
-    Camera.setShutterSpeed(0);
-    Camera.setISO (800);
-    Camera.setFrameRate(30);
-    Camera.setVideoStabilization ( true );
-    Camera.setExposureCompensation (0);
-
-    Camera.setAWB_RB(1,1);
-
+   FilePath = filePath;
 }
 
-int main ( int argc,char **argv ) {
-   BirdCam cam1;
-   camStandardConfig(cam1);
-   cam1.setFilePath("../Photos/birdcafe.ppm");
-   cam1.takePhoto();
-   
-    return 0;
+std::string BirdCam::getFilePath()
+{
+   return FilePath;
+}
+
+void BirdCam::takePhoto()
+{
+    std::cout<<"Opening Camera..."<<std::endl;
+    if ( !raspicam::RaspiCam::open()) //checks if camera available
+    {
+        std::cerr<<"Error opening camera"<<std::endl;
+    }
+    //capture
+    std::cout<<"Capturing Image..."<<std::endl;
+    raspicam::RaspiCam::grab();
+    //allocate memory
+    unsigned char *data=new unsigned char[raspicam::RaspiCam::getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB )];
+    //extract the image in rgb format
+    raspicam::RaspiCam::retrieve(data);//get camera image
+    //save
+    std::ofstream outFile(FilePath, std::ios::binary); 
+    outFile<<"P6\n"<<raspicam::RaspiCam::getWidth() <<" "<<raspicam::RaspiCam::getHeight() <<" 255\n";
+    outFile.write ( ( char* ) data, raspicam::RaspiCam::getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB ) );
+    std::cout<<"Image saved at " << FilePath <<std::endl;
+    delete data;
+
 }

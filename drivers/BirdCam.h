@@ -1,7 +1,3 @@
-//Joe Costello
-//16/02
-//Camera Driver
-//adapted from: 
 
 /**********************************************************
  Software developed by AVA ( Ava Group of the University of Cordoba, ava  at uco dot es)
@@ -40,37 +36,32 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ****************************************************************/
 
-#include <ctime>
-//#include <fstream>
-//#include <iostream>
+#ifndef _BIRDCAM_H
+#define _BIRDCAM_H
+
+
 #include <raspicam/raspicam.h>
-#include "BirdCam.h"
-using namespace std;
- 
-void camStandardConfig( raspicam::RaspiCam &Camera ) //configure camera settings
-{
-    Camera.setWidth (1280);
-    Camera.setHeight (960);
-    Camera.setBrightness (55);
+#include <string>
+#include <fstream>
+#include <iostream>
+#include <ctime>
 
-    Camera.setSharpness (0);
-    Camera.setContrast (0);
-    Camera.setSaturation (5);
-    Camera.setShutterSpeed(0);
-    Camera.setISO (800);
-    Camera.setFrameRate(30);
-    Camera.setVideoStabilization ( true );
-    Camera.setExposureCompensation (0);
-
-    Camera.setAWB_RB(1,1);
-
-}
-
-int main ( int argc,char **argv ) {
-   BirdCam cam1;
-   camStandardConfig(cam1);
-   cam1.setFilePath("../Photos/birdcafe.ppm");
-   cam1.takePhoto();
+class BirdCam : public raspicam::RaspiCam 
+{//class used for interfacing pi camera
+private: 
    
-    return 0;
-}
+   std::string FilePath; //Filepath of photos taken w/ BirdCam
+   
+public:
+
+   //setters
+   void setFilePath(std::string filePath); //sets filepath and name for images taken
+
+   //getters
+   std::string getFilePath();
+
+   void takePhoto(); //function to take photo
+
+};
+
+#endif
