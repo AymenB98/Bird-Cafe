@@ -39,15 +39,20 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ****************************************************************/
+//!**************************************************************
+//! \file
+//! \brief Runs driver operations
+//!**************************************************************
 
 #include <ctime>
-//#include <fstream>
-//#include <iostream>
 #include <raspicam/raspicam.h>
 #include "BirdCam.h"
 using namespace std;
- 
-void camStandardConfig( raspicam::RaspiCam &Camera ) //configure camera settings
+
+
+//! @brief Configures the camera settings - adapted from code in 'raspicam_test.cpp' by Ava Group, University of Cordoba 
+//! found here: https://github.com/cedricve/raspicam/blob/c4c0dc10d32980fdbd6adb20aa439054ce8b00fd/utils/raspicam_test.cpp
+void camStandardConfig( raspicam::RaspiCam &Camera )
 {
     Camera.setWidth (1280);
     Camera.setHeight (960);

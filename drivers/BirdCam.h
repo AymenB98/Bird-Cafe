@@ -35,6 +35,10 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ****************************************************************/
+//!**************************************************************
+//! \file
+//! \brief Header file for BirdCam subclass
+//!**************************************************************
 
 #ifndef _BIRDCAM_H
 #define _BIRDCAM_H
@@ -44,22 +48,36 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string>
 #include <fstream>
 #include <iostream>
+#include <ostream>
 #include <ctime>
+#include <experimental/filesystem>
 
+//! Class used for interfacing with pi camera - subclass of RaspiCam
 class BirdCam : public raspicam::RaspiCam 
 {//class used for interfacing pi camera
 private: 
    
-   std::string FilePath; //Filepath of photos taken w/ BirdCam
+   std::string FilePath; //set to filepath of photos taken with BirdCam
    
+   //! Checks if a user-given file path exists, returns true if yes, false if no.
+   //! @param[in] filePath
+   bool checkFilePathExists(std::string filePath);
+
 public:
 
    //setters
-   void setFilePath(std::string filePath); //sets filepath and name for images taken
+   //! Sets file path to which captured photos are saved.
+   //! @param[in] filePath
+   void setFilePath(std::string filePath);
 
    //getters
+   //! Gets filepath of photos taken.
+   //! @param[out] FilePath
    std::string getFilePath();
 
+   
+  //! \brief Function which takes a photograph when called. 
+  //! Photograph saved to path set by setFilePath().
    void takePhoto(); //function to take photo
 
 };

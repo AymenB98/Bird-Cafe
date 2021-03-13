@@ -12,5 +12,5 @@ add_library(birdcafe_cam_static STATIC ${DRIVER_LIB})
 
 add_executable (birdcafe_raspicam ${DRIVER_LIB} run.cpp) 
  
-target_link_libraries (birdcafe_raspicam ${raspicam_LIBS})
+target_link_libraries (birdcafe_raspicam ${raspicam_LIBS} stdc++fs)
 #####################################
