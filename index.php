@@ -41,9 +41,9 @@ class UdpSocket
 		// Create socket
 		$socket = socket_create(AF_INET, SOCK_DGRAM, 0);
 		// IP address of pi
-		$ip = "192.168.1.22";
-		// Use port number 5005
-		$port = 5005;
+		$ip = "127.0.0.1";
+		// Use port number 5000
+		$port = 5000;
 		// Print correct error message if socket creation fails
 		if(!$socket)
 		{
@@ -65,7 +65,7 @@ class UdpSocket
 		}
 		
 		// Receive data
-		$rcvStatus = socket_recvfrom($socket, $data, 512, 0, $ip, $port);
+		$rcvStatus = socket_recvfrom($socket, $data, 1, 0, $ip, $port);
 		// Display on web page
 		echo "<b>" .$data. "</b>";
 		socket_close($socket);
