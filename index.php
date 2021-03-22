@@ -25,6 +25,10 @@
 
 <!-- PHP code to display the current date -->
 <?php 
+// Author: Aymen Benylles
+// This code was adapted from the following GitHub repo:
+// https://github.com/berndporr/rpi_AD7705_daq
+// This was adapted from the file "graph.php" by Bernd Porr
 
 /* @brief 	Class which creates and binds UDP socket
  * 
@@ -84,8 +88,6 @@ class UdpSocket
 
 $listenSocket = new UdpSocket();
 echo "<b> Birds have visted your cafe today: " . date("d/m/y") . "</br>";
-
-
 ?>
 
 <!-- Provide a link to the statistics page -->
