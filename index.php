@@ -8,8 +8,8 @@
         width: 35em;
         margin: 0 auto;
         font-family: Tahoma, Verdana, Arial, sans-serif;
-	font-size: 55px;
-	color: #c966a4;
+		font-size: 55px;
+		color: #c966a4;
     }
 </style>
 </head>
@@ -75,15 +75,6 @@ class UdpSocket
 		socket_close($socket);
 		return $this->socket = $socket;
 	}
-	/* @brief	Destrcutor which closes socket automatically
-	 * 
-	 * @return none 
-	 */
-	//function __destruct()
-	//{
-		//socket_close($this->socket);
-	//}
-	
 }
 
 $listenSocket = new UdpSocket();

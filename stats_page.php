@@ -30,7 +30,6 @@
 // https://github.com/berndporr/rpi_AD7705_daq
 // This was adapted from the file "graph.php" by Bernd Porr
 
-
 /* @brief 	Mock class to track the number of birds visiting the feeder.
  * 
  */
@@ -66,25 +65,18 @@ public $birdNumber, $imposterNumber, $statsFile, $stats, $pythonResult, $execRes
 	function __construct($birdNumber, $imposterNumber)
 	{
 		$today = date("Ymd");
-		$axisEntry = array("date", "birds", "imposters");
-
 		$appendEntry = array($today, $birdNumber, $imposterNumber);
 							
 		// Open .csv file
 		$statsFile = fopen("official.csv", "a+") or die("Cannot open file");
-		$emptyCheck = fgetcsv($statsFile, 1000, ",");
-		fclose($statsFile);
 		
-		$statsFileNew = fopen("official.csv", "a+") or die("Cannot open file");
-		if(($emptyCheck[0][0] == NULL))
-		{
-			fputcsv($statsFileNew, $axisEntry);
-		}
+		// Write data to csv file.
+		// Dygraph labels mean that PHP code does not need to check for
+		// empty line.
+		fputcsv($statsFile, $appendEntry);
 		
-		fputcsv($statsFileNew, $appendEntry);
-
 		// Now that .csv file has been adapted, close it
-		fclose($statsFileNew) or die("Cannot close file");
+		fclose($statsFile) or die("Cannot close file");
 	}
 	
 	/* @brief	Execute external Python script
@@ -110,23 +102,21 @@ $csvGraph->pythonScript();
 ?>
 
 <!-- Mock graph which shows how many birds have visisted the feeder over time (also imposters) -->
-	<div id="graphdiv2" style="width: 500px; height: 500px; color: #c966a4;"></div>
+	<div id="graphdiv2" style="width: 500px; height: 500px;"></div>
 	<script type="text/javascript">
-	 //g = new Dygraph(
-	     //document.getElementById("graphdiv"),
-	     //"official.txt",
-             //{
-                 //legend:'always',
-				 //color: '#c966a4'
-             //}
-	 //);
 	 g2 = new Dygraph(
 		document.getElementById("graphdiv2"),
-		"official.csv", // path to CSV file
+		"official.csv",
 		{
+			// Label data to make php entry simpler
+			labels:["Date", "Birds", "Imposters"],
+			// Display legend
 			legend: 'always',
-			color: '#c966a4'
-		}          // options
+			// Show rolling average
+			rollPeriod: 1,
+			// Allow user to change rolling period
+			showRoller: true,
+		}        
 	  );
 	</script>   
 
