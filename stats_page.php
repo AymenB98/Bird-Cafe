@@ -97,8 +97,6 @@ $crowNumber = $crow->birdCount(7);
 
 // Create new object which will create .csv for user graph
 $csvGraph = new CsvCreate($crowNumber, 1);
-// Execute Python script
-$csvGraph->pythonScript();
 ?>
 
 <!-- Mock graph which shows how many birds have visisted the feeder over time (also imposters) -->
