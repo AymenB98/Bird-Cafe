@@ -35,3 +35,4 @@ phpunit --bootstrap stats_page.php stats_page_tests.php
 ```
 phpunit --coverage-text text --whitelist /var/www/html/stats_page.php --bootstrap stats_page.php stats_page_tests.php
 ```
+More information on unit testing in PHP can be found via the following link: http://headstation.com/archives/installing-testing-php-unit-testing/
