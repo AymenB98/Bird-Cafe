@@ -13,7 +13,7 @@
 </style>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.js"></script>
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/dygraph/2.1.0/dygraph.min.css"/>
 
 </head>
 
@@ -25,6 +25,11 @@
 
 
 <?php
+// Author: Aymen Benylles
+// This code was adapted from the following GitHub repo:
+// https://github.com/berndporr/rpi_AD7705_daq
+// This was adapted from the file "graph.php" by Bernd Porr
+
 /* @brief 	Mock class to track the number of birds visiting the feeder.
  * 
  */
@@ -49,7 +54,7 @@ public $totalVisits;
  */
 class CsvCreate
 {	
-public $birdNumber, $imposterNumber, $statsFile, $stats, $pythonResult, $execResult;
+public $birdNumber, $imposterNumber, $statsFile, $stats, $pythonResult, $execResult, $append;
 	/* @brief	Create .csv file so it can be displayed to user
 	 * 
 	 * @param $birdNumber How many birds have visited the feeder
@@ -59,34 +64,19 @@ public $birdNumber, $imposterNumber, $statsFile, $stats, $pythonResult, $execRes
 	 */
 	function __construct($birdNumber, $imposterNumber)
 	{
-		// Data that will be written to .csv file
-		// This will be a table that is turned into a graph
-		// The user will see the graph when they open the stats page
-		$stats = array(
-			// The x-axis should show the date and y-axis the number of birds/imposters
-			array("date", "Birds", "Imposters"), 
-			// Fill this with fake data until integration with other code is completed
-			array(date("Y-m-d"), $birdNumber, $imposterNumber));
+		$today = date("Ymd");
+		$appendEntry = array($today, $birdNumber, $imposterNumber);
+							
 		// Open .csv file
-		$statsFile = fopen("visits.csv", "w") or die("Cannot open file");
-
-		// Place the arrays in the .csv file
-		foreach($stats as $line)
-		{
-			fputcsv($statsFile, $line);
-		}
-
-		// Append row to .csv file
-		$append = array(date("Y-m-d"), $birdNumber, $imposterNumber);
-		fputcsv($statsFile, $append);
-
-		// Append some more data to fill in the graph
-		$appendTrialData = array("2021-3-4", 5, 1); 
-		fputcsv($statsFile, $appendTrialData);
-			
+		$statsFile = fopen("official.csv", "a+") or die("Cannot open file");
+		
+		// Write data to csv file.
+		// Dygraph labels mean that PHP code does not need to check for
+		// empty line.
+		fputcsv($statsFile, $appendEntry);
+		
 		// Now that .csv file has been adapted, close it
-		fclose($statsFile);
-		// csvAppend($birdNumber, $imposterNumber, $statsFile);
+		fclose($statsFile) or die("Cannot close file");
 	}
 	
 	/* @brief	Execute external Python script
@@ -94,40 +84,38 @@ public $birdNumber, $imposterNumber, $statsFile, $stats, $pythonResult, $execRes
 	 * @return $execResult Null when execution has failed, equal to script output when
 	 * successful
 	 */
-	
 	function pythonScript()
 	{
 		// Perform python script
 		$execResult = system("python helloworld.py", $pythonResult);
 		return $execResult;
 	}
-	
 }
-
-// Create (mock) data about birds that have visited (10 crows and 5 sparrows)
+// Create (mock) data about birds that have visited
 $crow = new VisitStats();
 $crowNumber = $crow->birdCount(7);
-$sparrow = new VisitStats();
-$sparrowNumber = $sparrow->birdCount(5);
 
 // Create new object which will create .csv for user graph
-$csvGraph = new CsvCreate($crowNumber, 2);
-// Execute Python script
-$csvGraph->pythonScript();
-
+$csvGraph = new CsvCreate($crowNumber, 1);
 ?>
 
 <!-- Mock graph which shows how many birds have visisted the feeder over time (also imposters) -->
-	<div id="graphdiv" style="width: 500px; height: 500px; color: #c966a4;"></div>
+	<div id="graphdiv2" style="width: 500px; height: 500px;"></div>
 	<script type="text/javascript">
-	 g = new Dygraph(
-	     document.getElementById("graphdiv"),
-	     "visits.csv",
-             {
-                 legend:'always',
-		 color: '#c966a4',
-             }
-	 );
+	 g2 = new Dygraph(
+		document.getElementById("graphdiv2"),
+		"official.csv",
+		{
+			// Label data to make php entry simpler
+			labels:["Date", "Birds", "Imposters"],
+			// Display legend
+			legend: 'always',
+			// Show rolling average
+			rollPeriod: 1,
+			// Allow user to change rolling period
+			showRoller: true,
+		}        
+	  );
 	</script>   
 
 </body>
