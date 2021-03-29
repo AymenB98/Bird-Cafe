@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION "3.13.4") 
 
-project("TensorFlow_Classifier")
+project("SSD_Classifier")
 
 
 find_package(OpenCV REQUIRED) 
@@ -15,7 +15,7 @@ include_directories("/home/pi/tensorflow/tensorflow/lite/tools/make/downloads/fl
 include_directories("/home/pi/tensorflow/tensorflow/lite/tools/make/downloads/absl")
 
 
-add_executable("${PROJECT_NAME}" "TensorFlow_Lite_Class.cpp")
+add_executable("${PROJECT_NAME}" "TFlite_Classifier.cpp")
 target_link_libraries( "${PROJECT_NAME}" ${OpenCV_Libs})
 target_link_libraries( "${PROJECT_NAME}" "/home/pi/tensorflow/tensorflow/lite/tools/make/gen/rpi_armv7l/lib/libtensorflow-lite.a")
 target_link_libraries( "${PROJECT_NAME}" "/home/pi/tensorflow/tensorflow/lite/tools/make/downloads/flatbuffers/build/libflatbuffers.a")
