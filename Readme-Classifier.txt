@@ -1,18 +1,19 @@
 This is the files for the autonomous bird feeder that will do the following:
 
-- Provide a classification results based on the top 5 highest predictions of an image
+- Provide a classification results based on the  object detection with a confidence of greater than 60%.
 
-Currently classification result is provided on an image stored on the pi labelled "bird_1.jpeg"
+Currently classification result is provided on an image stored on the pi labelled "Bird_1.PNG"
 
 Classification of the image requires cmake to build an executable file and the process is the following:
 
 1. Naviagate to the build folder
 2. In the terminal type cmake .
 3. In the terminal type make
-4. In the terminal type ./TensorFlow_Classifier
+4. In the terminal type ./SSD_Classifier
 
 Step 4 will run the executable and the classifier results will be shown in the terminal.
 
+The results from classification are output to terminal and the image with the object detected boxes drawn ontop is saved locally as "Class_output1.jpg"
 
 The main code and tutorials for installations required were provided by Q-engineering.
 Permission was obtained to utilised the code obtained from their repository.
@@ -36,23 +37,15 @@ https://qengineering.eu/install-opencv-4.5-on-rapsberry-pi-4.html
 
 Thirdly the following files are required:
 CMakeLists.txt
-TensorFlow_Lite_Class.cpp
-bird_1.jpeg
-labels.txt
-mobilenet_v2_1.0_224_quant.tflite
+TFlite_Classifier.cpp
+Bird_1.PNG
+COCO_labels.txt
+detect.tflite
 
 The original code provided in a Code::Blocks implementation is provided by Q-Engineering at:
-https://www.github.com/Qengineering/TensorFlow_Lite_Classification_RPi_32-bits
+https://www.github.com/Qengineering/TensorFlow_Lite_SSD_RPi_32-bits
 
-The original code is not required to run the classification but serves as the original source for the TensorFlow_Lite_Class.cpp file.
-From this repositroy a CMakeLists.txt file was created and the TensorFlow_Lite_Class.cpp was modified.
+The original code is not required to run the classification but serves as the original source for the TFlite_Classifier.cpp file.
+From this repositroy a CMakeLists.txt file was created and the TFlite_Classifier.cpp was modified.
 
-The quantized model used for classification "mobilenet_v2_1.0_224_quant.tflite" is available online alongside other possible models at:
-https://www.tensorflow.org/lite/guide/hosted_models
-
-The bird image is listed as a royalty-free stock image available online at:
-https://www.dreamstime.com/royalty-free-stock-photos-sparrow-bird-feeder-image21987498
-
-The current limitation of the classification is the model is trained upon various North American bird species.
-This shows that tensorflow is a viable option for potential bird species classification but will currently attempt to classify species not native to the UK.
-
+The bird image is a royalty-free image captured by a member of our team.
