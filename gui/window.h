@@ -1,5 +1,6 @@
 #ifndef WINDOW_H
 #define WINDOW_H
+#include "photoview.h"
 #include <QWindow>
 #include <QPushButton>
 //#include <QLayout>
@@ -8,6 +9,7 @@
 #include <QPixmap>
 #include <QProcess>
 #include<QDebug>
+
 
 // class definition 'Window'
 class Window : public QWidget
@@ -22,6 +24,7 @@ public:
 private slots:
 	void handleStartButton();
 	void handleStopButton();
+	void handlePhotoViewer();
 	//void qInfo();
 	//bool setAlignment();
 
@@ -29,16 +32,17 @@ private slots:
 private:
     QPushButton *startbutton;
     QPushButton *stopbutton;
+	QPushButton *photoviewerbutton;
     QLabel *title;
 	QLabel *icon;
 	QProcess *process;
-	
-    
+	PhotoViewer *PV;
 
 	// layout elements from Qt itself http://qt-project.org/doc/qt-4.8/classes.html
 	QVBoxLayout  *vLayout;  // vertical layout
 	QHBoxLayout  *hLayout;  // horizontal layout
 
 };
+
 
 #endif // WINDOW_H

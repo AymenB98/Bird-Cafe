@@ -14,6 +14,7 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 add_executable(smartbirdcafe
   window.cpp
   main.cpp
+  photoview.cpp
 )
 
 target_link_libraries(smartbirdcafe Qt5::Widgets)
