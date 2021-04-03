@@ -23,7 +23,6 @@ float Ultrasonic::measureDistance()
     {
         // wait until echo pin HIGH (receives echo)
     }
-    
     std::chrono::steady_clock::time_point timerStart = std::chrono::steady_clock::now(); //start timer
     while (digitalRead(echo) == HIGH)
     {
@@ -33,7 +32,7 @@ float Ultrasonic::measureDistance()
 
     float pulseDur = std::chrono::duration<float>(timerStop-timerStart).count(); //force timer to float
     float distance = distanceCalcUS(pulseDur);
-    std::cout << distance << std::endl;
+    //std::cout << distance << std::endl;
 
     return distance;
 }
