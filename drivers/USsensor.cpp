@@ -32,7 +32,7 @@ float Ultrasonic::measureDistance()
 
     float pulseDur = std::chrono::duration<float>(timerStop-timerStart).count(); //force timer to float
     float distance = distanceCalcUS(pulseDur);
-    //std::cout << distance << std::endl;
+    std::cout << distance << std::endl;
 
     return distance;
 }
@@ -74,8 +74,14 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
     {
         if(ultrasonic->measureDistance() < 1.0)
         {
-            ultrasonic->takePhoto();
-            std::this_thread::sleep_for(std::chrono::seconds(30));
+            if(ultrasonic->measureDistance() < 1.0)
+            {
+                if(ultrasonic->measureDistance() < 1.0) //3 quick checks to lower error chance
+                {
+                    ultrasonic->takePhoto();
+                    std::this_thread::sleep_for(std::chrono::seconds(30));
+                }
+            }  
         }
     std::this_thread::sleep_for(std::chrono::seconds(1));
     }
