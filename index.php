@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!-- 
+Author: Aymen Benylles
+This code was adapted from the following GitHub repo:
+https://github.com/berndporr/rpi_AD7705_daq
+This was adapted from the file "graph.php" by Bernd Porr
+-->
 <html>
 <head>
 <!-- Webpage title -->
@@ -234,8 +240,8 @@ function packetCount($rcvPacket)
 	fclose($statsFile);
 
 	// Display the number of birds to user
-	echo "<b>" .$birds. " bird(s) have visited your cafe today: " .date("d/m/y"). "</b>";
-	echo "<b>" .$imposters. " imposter(s) have visited your cafe today also </b>";
+	echo "<b>" .$birds. " bird(s) have visited your cafe today: " .date("d/m/y"). "</br>";
+	echo "<b>" .$imposters. " imposter(s) have visited your cafe today </br>";
 }
 
 $listenSocket = new UdpSocket();
@@ -243,7 +249,7 @@ $listenSocket = new UdpSocket();
 ?>
 
 <!-- Provide a link to the statistics page -->
-<a style="color:#c966a4;font-size:50px;" href="stats_page.php"> View more bird feeder stats!</a>
+<a style="color:#c966a4;font-size:50px;" href="stats_page.html"> View more bird feeder stats!</a>
 <!-- Links to social media sites and GitHub -->
 <p style="font-size:30px;" You can view the code for this project at the following link:</p>
 <a style="font-size:30px;" href="https://github.com/AymenB98/Bird-Cafe">Bird Cafe GitHub repo - </a>
