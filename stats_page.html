@@ -4,6 +4,7 @@ Author: Aymen Benylles
 This code was adapted from the following GitHub repo:
 https://github.com/berndporr/rpi_AD7705_daq
 This was adapted from the file "graph.php" by Bernd Porr
+https://github.com/berndporr/rpi_AD7705_daq/blob/28ecfe9245ccc5fec673dee7df1c9dd178e8c3d1/website/graph.php 
 -->
 <html>
 <head>
@@ -30,23 +31,19 @@ This was adapted from the file "graph.php" by Bernd Porr
 
 
 <!-- Mock graph which shows how many birds have visisted the feeder over time (also imposters) -->
-	<div id="graphdiv2" style="width: 500px; height: 500px;"></div>
-	<script type="text/javascript">
-	 g2 = new Dygraph(
-		document.getElementById("graphdiv2"),
+<div id="graphdiv" style="width: 500px; height: 500px;"></div>
+<script type="text/javascript">
+	g = new Dygraph(
+		document.getElementById("graphdiv"),
 		"official.csv",
-		{
-			// Label data to make php entry simpler
-			labels:["Date", "Birds", "Imposters"],
-			// Display legend
-			legend: 'always',
-			// Show rolling average
-			rollPeriod: 1,
-			// Allow user to change rolling period
-			showRoller: true,
-		}        
-	  );
-	</script>   
+			{
+				// Label data to make php entry simpler
+				labels:["Date", "Birds", "Imposters"],
+				ticker: Dygraph.dateTicker,
+
+			}
+	);
+</script>   
 
 </body>
 </html>

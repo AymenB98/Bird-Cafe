@@ -78,7 +78,9 @@ class UdpSocket
 		$rcvStatus = socket_recvfrom($socket, $data, 1, 0, $ip, $port);
 		
 		// Use RX packet to update stats
-		packetCount($data);
+		$timeStamp = csvAppend($data);
+		// Calculate time since last visit
+		lastVisit($timeStamp);
 
 		socket_close($socket);
 		return $this->socket = $socket;
@@ -89,159 +91,105 @@ class UdpSocket
  * 
  * @return $fullArray 2D array with full csv contents 
  */
-function csvContents()
+function csvContents($csvHandle)
 {
 	// Create empty 2D array where contents of .csv file will be placed
 	$fullArray = array();
-	// Open .csv file
-	$statsFile = fopen("official.csv", "a+") or die("Cannot open file");
 
 	// Read each line of .csv file until the last line is reached
-	while(($entry = fgetcsv($statsFile, 100, ",")) !== FALSE)
+	while(($entry = fgetcsv($csvHandle, 500, ",")) !== FALSE)
 	{
 		// Add each line to the empty array
 		array_push($fullArray, $entry);
 	}
 
-	fclose($statsFile);
 	return $fullArray;
 }
 
-/* @brief	Read number of birds previously logged in csv file
+/* @brief	Append array onto .csv file based on RX packet
  * 
- * @return $birdNumber	Number of birds logged in csv file
- */
-function getBirdCount()
-{
-	// Get contents of .csv file into array 
-	$fileArray = file("official.csv");
-	// Get the size of the array (rows)
-	$size = count($fileArray);
-	// Extract the last entry for the no. of birds
-	$lastEntry = csvContents();
-	$birds = $lastEntry[$size - 1][1];
-	// Convert string to int
-	$birdNumber = intval($birds);
-
-	return $birdNumber;
-}
-
-/* @brief	Read number of imposters previously logged in csv file
+ * @param $updateCode Character determining what kind of visit has occurred.
  * 
- * @return $imposterNumber	Number of imposters logged in csv file
+ * @return $lastTime How long since last visit 
  */
-function getImposterCount()
-{
-	// Get contents of .csv file into array 
-	$fileArray = file("official.csv");
-	// Get the size of the array (rows)
-	$size = count($fileArray);
-	// Extract the last entry for the no. of imposters
-	$lastEntry = csvContents();
-	$imposters = $lastEntry[$size - 1][2];
-	// Convert string to int
-	$imposterNumber = intval($imposters);
-
-	return $imposterNumber;
-}
-
-/* @brief	Check the most recent date entry
- * 
- * @return $status	True if last date was the same as today's date
- */
-function dateCheck()
+function csvAppend($updateCode)
 {
 	// Open .csv file
-	$statsFile = fopen("official.csv", "a+") or die("Cannot open file");
-	// Extract contents of .csv file into an array
-	$fileArray = file("official.csv");
-	// Get size of array (rows)
-	$arraySize = count($fileArray);
-	// Extract last entry for date
-	$lastEntry = csvContents();
-	$lastDate = $lastEntry[$arraySize - 1][0];
-
-	fclose($statsFile);
-
-	if($lastDate != date("Ymd"))
+	$statsFile = fopen("official.csv", "a+") or die("Cannot open file.");
+	// Get last entry of csv count
+	$csvArray = csvContents($statsFile);
+	
+	// Fill array with 0s if file is empty
+	if($csvArray[0][0] == NULL)
 	{
-		$status = false;
+		for($i = 0; $i < 3; $i++)
+		{
+			// Fill with valid entries
+			$csvArray[0][$i] = 0;
+		}
 	}
-	else
+
+	//Get the number of rows in the array
+	$rows = count($csvArray);
+	
+	// Get most recent bird and imposter counts
+	$birds = $csvArray[$rows - 1][1];
+	$imposters = $csvArray[$rows - 1][2];
+
+	switch($updateCode)
 	{
-		$status = true;
+		case "b":
+			$birds++;
+			break;
+		case "i":
+			$imposters++;
+			break;
+		case "n":
+			break;
 	}
-	return $status;
+
+	// Create array with current time
+	$currentTime = time()*1000;
+	$trialArray = array($currentTime, $birds, $imposters);
+
+	// Append array to .csv file
+	fputcsv($statsFile, $trialArray) or die("Cannot write to file.");
+	fclose($statsFile) or die("Cannot close file.");
+
+	// Get last time stamp to calculte time since last visit
+	$lastTime = $csvArray[$rows - 1][0];
+	return $lastTime;
 }
 
-
-/* @brief	Change display of visitor numbers based on received packet
-
- * @param $rcvPacket UDP packet received from C++ code
+/* @brief	Calculate and display time since last visit.
+ * 
+ * @param $lastStamp Most recent time stamp from .csv file.
  * 
  * @return none
  */
-function packetCount($rcvPacket)
+function lastVisit($lastStamp)
 {
-	// Get current bird and imposter counts
-	$birds = getBirdCount();
-	$imposters = getImposterCount();
-	// Check the date
-	$dateStatus = dateCheck();
+	$timeDiffSeconds = time() - ($lastStamp / 1000); 
+	$timeDiffMins = $timeDiffSeconds / 60;
+	$timeDiffHours = $timeDiffMins / 60;
+	$timediffDays = $timeDiffHours / 24;
 
-	$statsFile = fopen("official.csv", "a+");
-
-	switch($rcvPacket)
+	if($timeDiffMins < 1)
 	{
-		// Bird detected
-		case "b":
-			if($dateStatus)
-			{
-				// Increment count if last entry matches today's date
-				$birds++;
-			}
-			else
-			{
-				// Reset count if this is first entry of the day
-				$birds = 1;
-				$imposters = 0;
-			}
-
-			// Create new entry for .csv file
-			$entryArray = array(date("Ymd"), $birds, $imposters);
-			fputcsv($statsFile, $entryArray);
-
-			break;
-
-		// Imposter detected
-		case "i":
-			if($dateStatus)
-			{
-				$imposters++;
-			}
-			else
-			{
-				$birds =  0;
-				$imposters = 1;
-			}
-
-			// Create new entry for .csv file
-			$entryArray = array(date("Ymd"), $birds, $imposters);
-			fputcsv($statsFile, $entryArray);
-
-			break;
-		
-		// No update, packet still needs to be received so page is loaded
-		case "n":
-			// Do nothing
-			break;
+		echo "<b>" .$timeDiffSeconds. "s since last visit </br>";
 	}
-
-	fclose($statsFile);
-
-	// Display the number of birds to user
-	echo "<b>" .$birds. " bird(s) have visited your cafe today: " .date("d/m/y"). "</br>";
-	echo "<b>" .$imposters. " imposter(s) have visited your cafe today </br>";
+	else if($timeDiffHours < 1)
+	{
+		echo "<b>" .$timeDiffMins. "minutes since last visit </br>";
+	}
+	else if($timediffDays < 1)
+	{
+		echo "<b>" .$timeDiffHours. "hours since last visit </br>";
+	}
+	else if($timediffDays >= 1)
+	{
+		echo "<b>" .$timeDiffDays. "days since last visit </br>";
+	}
 }
 
 $listenSocket = new UdpSocket();
