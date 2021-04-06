@@ -52,6 +52,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <thread>
 #include <stdio.h>
 
+
 using namespace std;
 
 const int trig = 18;
@@ -79,6 +80,9 @@ void camStandardConfig( raspicam::RaspiCam *Camera )
 
 
 int main ( int argc,char **argv ) {
+
+   
+
    wiringPiSetupGpio(); 
    Ultrasonic *cam1 = new Ultrasonic(trig, echo);
    camStandardConfig(cam1);

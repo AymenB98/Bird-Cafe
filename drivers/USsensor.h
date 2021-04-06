@@ -14,6 +14,35 @@
 #include <thread>
 #include <ostream>
 #include "BirdCam.h"
+//Jona header files
+#include <stdio.h>
+#include <opencv2/opencv.hpp>
+#include <opencv2/dnn.hpp>
+#include <opencv2/highgui.hpp>
+#include <fstream>
+#include <iostream>
+#include <opencv2/core/ocl.hpp>
+#include "tensorflow/lite/interpreter.h"
+#include "tensorflow/lite/kernels/register.h"
+#include "tensorflow/lite/string_util.h"
+#include "tensorflow/lite/examples/label_image/get_top_n.h"
+#include "tensorflow/lite/model.h"
+#include <cmath>
+#include <cstdlib>
+
+using namespace cv;
+using namespace std;
+
+const size_t width = 300;
+const size_t height = 300;
+
+
+//std::unique_ptr<tflite::FlatBufferModel> model = tflite::FlatBufferModel::BuildFromFile("detect.tflite");
+
+//Mat image;
+//Mat frame;
+
+
 
 
 //! Class used for interfacing ultrasonic sensor
@@ -26,10 +55,15 @@ class Ultrasonic : public BirdCam
     int echo;
     int running = 0; 
     std::thread* USThread = NULL;
+    std::vector<std::string> Labels;
     
     //! \brief Converts the time taken for a US pulse to return into a distance.
     float distanceCalcUS(float pulseTime);
     
+    bool getFileContent(std::string fileName);
+
+    void detect_from_picture(Mat &src);
+
     public:
 
     //! \brief Constructor for Ultrasonic class. Ultrasnoic(int TriggerPin, int EchoPin)
@@ -57,6 +91,7 @@ class Ultrasonic : public BirdCam
     
     //! \brief Stops + tidies ultrasonic sensor thread.
     void stop();
+
 
 };
 #endif
