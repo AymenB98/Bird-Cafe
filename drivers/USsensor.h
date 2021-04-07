@@ -15,7 +15,6 @@
 #include <ostream>
 #include "BirdCam.h"
 
-
 //! Class used for interfacing ultrasonic sensor
 class Ultrasonic : public BirdCam
 {
@@ -25,20 +24,16 @@ class Ultrasonic : public BirdCam
     int trig;
     int echo;
     int running = 0; 
-    std::thread* USThread = NULL;
     
-    //! \brief Converts the time taken for a US pulse to return into a distance.
+    std::thread* USThread = NULL;
+        
     float distanceCalcUS(float pulseTime);
     
     public:
 
     //! \brief Constructor for Ultrasonic class. Ultrasnoic(int TriggerPin, int EchoPin)
-    Ultrasonic(int Trig, int Echo)
-    {
-        echo = Echo;
-        trig = Trig;
-    }
-
+    Ultrasonic(int Trig, int Echo);
+    
     //setters
     //! \brief Used to set trigger pin.
     void setTrigger(int Trig);
@@ -57,6 +52,7 @@ class Ultrasonic : public BirdCam
     
     //! \brief Stops + tidies ultrasonic sensor thread.
     void stop();
+
 
 };
 #endif
