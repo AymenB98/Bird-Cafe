@@ -78,21 +78,20 @@ class UdpSocket
 		$rcvStatus = socket_recvfrom($socket, $data, 1, 0, $ip, $port);
 		
 		// Use RX packet to update stats
-		$timeStamp = csvAppend($data);
+		$timeStamp = $this->csvAppend($data);
 		// Calculate time since last visit
-		lastVisit($timeStamp);
+		$this->lastVisit($timeStamp);
 
 		socket_close($socket);
 		return $this->socket = $socket;
 	}
-}
 
-/* @brief	Retreive contents of .csv file and place in 2D array
- * 
- * @return $fullArray 2D array with full csv contents 
- */
-function csvContents($csvHandle)
-{
+	/* @brief	Retreive contents of .csv file and place in 2D array
+	 * 
+	 * @return $fullArray 2D array with full csv contents 
+	 */
+	function csvContents($csvHandle)
+	{
 	// Create empty 2D array where contents of .csv file will be placed
 	$fullArray = array();
 
@@ -103,92 +102,94 @@ function csvContents($csvHandle)
 		array_push($fullArray, $entry);
 	}
 
-	return $fullArray;
-}
+	return $this->fullArray = $fullArray;
+	}
 
-/* @brief	Append array onto .csv file based on RX packet
- * 
- * @param $updateCode Character determining what kind of visit has occurred.
- * 
- * @return $lastTime How long since last visit 
- */
-function csvAppend($updateCode)
-{
-	// Open .csv file
-	$statsFile = fopen("official.csv", "a+") or die("Cannot open file.");
-	// Get last entry of csv count
-	$csvArray = csvContents($statsFile);
-	
-	// Fill array with 0s if file is empty
-	if($csvArray[0][0] == NULL)
+	/* @brief	Append array onto .csv file based on RX packet
+	 * 
+	 * @param $updateCode Character determining what kind of visit has occurred.
+	 * 
+	 * @return $lastTime How long since last visit 
+	 */
+	function csvAppend($updateCode)
 	{
-		for($i = 0; $i < 3; $i++)
+		// Open .csv file
+		$statsFile = fopen("official.csv", "a+") or die("Cannot open file.");
+		// Get last entry of csv count
+		$csvArray = $this->csvContents($statsFile);
+		// Fill array with 0s if file is empty
+		if(filesize("official.csv") == 0)
 		{
-			// Fill with valid entries
-			$csvArray[0][$i] = 0;
+			for($i = 0; $i < 3; $i++)
+			{
+				// Fill with valid entries
+				$csvArray[0][$i] = 0;
+			}
 		}
+
+		//Get the number of rows in the array
+		$rows = count($csvArray);
+		
+		// Get most recent bird and imposter counts
+		$birds = $csvArray[$rows - 1][1];
+		$imposters = $csvArray[$rows - 1][2];
+
+		switch($updateCode)
+		{
+			case "b":
+				$birds++;
+				break;
+			case "i":
+				$imposters++;
+				break;
+			case "n":
+				break;
+		}
+
+		// Create array with current time
+		$currentTime = time()*1000;
+		$trialArray = array($currentTime, $birds, $imposters);
+
+		// Append array to .csv file
+		fputcsv($statsFile, $trialArray) or die("Cannot write to file.");
+		fclose($statsFile) or die("Cannot close file.");
+
+		// Get last time stamp to calculte time since last visit
+		$lastTime = $csvArray[$rows - 1][0];
+		return $this->lastTime = $lastTime;
 	}
 
-	//Get the number of rows in the array
-	$rows = count($csvArray);
-	
-	// Get most recent bird and imposter counts
-	$birds = $csvArray[$rows - 1][1];
-	$imposters = $csvArray[$rows - 1][2];
-
-	switch($updateCode)
+	/* @brief	Calculate and display time since last visit.
+	 * 
+	 * @param $lastStamp Most recent time stamp from .csv file.
+	 * 
+	 * @return none
+	 */
+	function lastVisit($lastStamp)
 	{
-		case "b":
-			$birds++;
-			break;
-		case "i":
-			$imposters++;
-			break;
-		case "n":
-			break;
-	}
+		$timeDiffSeconds = time() - ($lastStamp / 1000); 
+		$timeDiffMins = $timeDiffSeconds / 60;
+		$timeDiffHours = $timeDiffMins / 60;
+		$timeDiffDays = $timeDiffHours / 24;
 
-	// Create array with current time
-	$currentTime = time()*1000;
-	$trialArray = array($currentTime, $birds, $imposters);
+		if($timeDiffMins < 1)
+		{
+			echo "<b>" .$timeDiffSeconds. "s since last visit </br>";
+		}
+		else if($timeDiffHours < 1)
+		{
+			echo "<b>" .$timeDiffMins. " minutes since last visit </br>";
+		}
+		else if($timeDiffDays < 1)
+		{
+			echo "<b>" .$timeDiffHours. " hours since last visit </br>";
+		}
+		else if($timeDiffDays >= 1)
+		{
+			echo "<b>" .$timeDiffDays. "days since last visit </br>";
+		}
 
-	// Append array to .csv file
-	fputcsv($statsFile, $trialArray) or die("Cannot write to file.");
-	fclose($statsFile) or die("Cannot close file.");
-
-	// Get last time stamp to calculte time since last visit
-	$lastTime = $csvArray[$rows - 1][0];
-	return $lastTime;
-}
-
-/* @brief	Calculate and display time since last visit.
- * 
- * @param $lastStamp Most recent time stamp from .csv file.
- * 
- * @return none
- */
-function lastVisit($lastStamp)
-{
-	$timeDiffSeconds = time() - ($lastStamp / 1000); 
-	$timeDiffMins = $timeDiffSeconds / 60;
-	$timeDiffHours = $timeDiffMins / 60;
-	$timediffDays = $timeDiffHours / 24;
-
-	if($timeDiffMins < 1)
-	{
-		echo "<b>" .$timeDiffSeconds. "s since last visit </br>";
-	}
-	else if($timeDiffHours < 1)
-	{
-		echo "<b>" .$timeDiffMins. "minutes since last visit </br>";
-	}
-	else if($timediffDays < 1)
-	{
-		echo "<b>" .$timeDiffHours. "hours since last visit </br>";
-	}
-	else if($timediffDays >= 1)
-	{
-		echo "<b>" .$timeDiffDays. "days since last visit </br>";
+		return $this->timeDiffMins = $timeDiffDays;
 	}
 }
 
