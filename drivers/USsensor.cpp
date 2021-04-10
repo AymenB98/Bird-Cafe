@@ -4,8 +4,8 @@
 //!**************************************************************
 
 #include "USsensor.h"
-
-
+// #include "/home/pi/projects/BirdCafe/Bird-Cafe/udp/UdpTx/udp_tx.h"
+#include "UDP.h"
 
 float Ultrasonic::distanceCalcUS(float pulseTime)
 {
@@ -20,23 +20,41 @@ float Ultrasonic::measureDistance()
     digitalWrite(trig, HIGH); //trigger pin high for 10us to send pulse
     delayMicroseconds(10);
     digitalWrite(trig, LOW); //trigger pin low to end 10us pulse
-    
+   
+   std::chrono::steady_clock::time_point loopStart = std::chrono::steady_clock::now(); 
     while (digitalRead(echo) == LOW)
     {
-        // wait until echo pin HIGH (receives echo)
+        if((std::chrono::duration<float>(std::chrono::steady_clock::now()-loopStart).count()) >5) //throws error if stuck in loop
+        {
+            throw "ERROR: Timed out waiting for Ultrasonic Sensor";
+        }
     }
     std::chrono::steady_clock::time_point timerStart = std::chrono::steady_clock::now(); //start timer
     while (digitalRead(echo) == HIGH)
     {
-        //wait while echo pin High
+       if((std::chrono::duration<float>(std::chrono::steady_clock::now()-timerStart).count()) >5) //throws error if stuck in loop
+        {
+            throw "ERROR: Echo pulse longer than expected";
+        }
     }
-    std::chrono::steady_clock::time_point timerStop = std::chrono::steady_clock::now(); //stop timer
+    std::chrono::steady_clock::time_point timerStop = std::chrono::steady_clock::now();  //stop timer
+    
 
     float pulseDur = std::chrono::duration<float>(timerStop-timerStart).count(); //force timer to float
     float distance = distanceCalcUS(pulseDur);
-    std::cout << distance << std::endl;
 
     return distance;
+}
+
+Ultrasonic::Ultrasonic(int Trig, int Echo)
+{
+    wiringPiSetupGpio(); 
+
+    echo = Echo;
+    trig = Trig;
+
+    pinMode(echo, INPUT);
+    pinMode(trig, OUTPUT);
 }
 
 void Ultrasonic::setTrigger(int Trig)
@@ -70,6 +88,9 @@ void Ultrasonic::stop()
 }
 
 
+//! @brief The getFileContent function has been adapted from code written by Q-Engineering called 'TFLite_Classifier.cpp'
+//! available on https://www.github.com/Qengineering/TensorFlow_Lite_SSD_RPi_32-bits
+//! The purpose of this function is to extract the labels found in the COCO_labels.txt file.
 bool Ultrasonic::getFileContent(std::string fileName)
 {
 	
@@ -90,13 +111,16 @@ bool Ultrasonic::getFileContent(std::string fileName)
 	return true;
 }
 
+
+//! @brief The detect_from_picture function has been adapted from code written by Q-Engineering called 'TFLite_Classifier.cpp'
+//! available on https://www.github.com/Qengineering/TensorFlow_Lite_SSD_RPi_32-bits
+//! The purpose of this function is to output classification labels and prediction scores for objects detected in a picture.
 void Ultrasonic::detect_from_picture(Mat &src)
 {
     
     std::unique_ptr<tflite::Interpreter> interpreter;
 
     Mat image;
-    
     int cam_width =src.cols;
     int cam_height=src.rows;
     float f;
@@ -104,15 +128,16 @@ void Ultrasonic::detect_from_picture(Mat &src)
     string name;
 
     
-
-    /** 
+    //! Introduction of a clock
+    /*! 
      *  Introduces a clock which will be able to mark the start point Tbegin
      *  and the end point Tend. This is used to calculate the total time to
      *  classify an image and passing the outputs.
-     */ 
-    chrono::steady_clock::time_point Tbegin, Tend;
+     */
+    chrono::steady_clock::time_point Tbegin, Tend; 
 
-    /** 
+    //! Timer start variable
+    /*! 
      * Tbegin is the start point for the internal timer.
      */
     Tbegin = chrono::steady_clock::now();
@@ -142,10 +167,11 @@ void Ultrasonic::detect_from_picture(Mat &src)
      *  Input the image to be classified as imread("directory/name"). If there is no image
      *  an error will be sent out to the console.
      */
+
     //frame = imread("/home/pi/projects/BirdCafe/Bird-Cafe/Photos/birdcafe.ppm");
     //if (frame.empty()) {
-    //    cerr << "Can not load picture!" << endl;
-    //    exit(-1);
+     //   cerr << "Can not load picture!" << endl;
+     //   exit(-1);
     //}
    
 
@@ -176,9 +202,12 @@ void Ultrasonic::detect_from_picture(Mat &src)
     //there are ALWAYS 10 detections no matter how many objects are detectable
     //cout << "number of detections: " << num_detections << "\n";
 
-    const float confidence_threshold = 0.5;
+    const float confidence_threshold = 0.44;
     //Bool tweet used to check if classification of "bird" is above threshold
     bool tweet = false;
+    // Op code to be sent via UDP packet
+    int opCode = 2;
+
     for(int i = 0; i < num_detections; i++){
         if(detection_scores[i] >= confidence_threshold){
             int  det_index = (int)detection_classes[i]+1;
@@ -193,46 +222,56 @@ void Ultrasonic::detect_from_picture(Mat &src)
            
             putText(src, format("%s", Labels[det_index].c_str()), Point(x1, y1-5) ,FONT_HERSHEY_SIMPLEX,0.5, Scalar(0, 0, 255), 1, 8, 0);
            
-            /**  
+            //! An output to the terminal
+            /*!  
              *  This is used to output the detection scores from the confidence_threshold
              *  to a max of 1 alongside it's corresponding label for each of the objects
              *  detected in the image provided.
              */
             cout << detection_scores[i] << " : " << Labels[det_index] << "\n";
 
-            if(Labels[det_index] == "bird") {
-
+            //! Check for bird
+            /*!
+            *   If statement which checks the predicted labels of the object classified
+            *   to see if they are equal to "bird" if true, this edits a boolean variable
+            *   'tweet' to be true.
+            */
+            if(Labels[det_index] == "bird") 
+            {
                 cout << "bird detected \n";
-                tweet = true;
-
+                tweet = true; /*!< tweet boolean is used as a check to execute code that posts picture to Twitter. */
+                opCode = 1;
             }
             
-
         }
 
     }
 
-    //if(tweet){
-    //    // Create new instance of class which transmits UDP packet
-    //    UDPTransmit updatePacket;
-        // Tell web page that 5 birds have visited today    
-    //    updatePacket.sendPacket(1);
+    //! Process if tweet = true
+    /*!
+    *   If tweet = true Python script to make a Tweet will be executred
+    */
+    if(tweet)
+    {
         // Execute Python script to make Tweet
-    //    system("python /home/pi/projects/Python_twitter/twitter_upload.py");
-    //}
-    /** 
+        system("python /home/pi/projects/Python_twitter/twitter_upload.py");
+    }
+
+    //! Timer end variable
+    /*! 
      *  Tend is the end point for the internal timer.
      */
-   
     Tend = chrono::steady_clock::now();
 
-    /** 
+    //! Latency for bird classfication
+    /*! 
      *  f is used to calculate the time difference between Tend and Tbegin.
      *  The time is calculated in milliseconds.
      */
     f = chrono::duration_cast <chrono::milliseconds> (Tend - Tbegin).count();
     
-    /**
+    //! Output to terminal
+    /*!
      *  This is a simple output to the command line which shows how long
      *  the total time from start of the classfication process until the end.
      */
@@ -260,12 +299,11 @@ void Ultrasonic::detect_from_picture(Mat &src)
 
 }
 
-
 void Ultrasonic::run(Ultrasonic* ultrasonic)
 {
-    ultrasonic->running =1;
+    ultrasonic->running = 1;
     while (ultrasonic->running)
-    {
+    {   
         if(ultrasonic->measureDistance() < 1.0)
         {
             if(ultrasonic->measureDistance() < 1.0)
@@ -294,9 +332,11 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
                     *  scores are posted to console.
                     */ 
                     ultrasonic->detect_from_picture(frame);
-                    std::cout<<"i sleep"<<std::endl;
-                    std::this_thread::sleep_for(std::chrono::seconds(30));
-                    std::cout<<"real shit?"<<std::endl;
+                     
+                    //Mat bird1 = imread("/home/pi/projects/BirdCafe/Bird-Cafe/Photos/birdcafe.ppm");
+                    //imshow("windowName", bird1);
+                    //waitKey(0);
+                    std::this_thread::sleep_for(std::chrono::seconds(2));
                 }
             }  
         }

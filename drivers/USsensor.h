@@ -29,19 +29,15 @@
 #include "tensorflow/lite/model.h"
 #include <cmath>
 #include <cstdlib>
+// UDP header
+#include "../udp/UdpTx/udp_tx.h"
+
 
 using namespace cv;
 using namespace std;
 
 const size_t width = 300;
 const size_t height = 300;
-
-
-//std::unique_ptr<tflite::FlatBufferModel> model = tflite::FlatBufferModel::BuildFromFile("detect.tflite");
-
-//Mat image;
-//Mat frame;
-
 
 
 
@@ -54,25 +50,21 @@ class Ultrasonic : public BirdCam
     int trig;
     int echo;
     int running = 0; 
+    
     std::thread* USThread = NULL;
     std::vector<std::string> Labels;
     
-    //! \brief Converts the time taken for a US pulse to return into a distance.
     float distanceCalcUS(float pulseTime);
     
-    bool getFileContent(std::string fileName);
+   bool getFileContent(std::string fileName);
 
-    void detect_from_picture(Mat &src);
+   void detect_from_picture(Mat &src);
 
     public:
 
     //! \brief Constructor for Ultrasonic class. Ultrasnoic(int TriggerPin, int EchoPin)
-    Ultrasonic(int Trig, int Echo)
-    {
-        echo = Echo;
-        trig = Trig;
-    }
-
+    Ultrasonic(int Trig, int Echo);
+    
     //setters
     //! \brief Used to set trigger pin.
     void setTrigger(int Trig);
