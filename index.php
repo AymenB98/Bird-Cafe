@@ -7,6 +7,8 @@ This was adapted from the file "graph.php" by Bernd Porr
 -->
 <html>
 <head>
+<!-- Refresh page every second-->
+<!-- <meta http-equiv="refresh" content="1"> -->
 <!-- Webpage title -->
 <title>Welcome to the Bird Cafe!</title>
 <style>
@@ -60,18 +62,16 @@ class UdpSocket
 			$errorCode = socket_last_error();
 			$errorMsg = socket_strerror($errorCode);
 			
-			die("Could not create socket: [$errorCode] $errorMsg \n");
 		}
 		
 		// Bind socket
 		$bind = socket_bind($socket, $ip, $port);
-		// Print correct error message if socket binding fails
+
 		if(!$bind)
 		{
 			$errorCode = socket_last_error();
 			$errorMsg = socket_strerror($errorCode);
 			
-			die("Could not bind socket: [$errorCode] $errorMsg \n");
 		}
 		
 		// Receive data
@@ -150,8 +150,13 @@ class UdpSocket
 		$currentTime = time()*1000;
 		$trialArray = array($currentTime, $birds, $imposters);
 
-		// Append array to .csv file
-		fputcsv($statsFile, $trialArray) or die("Cannot write to file.");
+		// Do not append to csv file if refresh packet is received
+		if($updateCode != "n")
+		{
+			// Append array to .csv file
+			fputcsv($statsFile, $trialArray) or die("Cannot write to file.");
+		}
+
 		fclose($statsFile) or die("Cannot close file.");
 
 		// Get last time stamp to calculte time since last visit
@@ -174,19 +179,19 @@ class UdpSocket
 
 		if($timeDiffMins < 1)
 		{
-			echo "<b>" .$timeDiffSeconds. "s since last visit </br>";
+			echo "<b>" .round($timeDiffSeconds). "s since last visit </br>";
 		}
 		else if($timeDiffHours < 1)
 		{
-			echo "<b>" .$timeDiffMins. " minutes since last visit </br>";
+			echo "<b>" .round($timeDiffMins). " minutes since last visit </br>";
 		}
 		else if($timeDiffDays < 1)
 		{
-			echo "<b>" .$timeDiffHours. " hours since last visit </br>";
+			echo "<b>" .round($timeDiffHours). " hours since last visit </br>";
 		}
 		else if($timeDiffDays >= 1)
 		{
-			echo "<b>" .$timeDiffDays. "days since last visit </br>";
+			echo "<b>" .round($timeDiffDays). "days since last visit </br>";
 		}
 
 		return $this->timeDiffMins = $timeDiffDays;

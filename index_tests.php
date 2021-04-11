@@ -46,23 +46,6 @@ class IndexPageTest extends TestCase
 		$this->assertGreaterThanOrEqual(0, $lastTime);
 	}
 
-	/**
-	 * @covers \UdpSocket::csvAppend
-	 */
-	public function testRefresh()
-	{
-		// Make sure refresh packet does not increment
-		// bird/imposter counts 
-		$refreshTest = new UdpSocket();
-		$lastLine = $refreshTest->csvAppend("n"); 
-
-		// Retreive updated file contents
-		$contents = file("official.csv");		
-		// Get number of rows in array
-		$rows = count($contents);
-		
-		$this->assertEquals($contents[$rows - 1][1], $lastLine[1]);
-	}
 
 	/**
 	 * @covers \UdpSocket::lastVisit
@@ -109,5 +92,25 @@ class IndexPageTest extends TestCase
 		$this->assertGreaterThanOrEqual($timeDiff, $twoMinsAgo);
 	}
 
+	/**
+	 * @covers \UdpSocket::csvAppend
+	 */
+	public function testRefresh()
+	{
+		// Make sure refresh packet does not increment
+		// bird/imposter counts 
+		$refreshTest = new UdpSocket();
+		// Retreive updated file contents
+		$oldContents = file("official.csv");	
+		// Get the time of last visit
+		$lastTime = $refreshTest->csvAppend("n"); 
+		// Get contents of updated file
+		$newContents = file("official.csv");
+		// Get number of rows in array
+		$oldRows = count($oldContents);
+		$newRows = count($newContents);
+		// Make sure this does not register refresh packet as visit
+		$this->assertEquals($oldRows, $newRows);
+	}
 }
 ?>
