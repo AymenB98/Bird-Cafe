@@ -12,9 +12,8 @@ int main(int argc, char *argv[])
 	Window window;
 	window.show();
 	window.setMinimumSize(1,1);
-	//window.setFixedSize(800,800);
+	//set up photoviewer
 	PhotoViewer photoviewer;
-	//photoviewer.show();
 	// execute the application
 	return app.exec();
 }
