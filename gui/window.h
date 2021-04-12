@@ -3,7 +3,6 @@
 #include "photoview.h"
 #include <QWindow>
 #include <QPushButton>
-//#include <QLayout>
 #include <QBoxLayout>
 #include <QLabel>
 #include <QPixmap>
@@ -25,8 +24,6 @@ private slots:
 	void handleStartButton();
 	void handleStopButton();
 	void handlePhotoViewer();
-	//void qInfo();
-	//bool setAlignment();
 
 // internal variables for the window class
 private:
