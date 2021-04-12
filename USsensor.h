@@ -14,7 +14,7 @@
 #include <thread>
 #include <ostream>
 #include "BirdCam.h"
-
+//Jona header files
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
 #include <opencv2/dnn.hpp>
@@ -29,7 +29,7 @@
 #include "tensorflow/lite/model.h"
 #include <cmath>
 #include <cstdlib>
-
+// UDP header
 #include "../udp/UdpTx/udp_tx.h"
 
 
@@ -38,6 +38,8 @@ using namespace std;
 
 const size_t width = 300;
 const size_t height = 300;
+
+
 
 //! Class used for interfacing ultrasonic sensor
 class Ultrasonic : public BirdCam
@@ -48,14 +50,13 @@ class Ultrasonic : public BirdCam
     int trig;
     int echo;
     int running = 0; 
-
+    
     std::thread* USThread = NULL;
     std::vector<std::string> Labels;
     
     float distanceCalcUS(float pulseTime);
     
     bool getFileContent(std::string fileName);
-
     void detect_from_picture(Mat &src);
 
     public:

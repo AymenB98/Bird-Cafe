@@ -1,7 +1,3 @@
-//Joe Costello
-//16/02
-//Camera Driver
-//adapted from: 
 
 /**********************************************************
  Software developed by AVA ( Ava Group of the University of Cordoba, ava  at uco dot es)
@@ -41,59 +37,49 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ****************************************************************/
 //!**************************************************************
 //! \file
-//! \brief Runs driver operations
+//! \brief Header file for BirdCam subclass
 //!**************************************************************
 
-#include <ctime>
+#ifndef _BIRDCAM_H
+#define _BIRDCAM_H
+
+
 #include <raspicam/raspicam.h>
-#include "BirdCam.h"
-#include "USsensor.h"
-#include "UDP.h"
-#include <wiringPi.h>
-#include <thread>
-#include <stdio.h>
+#include <string>
+#include <fstream>
+#include <iostream>
+#include <ostream>
+#include <ctime>
+#include <experimental/filesystem>
 
-using namespace std;
+//! Class used for interfacing with pi camera - subclass of RaspiCam
+class BirdCam : public raspicam::RaspiCam 
+{//class used for interfacing pi camera
+private: 
+   
+   std::string FilePath; //set to filepath of photos taken with BirdCam
+   
+   //! Checks if a user-given file path exists, returns true if yes, false if no.
+   //! @param[in] filePath
+   bool checkFilePathExists(std::string filePath);
 
-const int trig = 18;
-const int echo = 24;
+public:
 
-//! @brief Configures the camera settings - adapted from code in 'raspicam_test.cpp' by Ava Group, University of Cordoba 
-//! found here: https://github.com/cedricve/raspicam/blob/c4c0dc10d32980fdbd6adb20aa439054ce8b00fd/utils/raspicam_test.cpp
-void camStandardConfig( raspicam::RaspiCam *Camera )
-{
-    Camera->setWidth (1280); 
-    Camera->setHeight (960); 
-    Camera->setBrightness (55);
+   //setters
+   //! Sets file path to which captured photos are saved.
+   //! @param[in] filePath
+   void setFilePath(std::string filePath);
 
-    Camera->setSharpness (0);
-    Camera->setContrast (0);
-    Camera->setSaturation (5);
-    Camera->setShutterSpeed(0);
-    Camera->setISO (800);
-    Camera->setFrameRate(30);
-    Camera->setVideoStabilization ( true );
-    Camera->setExposureCompensation (0);
+   //getters
+   //! Gets filepath of photos taken.
+   //! @param[out] FilePath
+   std::string getFilePath();
 
-    Camera->setAWB_RB(1,1);
-}
+   
+  //! \brief Function which takes a photograph when called. 
+  //! Photograph saved to path set by setFilePath().
+   void takePhoto(); //function to take photo
 
+};
 
-int main ( int argc,char **argv ) 
-{ 
-
-   Ultrasonic *cam1 = new Ultrasonic(trig, echo);
-   camStandardConfig(cam1);
-   cam1->setFilePath("../../Photos/birdcafe.ppm");
-
-   UDP *packet = new UDP();
-   packet->start(0);
-   cam1->start();
-   getchar();
-   cam1->stop();
-   packet->stop();
-   delete cam1;
-   delete packet;
-
-   return 0;
-}
+#endif

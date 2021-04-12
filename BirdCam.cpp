@@ -70,6 +70,8 @@ bool BirdCam::checkFilePathExists(std::string filePath) //not yet implemented - 
 
 void BirdCam::takePhoto()
 {
+   std::chrono::steady_clock::time_point photoTimerStart = std::chrono::steady_clock::now(); 
+
    if ( !raspicam::RaspiCam::open()) //checks if camera available
    {
       std::cerr << "Error opening camera" << std::endl;
@@ -83,7 +85,7 @@ void BirdCam::takePhoto()
    //save
    if (FilePath.empty()) //if no filepath set, default to birdcafe.ppm in local, throw warning.
    {
-      FilePath = "birdcafe.ppm";
+      FilePath = "birdcafe.jpg";
       std::cerr << "WARNING: No file path set, picture will be saved in local directory." <<std::endl << "Set a file path using BirdCam::setFilePath()." <<std::endl;
    }
    std::ofstream outFile(FilePath, std::ios::binary); 
@@ -91,13 +93,16 @@ void BirdCam::takePhoto()
    outFile.write ( ( char* ) data, raspicam::RaspiCam::getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB ) );
    if (checkFilePathExists(FilePath) == false) 
    {
-      std::cerr << "ERROR: Filepath: " << FilePath << " does not exist." << std::endl << "Filepath has been set to /birdcafe.ppm" << std::endl;
-      FilePath = "birdcafe.ppm"; //If non-existant filepath given, default to local directory, named birdcafe.ppm
+      std::cerr << "ERROR: Filepath: " << FilePath << " does not exist." << std::endl << "Filepath has been set to /birdcafe.jpg" << std::endl;
+      FilePath = "birdcafe.jpg"; //If non-existant filepath given, default to local directory, named birdcafe.ppm
       std::ofstream outFile(FilePath, std::ios::binary); 
       outFile<<"P6\n"<<raspicam::RaspiCam::getWidth() <<" "<<raspicam::RaspiCam::getHeight() <<" 255\n";
       outFile.write ( ( char* ) data, raspicam::RaspiCam::getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB ) );
    }
    raspicam::RaspiCam::release();
    delete data;
+   std::chrono::steady_clock::time_point photoTimerStop = std::chrono::steady_clock::now(); 
+   auto photoDuration = std::chrono::duration_cast <std::chrono::milliseconds> (photoTimerStop - photoTimerStart).count();
+   std::cout << "Photo Timer: " << photoDuration << "ms" << std::endl;
 
 }
