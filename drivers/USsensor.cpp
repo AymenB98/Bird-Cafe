@@ -20,23 +20,42 @@ float Ultrasonic::measureDistance()
     digitalWrite(trig, HIGH); //trigger pin high for 10us to send pulse
     delayMicroseconds(10);
     digitalWrite(trig, LOW); //trigger pin low to end 10us pulse
-    
+   
+   std::chrono::steady_clock::time_point loopStart = std::chrono::steady_clock::now(); //start loop timer
     while (digitalRead(echo) == LOW)
     {
-        // wait until echo pin HIGH (receives echo)
+        if((std::chrono::duration<float>(std::chrono::steady_clock::now()-loopStart).count()) >5) //throws error if stuck in loop
+        {
+            throw "ERROR: Timed out waiting for Ultrasonic Sensor";
+        }
     }
     std::chrono::steady_clock::time_point timerStart = std::chrono::steady_clock::now(); //start timer
     while (digitalRead(echo) == HIGH)
     {
-        //wait while echo pin High
+       if((std::chrono::duration<float>(std::chrono::steady_clock::now()-timerStart).count()) >5) //throws error if stuck in loop
+        {
+            throw "ERROR: Echo pulse longer than expected";
+        }
     }
-    std::chrono::steady_clock::time_point timerStop = std::chrono::steady_clock::now(); //stop timer
+    std::chrono::steady_clock::time_point timerStop = std::chrono::steady_clock::now();  //stop timer
+    
 
     float pulseDur = std::chrono::duration<float>(timerStop-timerStart).count(); //force timer to float
     float distance = distanceCalcUS(pulseDur);
     std::cout << distance << std::endl;
 
     return distance;
+}
+
+Ultrasonic::Ultrasonic(int Trig, int Echo)
+{
+    wiringPiSetupGpio(); 
+
+    echo = Echo;
+    trig = Trig;
+
+    pinMode(echo, INPUT);
+    pinMode(trig, OUTPUT);
 }
 
 void Ultrasonic::setTrigger(int Trig)

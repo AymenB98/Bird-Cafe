@@ -79,11 +79,7 @@ void camStandardConfig( raspicam::RaspiCam *Camera )
 }
 
 
-int main ( int argc,char **argv ) {
-
-   
-
-   wiringPiSetupGpio(); 
+int main ( int argc,char **argv ) { 
    Ultrasonic *cam1 = new Ultrasonic(trig, echo);
    camStandardConfig(cam1);
    cam1->setFilePath("../../Photos/birdcafe.ppm");

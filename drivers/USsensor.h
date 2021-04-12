@@ -44,7 +44,6 @@ const size_t height = 300;
 
 
 
-
 //! Class used for interfacing ultrasonic sensor
 class Ultrasonic : public BirdCam
 {
@@ -54,10 +53,10 @@ class Ultrasonic : public BirdCam
     int trig;
     int echo;
     int running = 0; 
+
     std::thread* USThread = NULL;
     std::vector<std::string> Labels;
     
-    //! \brief Converts the time taken for a US pulse to return into a distance.
     float distanceCalcUS(float pulseTime);
     
     bool getFileContent(std::string fileName);
@@ -67,12 +66,8 @@ class Ultrasonic : public BirdCam
     public:
 
     //! \brief Constructor for Ultrasonic class. Ultrasnoic(int TriggerPin, int EchoPin)
-    Ultrasonic(int Trig, int Echo)
-    {
-        echo = Echo;
-        trig = Trig;
-    }
-
+    Ultrasonic(int Trig, int Echo);
+    
     //setters
     //! \brief Used to set trigger pin.
     void setTrigger(int Trig);
