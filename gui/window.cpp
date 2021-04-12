@@ -11,7 +11,7 @@ Window::Window()
     /**
     * This created the 3 buttons and the icon for the Main Window 
     */
-    icon = new QLabel(this); /*!< A QLabel that will hold the bird cafe icon */
+    icon = new QLabel(this); 
     QPixmap pic("/home/pi/projects/gui_qt_tests/GUI/bird_logo_pink.jpg");
     icon->setPixmap(pic);
     
@@ -31,7 +31,7 @@ Window::Window()
      photoviewerbutton->setGeometry(QRect(QPoint(100, 100), QSize(200, 50)));
 	 connect(photoviewerbutton, &QPushButton::clicked, this, &Window::handlePhotoViewer);
 
-	// set up the layout - knob above thermometer
+	// set up the layout - icon then title then two buttons
 	vLayout = new QVBoxLayout;
     vLayout->addWidget(icon);
     vLayout->addWidget(title);
@@ -51,8 +51,6 @@ void Window::handleStartButton()
     process = new QProcess(this);
     process->start("/home/pi/projects/BirdCafe/Bird-Cafe/drivers/build/birdcafe_raspicam");
     process->waitForStarted();
-   // process->waitForFinished();
-  //  process->close();
     startbutton->setText("Camera on");
     startbutton->setEnabled(false);
 
