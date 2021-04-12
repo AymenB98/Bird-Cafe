@@ -70,11 +70,13 @@ bool BirdCam::checkFilePathExists(std::string filePath) //not yet implemented - 
 
 void BirdCam::takePhoto()
 {
+   std::cout<<"Opening Camera..."<<std::endl;
    if ( !raspicam::RaspiCam::open()) //checks if camera available
    {
       std::cerr << "Error opening camera" << std::endl;
    }
     //capture
+   std::cout<< "Capturing Image..." << std::endl;
    raspicam::RaspiCam::grab();
    //allocate memory
    unsigned char *data=new unsigned char[raspicam::RaspiCam::getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB )];
@@ -97,7 +99,24 @@ void BirdCam::takePhoto()
       outFile<<"P6\n"<<raspicam::RaspiCam::getWidth() <<" "<<raspicam::RaspiCam::getHeight() <<" 255\n";
       outFile.write ( ( char* ) data, raspicam::RaspiCam::getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB ) );
    }
+   std::cout<<"Image saved at " << FilePath <<std::endl;
    raspicam::RaspiCam::release();
    delete data;
 
 }
+
+/*bool checkFilePathExists(std::string filePath) //not yet implemented - remember to edit the cmake
+{
+   fs::path p = filePath;
+   if(fs::exists(p))
+   {
+      return true;
+   }
+   else
+   {
+      std::cerr << "ERROR: Filepath: " << filePath << " does not exist. Filepath has been set to /defaultBird.ppm" << std::endl;
+      std::string d = "defaultBird.ppm";
+      return false;
+   }
+}
+*/

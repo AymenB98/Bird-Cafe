@@ -5,7 +5,6 @@ project (birdcafe_cam)
 set(DRIVER_LIB
   BirdCam.cpp
   USsensor.cpp
-  UDP.cpp
   )
 
 
