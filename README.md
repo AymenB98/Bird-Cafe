@@ -19,19 +19,4 @@ This project is being completed for Real Time Embedded Programming 5 at the Univ
 ![NGINX](https://img.shields.io/badge/server-nginx-blue) ![PHP](https://img.shields.io/badge/PHP-v7.3.27-orange) ![PHPUNIT](https://img.shields.io/badge/PHPUnit-v7.5.6-orange) 
 ![Python](https://img.shields.io/badge/python-v2.7.16-brightgreen)
 
-## Web Server
-An NGINX server was setup on the Pi to host a webpage displaying stats about the bird feeder. Instructions on how to setup an NGINX server on a Raspberry Pi can be found via the following link: https://www.raspberrypi.org/documentation/remote-access/web-server/nginx.md.
-
-The bulk of the code enabling the web server is written in PHP. There are several unit tests in this repo that can be found in the php_tests.php file. To run these tests, open a terminal and do the following:
-- Navigate to the directory of your index.php and stats_page.php files:
-```
-/var/www/html
-```
-- Enter the following command:
-```
-phpunit --bootstrap stats_page.php stats_page_tests.php
-```
-- The following command will allow you to perform and view coverage analysis directly in the command line:
-```
-phpunit --coverage-text text --whitelist /var/www/html/stats_page.php --bootstrap stats_page.php stats_page_tests.php
-```
+Please see the Wiki for instructions on how to set up this product. 
