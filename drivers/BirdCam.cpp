@@ -100,6 +100,7 @@ void BirdCam::takePhoto()
       outFile.write ( ( char* ) data, raspicam::RaspiCam::getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB ) );
    }
    std::cout<<"Image saved at " << FilePath <<std::endl;
+   raspicam::RaspiCam::release();
    delete data;
 
 }

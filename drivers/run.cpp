@@ -47,35 +47,46 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ctime>
 #include <raspicam/raspicam.h>
 #include "BirdCam.h"
+#include "USsensor.h"
+#include <wiringPi.h>
+#include <thread>
+#include <stdio.h>
+
+
 using namespace std;
 
+const int trig = 18;
+const int echo = 24;
 
 //! @brief Configures the camera settings - adapted from code in 'raspicam_test.cpp' by Ava Group, University of Cordoba 
 //! found here: https://github.com/cedricve/raspicam/blob/c4c0dc10d32980fdbd6adb20aa439054ce8b00fd/utils/raspicam_test.cpp
-void camStandardConfig( raspicam::RaspiCam &Camera )
+void camStandardConfig( raspicam::RaspiCam *Camera )
 {
-    Camera.setWidth (1280);
-    Camera.setHeight (960);
-    Camera.setBrightness (55);
+    Camera->setWidth (1280); 
+    Camera->setHeight (960); 
+    Camera->setBrightness (55);
 
-    Camera.setSharpness (0);
-    Camera.setContrast (0);
-    Camera.setSaturation (5);
-    Camera.setShutterSpeed(0);
-    Camera.setISO (800);
-    Camera.setFrameRate(30);
-    Camera.setVideoStabilization ( true );
-    Camera.setExposureCompensation (0);
+    Camera->setSharpness (0);
+    Camera->setContrast (0);
+    Camera->setSaturation (5);
+    Camera->setShutterSpeed(0);
+    Camera->setISO (800);
+    Camera->setFrameRate(30);
+    Camera->setVideoStabilization ( true );
+    Camera->setExposureCompensation (0);
 
-    Camera.setAWB_RB(1,1);
-
+    Camera->setAWB_RB(1,1);
 }
 
-int main ( int argc,char **argv ) {
-   BirdCam cam1;
+
+int main ( int argc,char **argv ) { 
+   Ultrasonic *cam1 = new Ultrasonic(trig, echo);
    camStandardConfig(cam1);
-   cam1.setFilePath("../Photos/birdcafe.ppm");
-   cam1.takePhoto();
-   
-    return 0;
+   cam1->setFilePath("../../Photos/birdcafe.ppm");
+   cam1->start();
+   getchar();
+   cam1->stop();
+   delete cam1;
+
+   return 0;
 }
