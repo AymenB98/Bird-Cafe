@@ -48,10 +48,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <raspicam/raspicam.h>
 #include "BirdCam.h"
 #include "USsensor.h"
+#include "UDP.h"
 #include <wiringPi.h>
 #include <thread>
 #include <stdio.h>
-
 
 using namespace std;
 
@@ -63,7 +63,7 @@ const int echo = 24;
 void camStandardConfig( raspicam::RaspiCam *Camera )
 {
     Camera->setWidth (1280); 
-    Camera->setHeight (960); 
+    Camera->setHeight (958); 
     Camera->setBrightness (55);
 
     Camera->setSharpness (0);
@@ -79,14 +79,24 @@ void camStandardConfig( raspicam::RaspiCam *Camera )
 }
 
 
-int main ( int argc,char **argv ) { 
+int main ( int argc,char **argv ) 
+{ 
+   std::chrono::steady_clock::time_point fullTimerStart = std::chrono::steady_clock::now();
    Ultrasonic *cam1 = new Ultrasonic(trig, echo);
    camStandardConfig(cam1);
-   cam1->setFilePath("../../Photos/birdcafe.ppm");
+   cam1->setFilePath("../../Photos/birdcafe.jpg");
+
+   UDP *packet = new UDP();
+   packet->start(0);
    cam1->start();
    getchar();
    cam1->stop();
+   packet->stop();
    delete cam1;
+   delete packet;
+   std::chrono::steady_clock::time_point fullTimerStop = std::chrono::steady_clock::now(); 
+   auto fullDuration = std::chrono::duration_cast <std::chrono::milliseconds> (fullTimerStop-fullTimerStart).count();
+   std::cout << "Full Timer: " << fullDuration << "ms" << std::endl;
 
    return 0;
 }
