@@ -48,10 +48,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <raspicam/raspicam.h>
 #include "BirdCam.h"
 #include "USsensor.h"
-#include "UDP.h"
 #include <wiringPi.h>
 #include <thread>
 #include <stdio.h>
+
 
 using namespace std;
 
@@ -79,21 +79,14 @@ void camStandardConfig( raspicam::RaspiCam *Camera )
 }
 
 
-int main ( int argc,char **argv ) 
-{ 
-
+int main ( int argc,char **argv ) { 
    Ultrasonic *cam1 = new Ultrasonic(trig, echo);
    camStandardConfig(cam1);
    cam1->setFilePath("../../Photos/birdcafe.ppm");
-
-   UDP *packet = new UDP();
-   packet->start(0);
    cam1->start();
    getchar();
    cam1->stop();
-   packet->stop();
    delete cam1;
-   delete packet;
 
    return 0;
 }

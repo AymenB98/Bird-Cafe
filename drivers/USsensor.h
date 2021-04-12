@@ -14,7 +14,7 @@
 #include <thread>
 #include <ostream>
 #include "BirdCam.h"
-
+//Jona header files
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
 #include <opencv2/dnn.hpp>
@@ -30,14 +30,19 @@
 #include <cmath>
 #include <cstdlib>
 
-#include "../udp/UdpTx/udp_tx.h"
-
-
 using namespace cv;
 using namespace std;
 
 const size_t width = 300;
 const size_t height = 300;
+
+
+//std::unique_ptr<tflite::FlatBufferModel> model = tflite::FlatBufferModel::BuildFromFile("detect.tflite");
+
+//Mat image;
+//Mat frame;
+
+
 
 //! Class used for interfacing ultrasonic sensor
 class Ultrasonic : public BirdCam
