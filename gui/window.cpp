@@ -12,7 +12,7 @@ Window::Window()
     * This created the 3 buttons and the icon for the Main Window 
     */
     icon = new QLabel(this); 
-    QPixmap pic("/home/pi/projects/gui_qt_tests/GUI/bird_logo_pink.jpg");
+    QPixmap pic("./bird_logo_pink.jpg");
     icon->setPixmap(pic);
     
 
@@ -49,7 +49,7 @@ void Window::handleStartButton()
     * Takes the signal from the start button and starts the external camera code, disables start button to prevent errors
     */
     process = new QProcess(this);
-    process->start("/home/pi/projects/BirdCafe/Bird-Cafe/drivers/build/birdcafe_raspicam");
+    process->start("../drivers/build/birdcafe_raspicam");
     process->waitForStarted();
     startbutton->setText("Camera on");
     startbutton->setEnabled(false);
