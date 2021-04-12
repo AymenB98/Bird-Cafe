@@ -21,7 +21,8 @@ float Ultrasonic::measureDistance()
     delayMicroseconds(10);
     digitalWrite(trig, LOW); //trigger pin low to end 10us pulse
    
-   std::chrono::steady_clock::time_point loopStart = std::chrono::steady_clock::now(); 
+    std::chrono::steady_clock::time_point loopStart = std::chrono::steady_clock::now(); //start loop timer
+
     while (digitalRead(echo) == LOW)
     {
         if((std::chrono::duration<float>(std::chrono::steady_clock::now()-loopStart).count()) >5) //throws error if stuck in loop
