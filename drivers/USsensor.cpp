@@ -4,8 +4,7 @@
 //!**************************************************************
 
 #include "USsensor.h"
-
-
+#include "UDP.h"
 
 float Ultrasonic::distanceCalcUS(float pulseTime)
 {
@@ -21,7 +20,7 @@ float Ultrasonic::measureDistance()
     delayMicroseconds(10);
     digitalWrite(trig, LOW); //trigger pin low to end 10us pulse
    
-   std::chrono::steady_clock::time_point loopStart = std::chrono::steady_clock::now(); //start loop timer
+   std::chrono::steady_clock::time_point loopStart = std::chrono::steady_clock::now(); 
     while (digitalRead(echo) == LOW)
     {
         if((std::chrono::duration<float>(std::chrono::steady_clock::now()-loopStart).count()) >5) //throws error if stuck in loop
@@ -42,7 +41,6 @@ float Ultrasonic::measureDistance()
 
     float pulseDur = std::chrono::duration<float>(timerStop-timerStart).count(); //force timer to float
     float distance = distanceCalcUS(pulseDur);
-    std::cout << distance << std::endl;
 
     return distance;
 }
@@ -89,6 +87,9 @@ void Ultrasonic::stop()
 }
 
 
+//! @brief The getFileContent function has been adapted from code written by Q-Engineering called 'TFLite_Classifier.cpp'
+//! available on https://www.github.com/Qengineering/TensorFlow_Lite_SSD_RPi_32-bits
+//! The purpose of this function is to extract the labels found in the COCO_labels.txt file.
 bool Ultrasonic::getFileContent(std::string fileName)
 {
 	
@@ -109,13 +110,16 @@ bool Ultrasonic::getFileContent(std::string fileName)
 	return true;
 }
 
+
+//! @brief The detect_from_picture function has been adapted from code written by Q-Engineering called 'TFLite_Classifier.cpp'
+//! available on https://www.github.com/Qengineering/TensorFlow_Lite_SSD_RPi_32-bits
+//! The purpose of this function is to output classification labels and prediction scores for objects detected in a picture.
 void Ultrasonic::detect_from_picture(Mat &src)
 {
     
     std::unique_ptr<tflite::Interpreter> interpreter;
 
     Mat image;
-    
     int cam_width =src.cols;
     int cam_height=src.rows;
     float f;
@@ -123,22 +127,23 @@ void Ultrasonic::detect_from_picture(Mat &src)
     string name;
 
     
-
-    /** 
+    // Introduction of a clock
+    /* 
      *  Introduces a clock which will be able to mark the start point Tbegin
      *  and the end point Tend. This is used to calculate the total time to
      *  classify an image and passing the outputs.
-     */ 
-    chrono::steady_clock::time_point Tbegin, Tend;
+     */
+    chrono::steady_clock::time_point Tbegin, Tend; 
 
-    /** 
+    // Timer start variable
+    /* 
      * Tbegin is the start point for the internal timer.
      */
     Tbegin = chrono::steady_clock::now();
 
     // Load model
     
-    auto model = tflite::FlatBufferModel::BuildFromFile("/home/pi/projects/BirdCafe/Bird-Cafe/SSD_Classifier/detect.tflite");
+    auto model = tflite::FlatBufferModel::BuildFromFile("/home/pi/projects/BirdCafe/Bird-Cafe/drivers/detect.tflite");
     //std::unique_ptr<tflite::FlatBufferModel> model = tflite::FlatBufferModel::BuildFromFile("detect.tflite");
     
     // Build the interpreter
@@ -150,26 +155,12 @@ void Ultrasonic::detect_from_picture(Mat &src)
 
 	// Get the names
    
-	bool result = getFileContent("/home/pi/projects/BirdCafe/Bird-Cafe/SSD_Classifier/COCO_labels.txt");
+	bool result = getFileContent("/home/pi/projects/BirdCafe/Bird-Cafe/drivers/COCO_labels.txt");
 	if(!result)
 	{
         cout << "loading labels failed";
         exit(-1);
 	}
-
-    /**
-     *  Input the image to be classified as imread("directory/name"). If there is no image
-     *  an error will be sent out to the console.
-     */
-    //frame = imread("/home/pi/projects/BirdCafe/Bird-Cafe/Photos/birdcafe.ppm");
-    //if (frame.empty()) {
-    //    cerr << "Can not load picture!" << endl;
-    //    exit(-1);
-    //}
-   
-
-    
-
 
     // copy image to input as input tensor
     cv::resize(src, image, Size(width,height));
@@ -195,9 +186,10 @@ void Ultrasonic::detect_from_picture(Mat &src)
     //there are ALWAYS 10 detections no matter how many objects are detectable
     //cout << "number of detections: " << num_detections << "\n";
 
-    const float confidence_threshold = 0.5;
+    const float confidence_threshold = 0.44;
     //Bool tweet used to check if classification of "bird" is above threshold
     bool tweet = false;
+
     for(int i = 0; i < num_detections; i++){
         if(detection_scores[i] >= confidence_threshold){
             int  det_index = (int)detection_classes[i]+1;
@@ -212,113 +204,108 @@ void Ultrasonic::detect_from_picture(Mat &src)
            
             putText(src, format("%s", Labels[det_index].c_str()), Point(x1, y1-5) ,FONT_HERSHEY_SIMPLEX,0.5, Scalar(0, 0, 255), 1, 8, 0);
            
-            /**  
+            // An output to the terminal
+            /*  
              *  This is used to output the detection scores from the confidence_threshold
              *  to a max of 1 alongside it's corresponding label for each of the objects
              *  detected in the image provided.
              */
             cout << detection_scores[i] << " : " << Labels[det_index] << "\n";
 
-            if(Labels[det_index] == "bird") {
-
+            // Check for bird
+            /*
+            *   If statement which checks the predicted labels of the object classified
+            *   to see if they are equal to "bird" if true, this edits a boolean variable
+            *   'tweet' to be true.
+            */
+            if(Labels[det_index] == "bird") 
+            {
                 cout << "bird detected \n";
-                tweet = true;
-
+                tweet = true; /*!< tweet boolean is used as a check to execute code that posts picture to Twitter. */
             }
             
-
         }
 
     }
 
-    //if(tweet){
-    //    // Create new instance of class which transmits UDP packet
-    //    UDPTransmit updatePacket;
-        // Tell web page that 5 birds have visited today    
-    //    updatePacket.sendPacket(1);
+    // Process if tweet = true
+    /*
+    *   If tweet = true Python script to make a Tweet will be executed
+    */
+    if(tweet)
+    {
+        std::chrono::steady_clock::time_point tweetTimerStart = std::chrono::steady_clock::now(); 
         // Execute Python script to make Tweet
-    //    system("python /home/pi/projects/Python_twitter/twitter_upload.py");
-    //}
-    /** 
+        system("python ../twitter_upload.py");
+        std::chrono::steady_clock::time_point tweetTimerStop = std::chrono::steady_clock::now(); 
+        auto tweetDuration = std::chrono::duration_cast <std::chrono::milliseconds> (tweetTimerStop - tweetTimerStart).count();
+        std::cout << "Tweet Timer: " << tweetDuration << "ms" << std::endl;
+    }
+
+    // Timer end variable
+    /* 
      *  Tend is the end point for the internal timer.
      */
-   
     Tend = chrono::steady_clock::now();
 
-    /** 
+    // Latency for bird classfication
+    /* 
      *  f is used to calculate the time difference between Tend and Tbegin.
      *  The time is calculated in milliseconds.
      */
     f = chrono::duration_cast <chrono::milliseconds> (Tend - Tbegin).count();
     
-    /**
+    // Output to terminal
+    /*
      *  This is a simple output to the command line which shows how long
      *  the total time from start of the classfication process until the end.
      */
     cout << "Process time: " << f << " mSec" << endl;
 
-    /** 
-     *  imshow is used here to display the image that was inputted with boxes and labels
-     *  drawn around the detected objects in the image.
-     */
-    //imshow("Classfication Result", frame);
-    
-    /** 
-     *  A name is generated which will be assigned to the the classified image with
-     *  boxes and labels on the detected objects when it is saved.
-     */
-    //name = ("Class_output" + std::to_string(1) + ".jpg");
-    
-    /** 
-     *  imwrite is used to save the classified image with boxes and labels along
-     *  with the name generated. The image will be saved to the directory local 
-     *  to the executable.
-     */
-    //imwrite(name, frame);
-
-
 }
-
 
 void Ultrasonic::run(Ultrasonic* ultrasonic)
 {
-    ultrasonic->running =1;
-    while (ultrasonic->running)
-    {
+    ultrasonic->running = 1;
+    while (ultrasonic->running) 
+    {   
+        std::chrono::steady_clock::time_point USTimerStart = std::chrono::steady_clock::now();
         if(ultrasonic->measureDistance() < 1.0)
         {
             if(ultrasonic->measureDistance() < 1.0)
             {
                 if(ultrasonic->measureDistance() < 1.0) //3 quick checks to lower error chance
                 {
+                    std::chrono::steady_clock::time_point USTimerStop = std::chrono::steady_clock::now(); 
+                    auto USDuration = std::chrono::duration_cast <std::chrono::milliseconds> (USTimerStop - USTimerStart).count();
+                    std::cout << "Ultrasonic Timer: " << USDuration << "ms" << std::endl;
                     ultrasonic->takePhoto();
-                    //code that finds photo here
                     
-
-                    /**
+                    /*
                     *  Input the image to be classified as imread("directory/name"). If there is no image
                     *  an error will be sent out to the console.
                     */  
-                    
-                        Mat frame = imread("/home/pi/projects/BirdCafe/Bird-Cafe/Photos/birdcafe.ppm");
-                        if (frame.empty()) {
+                        std::chrono::steady_clock::time_point imageReadTimerStart = std::chrono::steady_clock::now(); 
+                        Mat frame = imread("/home/pi/projects/BirdCafe/Bird-Cafe/Photos/birdcafe.jpg");
+                        std::chrono::steady_clock::time_point imageReadTimerStop = std::chrono::steady_clock::now(); 
+                        auto imageReadDuration = std::chrono::duration_cast <std::chrono::milliseconds> (imageReadTimerStop - imageReadTimerStart).count();
+                        std::cout << "image read Timer: " << imageReadDuration << "ms" << std::endl;
+                        if (frame.empty()) 
+                        {
                         cerr << "Can not load picture!" << endl;
                         exit(-1);
                         }
                         
 
-                    /**
+                    /*
                     *  The function detect_from_picture() will pass the image to be classified
                     *  to the SSD object detection function. From this the the labels and detection
                     *  scores are posted to console.
                     */ 
                     ultrasonic->detect_from_picture(frame);
-                    std::cout<<"i sleep"<<std::endl;
                     std::this_thread::sleep_for(std::chrono::seconds(30));
-                    std::cout<<"real shit?"<<std::endl;
                 }
             }  
         }
-    std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }
