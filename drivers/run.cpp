@@ -87,9 +87,11 @@ int main ( int argc,char **argv )
    cam1->setFilePath("../../Photos/birdcafe.jpg");
 
    UDP *packet = new UDP();
-   packet->start(0);
+   cam1->camStart();
+   packet->start(1);
    cam1->start();
    getchar();
+   cam1->camStop();
    cam1->stop();
    packet->stop();
    delete cam1;

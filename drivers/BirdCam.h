@@ -51,6 +51,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <ostream>
 #include <ctime>
 #include <experimental/filesystem>
+#include <thread>
 
 //! Class used for interfacing with pi camera - subclass of RaspiCam
 class BirdCam : public raspicam::RaspiCam 
@@ -62,6 +63,8 @@ private:
    //! Checks if a user-given file path exists, returns true if yes, false if no.
    //! @param[in] filePath
    bool checkFilePathExists(std::string filePath);
+
+   unsigned char *data = NULL;
 
 public:
 
@@ -75,7 +78,12 @@ public:
    //! @param[out] FilePath
    std::string getFilePath();
 
-   
+   //! \brief Starts up camera
+   void camStart();
+
+   //! \brief Closes camera
+   void camStop();
+
   //! \brief Function which takes a photograph when called. 
   //! Photograph saved to path set by setFilePath().
    void takePhoto(); //function to take photo

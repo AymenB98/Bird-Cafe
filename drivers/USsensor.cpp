@@ -21,11 +21,14 @@ float Ultrasonic::measureDistance()
     digitalWrite(trig, LOW); //trigger pin low to end 10us pulse
    
    std::chrono::steady_clock::time_point loopStart = std::chrono::steady_clock::now(); 
-    while (digitalRead(echo) == LOW)
+   bool timeout = 0;
+    while (digitalRead(echo) == LOW && timeout == 0)
     {
         if((std::chrono::duration<float>(std::chrono::steady_clock::now()-loopStart).count()) >5) //throws error if stuck in loop
         {
-            throw "ERROR: Timed out waiting for Ultrasonic Sensor";
+            timeout = 1; //Prevents getting stuck in loop if hardware fault - will result in a very short distance being measured
+            std::cerr << "Echo pin stuck low" <<std::endl;
+            
         }
     }
     std::chrono::steady_clock::time_point timerStart = std::chrono::steady_clock::now(); //start timer
@@ -33,7 +36,8 @@ float Ultrasonic::measureDistance()
     {
        if((std::chrono::duration<float>(std::chrono::steady_clock::now()-timerStart).count()) >5) //throws error if stuck in loop
         {
-            throw "ERROR: Echo pulse longer than expected";
+            timeout = 1; //Prevents getting stuck in loop if hardware fault - will result in a very long distance being measured
+            std::cerr << "Echo pin stuck high" <<std::endl;
         }
     }
     std::chrono::steady_clock::time_point timerStop = std::chrono::steady_clock::now();  //stop timer
@@ -70,7 +74,8 @@ void Ultrasonic::start()
 {
     if (USThread)
     {
-        throw "ERROR: Thread already running.";
+        std::cout << "thread already running";
+        //throw "ERROR: Thread already running.";
     }
         USThread = new std::thread(run, this);
 }
@@ -169,12 +174,6 @@ void Ultrasonic::detect_from_picture(Mat &src)
     interpreter->SetAllowFp16PrecisionForFp32(true);
   
     interpreter->SetNumThreads(4);      //quad core
-    
-        //cout << "tensors size: " << interpreter->tensors_size() << "\n";
-        //cout << "nodes size: " << interpreter->nodes_size() << "\n";
-        //cout << "inputs: " << interpreter->inputs().size() << "\n";
-        //cout << "input(0) name: " << interpreter->GetInputName(0) << "\n";
-        //cout << "outputs: " << interpreter->outputs().size() << "\n";
 
     interpreter->Invoke();      // run your model
 
@@ -267,6 +266,7 @@ void Ultrasonic::detect_from_picture(Mat &src)
 void Ultrasonic::run(Ultrasonic* ultrasonic)
 {
     ultrasonic->running = 1;
+    // UDP *packet = new UDP();
     while (ultrasonic->running) 
     {   
         std::chrono::steady_clock::time_point USTimerStart = std::chrono::steady_clock::now();
@@ -275,7 +275,9 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
             if(ultrasonic->measureDistance() < 1.0)
             {
                 if(ultrasonic->measureDistance() < 1.0) //3 quick checks to lower error chance
-                {
+                {   
+                    // int timeStamp = time();
+                    // packet->start(timeStamp);
                     std::chrono::steady_clock::time_point USTimerStop = std::chrono::steady_clock::now(); 
                     auto USDuration = std::chrono::duration_cast <std::chrono::milliseconds> (USTimerStop - USTimerStart).count();
                     std::cout << "Ultrasonic Timer: " << USDuration << "ms" << std::endl;
@@ -307,5 +309,7 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
                 }
             }  
         }
+        // packet->stop();
+        // delete packet;
     }
 }
