@@ -7,8 +7,6 @@ This was adapted from the file "graph.php" by Bernd Porr
 -->
 <html>
 <head>
-<!-- Refresh page every second-->
-<!-- <meta http-equiv="refresh" content="1"> -->
 <!-- Webpage title -->
 <title>Welcome to the Bird Cafe!</title>
 <style>
@@ -28,10 +26,8 @@ This was adapted from the file "graph.php" by Bernd Porr
 <!-- Display product logo -->
 <img src="bird_logo_pink.jpg">
 
-<!--Until hardware is introduced to project, placeholder number of "0" is used for the bird count" -->
 <h1 style="color:#c966a4;font-size:60px;"><b></b></h1>
 
-<!-- PHP code to display the current date -->
 <?php 
 // Author: Aymen Benylles
 // This code was adapted from the following GitHub repo:
@@ -83,6 +79,9 @@ class UdpSocket
 		if($rcvStatus == FALSE)
 		{
 			echo "<b> Session closed. </br>";
+			// Display number of visits in last session
+			$visits = $this->lastSessionVisits();
+			echo "<b>" .$visits. " visits were registered in your last session.</br>";
 			
 		}
 		// Only append data if packet received
@@ -91,7 +90,7 @@ class UdpSocket
 			// Use RX packet to update stats
 			$timeStamp = $this->csvAppend($data);
 			// Calculate time since last visit
-			$this->lastVisit($timeStamp);
+			$this->lastUpdateTime($timeStamp);
 			echo "<b>" .$data. " visit(s) in this session.</br>";
 
 		}
@@ -146,16 +145,12 @@ class UdpSocket
 		//Get the number of rows in the array
 		$rows = count($csvArray);
 
-		// Do not append data if no new visits have been registered
-		if($message != ($csvArray[$rows - 1][1]))
-		{
-			// Create array with current time
-			$currentTime = time()*1000;
-			$trialArray = array($currentTime, $message);
+		// Create array with current time
+		$currentTime = time()*1000;
+		$trialArray = array($currentTime, $message);
 
-			// Append array to .csv file
-			fputcsv($statsFile, $trialArray) or die("Cannot write to file.");
-		}
+		// Append array to .csv file
+		fputcsv($statsFile, $trialArray) or die("Cannot write to file.");
 
 		fclose($statsFile) or die("Cannot close file.");
 
@@ -168,37 +163,44 @@ class UdpSocket
 	 * 
 	 * @param $lastStamp Most recent time stamp from .csv file.
 	 * 
-	 * @return none
+	 * @return $timeDiffMins Time ellapsed since last .csv entry (mins)
 	 */
-	function lastVisit($lastStamp)
+	function lastUpdateTime($lastStamp)
 	{
 		$timeDiffSeconds = time() - ($lastStamp / 1000); 
 		$timeDiffMins = $timeDiffSeconds / 60;
 		$timeDiffHours = $timeDiffMins / 60;
 		$timeDiffDays = $timeDiffHours / 24;
 		
-		if($timeDiffMins < 1)
-		{
-			echo "<b>" .round($timeDiffSeconds). "s since last visit </br>";
-		}
-		else if($timeDiffHours < 1)
-		{
-			echo "<b>" .round($timeDiffMins). " minute(s) since last visit </br>";
-		}
-		else if($timeDiffDays < 1)
-		{
-			echo "<b>" .round($timeDiffHours). " hour(s) since last visit </br>";
-		}
-		else if($timeDiffDays >= 1)
-		{
-			if($timeDiffDays > 1000)
-			{
-				echo "<b> No visit registered in this session (yet). </br>";
-			}
-			echo "<b>" .round($timeDiffDays). " day(s) since last visit </br>";
-		}
+		// Display the time so that a human can read it
+		// This is when the user last clicked refresh
+		$lastVisitEpoch = time() - $timeDiffSeconds;
+		echo "<b>This page was last updated at: " .date("r", $lastVisitEpoch). "</br>";
+		return $this->timeDiffMins = $timeDiffMins;
+	}
 
-		return $this->timeDiffMins = $timeDiffDays;
+
+	/* @brief	Determine number of visits in last session
+	 *
+	 * 
+	 * @return $lastTotal How many visits registered in last session
+	 */
+	function lastSessionVisits()
+	{
+		// Open file
+		$statsFile = fopen("official.csv", "a+") or die("Cannot open file.");
+		// Get last entry of csv count
+		$csvArray = $this->csvContents($statsFile);
+		// Get number of rows in array
+		$rows = count($csvArray);
+		// Return number of visits in last session
+		$lastTotal = $csvArray[$rows - 1][1];
+		if($lastTotal > 7)
+		{
+			echo "<b> Wow! You had a lot of visits in your last session. </br>";
+			echo "<b> Remember to clean your feeder to keep the local birds as healthy as possible. </br></br>"; 
+		}
+		return $this->lastTotal = $lastTotal;
 	}
 }
 
@@ -206,13 +208,11 @@ $listenSocket = new UdpSocket();
 
 ?>
 
-<!-- Provide a link to the statistics page -->
-<a style="color:#c966a4;font-size:50px;" href="stats_page.html"> View more bird feeder stats!</a>
 <!-- Links to social media sites and GitHub -->
-<p style="font-size:30px;" You can view the code for this project at the following link:</p>
-<a style="font-size:30px;" href="https://github.com/AymenB98/Bird-Cafe">Bird Cafe GitHub repo - </a>
-<a style="font-size:30px;" href="https://twitter.com/smartbirdcafe">Twitter - </a>
-<a style="font-size:30px;" href="https://www.instagram.com/smartbirdcafe/?igshid=xx0j8aub0pb4">Instagram</a>
+<p style="font-size:60px;" You can view the code for this project at the following link:</p>
+<a style="font-size:60px;" href="https://github.com/AymenB98/Bird-Cafe">Bird Cafe GitHub repo - </a>
+<a style="font-size:60px;" href="https://twitter.com/smartbirdcafe">Twitter - </a>
+<a style="font-size:60px;" href="https://www.instagram.com/smartbirdcafe/?igshid=xx0j8aub0pb4">Instagram</a>
 
 </centre>
 </body>
