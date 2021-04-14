@@ -266,23 +266,28 @@ void Ultrasonic::detect_from_picture(Mat &src)
 void Ultrasonic::run(Ultrasonic* ultrasonic)
 {
     ultrasonic->running = 1;
-    // UDP *packet = new UDP();
-    while (ultrasonic->running) 
+    ultrasonic->visitCount = 0;
+
+    while(ultrasonic->running) 
     {   
-        std::chrono::steady_clock::time_point USTimerStart = std::chrono::steady_clock::now();
-        if(ultrasonic->measureDistance() < 1.0)
+        // Send visit count to web page via UDP packet
+        UDPTransmit sendPacket(ultrasonic->visitCount);
+        switch(ultrasonic->newStimulus)
         {
-            if(ultrasonic->measureDistance() < 1.0)
+            case 1:
             {
-                if(ultrasonic->measureDistance() < 1.0) //3 quick checks to lower error chance
-                {   
-                    // int timeStamp = time();
-                    // packet->start(timeStamp);
+                std::chrono::steady_clock::time_point USTimerStart = std::chrono::steady_clock::now();
+                if(ultrasonic->measureDistance() <= 0.3 && ultrasonic->measureDistance() <= 0.3 && ultrasonic->measureDistance() <= 0.3) //3 quick checks to lower error chance
+                { 
+                    ultrasonic->newStimulus = false;
+                    // Update visit count
+                    ultrasonic->visitCount++;
+
                     std::chrono::steady_clock::time_point USTimerStop = std::chrono::steady_clock::now(); 
                     auto USDuration = std::chrono::duration_cast <std::chrono::milliseconds> (USTimerStop - USTimerStart).count();
                     std::cout << "Ultrasonic Timer: " << USDuration << "ms" << std::endl;
                     ultrasonic->takePhoto();
-                    
+                            
                     /*
                     *  Input the image to be classified as imread("directory/name"). If there is no image
                     *  an error will be sent out to the console.
@@ -305,11 +310,18 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
                     *  scores are posted to console.
                     */ 
                     ultrasonic->detect_from_picture(frame);
-                    std::this_thread::sleep_for(std::chrono::seconds(30));
                 }
-            }  
+            }
+            break;
+            case 0:
+            {
+                if(ultrasonic->measureDistance() >0.3 && ultrasonic->measureDistance() >0.3 && ultrasonic->measureDistance() >0.3)
+                {
+                    ultrasonic->newStimulus = true;
+                }
+            }
+            
+            
         }
-        // packet->stop();
-        // delete packet;
     }
 }
