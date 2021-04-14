@@ -272,8 +272,11 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
     ultrasonic->running = 1;
     ultrasonic->visitCount = 0;
 
-    while (ultrasonic->running) 
+    while(ultrasonic->running) 
     {   
+        // Send visit count to web page via UDP packet
+        UDPTransmit sendPacket(ultrasonic->visitCount);
+        
         std::chrono::steady_clock::time_point USTimerStart = std::chrono::steady_clock::now();
         if(ultrasonic->measureDistance() < 0.3)
         {
@@ -281,10 +284,8 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
             {
                 if(ultrasonic->measureDistance() < 0.3) //3 quick checks to lower error chance
                 { 
-
+                    // Update visit count
                     ultrasonic->visitCount++;
-                    UDPTransmit sendPacket(ultrasonic->visitCount);
-                    
 
                     std::chrono::steady_clock::time_point USTimerStop = std::chrono::steady_clock::now(); 
                     auto USDuration = std::chrono::duration_cast <std::chrono::milliseconds> (USTimerStop - USTimerStart).count();
