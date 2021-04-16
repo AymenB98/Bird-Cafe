@@ -20,67 +20,74 @@
  * Cross-compile with cross-gcc -I/path/to/cross-kernel/include
  */
 
-void UDP::start(int message)
+/** @brief Constructor which creates a socket and sets up the address
+ *        parameters
+ * 
+ *  @return none
+ */
+UDPTransmit::UDPTransmit(int visitCount)
 {
-    opCode = message;
-    UDPThread = new std::thread(sendPacket, this);
-}
-
-void UDP::stop()
-{
-    running = 0;
-        
-    if (UDPThread)
-    {
-        UDPThread->join();
-        delete UDPThread;
-        UDPThread = NULL;
+    newSocket = socket(PF_INET, SOCK_DGRAM, 0);
+    portNumber = 5000;
+    // Make sure socket has been created successfully
+    if(newSocket == -1)
+    {   
+    // Throw error if socket creation failed
+        const char socketError[] = "Failed to create socket\n";
+        fprintf(stderr, socketError);
+        throw socketError;
     }
+
+    // Assign values for serverAddress struct
+    serverAddress.sin_family = AF_INET;
+    // Port number (5000)
+    serverAddress.sin_port = htons(portNumber);
+    // Send to any address that is listening to this port
+    serverAddress.sin_addr.s_addr = htonl(INADDR_ANY);
+    sendPacket(visitCount);
 }
 
-void UDP::sendPacket(UDP* udp)
-{
-    udp->running = 1;
 
-    while(udp->running)
-    {
-        struct sockaddr_in serverAddress;
-        int newSocket, portNumber;
+/** @brief Create socket and send bird count to web page
+ *   
+ *     
+ *  @return none
+ */
+void UDPTransmit::sendPacket(int packet)
+{  
+    // Copy bird count into char so it can be sent to webpage 
+    char message[1];
+    sprintf(message, "%d", packet);
+    // Transmit UDP packet
+    sendto(newSocket, message, (strlen(message) + 1), 0,
+    (const struct sockaddr *) &serverAddress, sizeof(serverAddress));
+}
+
+/** @brief Clear port so that it can be used again after run
+ *
+ *  @return none
+ */
+void UDPTransmit::killProcess()
+{
+    struct sigaction act;
+    memset(&act, 0, sizeof(act));
     
-        newSocket = socket(PF_INET, SOCK_DGRAM, 0);
-        portNumber = 5000;
-        // Make sure socket has been created successfully
-        if(newSocket == -1)
-        {
-            // Throw error if socket creation failed
-            const char socketError[] = "Failed to create socket\n";
-            fprintf(stderr, socketError);
-            throw socketError;
-        }
-
-        // Assign values for serverAddress struct
-        serverAddress.sin_family = AF_INET;
-        // Port number (5000)
-        serverAddress.sin_port = htons(portNumber);
-        // Send to any address that is listening to this port
-        serverAddress.sin_addr.s_addr = htonl(INADDR_ANY);
-
-        // Copy bird count into char so it can be sent to webpage 
-        char message[1];
-        sprintf(message, "%d", udp->opCode);
-        // Transmit UDP packet
-        sendto(newSocket, message, (strlen(message) + 1), 0,
-        (const struct sockaddr *) &serverAddress, sizeof(serverAddress));
-        close(newSocket);
-
-        struct sigaction act;
-        memset(&act, 0, sizeof(act));
-        
-        if(sigaction (SIGHUP, &act, NULL) < 0) 
-        {
-            exit(-1);
-        }
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+    if(sigaction (SIGHUP, &act, NULL) < 0) 
+    {
+        printf("Closing process\n");
+        exit(-1);
     }
+}
 
+/** @brief Destructor which cleans up processes, allows 
+ *        port to be used again after this code is run
+ * 
+ *  @return none
+ */
+UDPTransmit::~UDPTransmit()
+{
+    // Close the socket
+    close(newSocket);
+    // Allow the port to be used after this code has been run
+    killProcess();
 }

@@ -46,6 +46,10 @@ float Ultrasonic::measureDistance()
     float pulseDur = std::chrono::duration<float>(timerStop-timerStart).count(); //force timer to float
     float distance = distanceCalcUS(pulseDur);
 
+    if (distance < 0.3)
+    {
+        std::cout << distance << std::endl;
+    }
     return distance;
 }
 
@@ -272,6 +276,7 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
     {   
         // Send visit count to web page via UDP packet
         UDPTransmit sendPacket(ultrasonic->visitCount);
+
         switch(ultrasonic->newStimulus)
         {
             case 1:
@@ -280,6 +285,7 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
                 if(ultrasonic->measureDistance() <= 0.3 && ultrasonic->measureDistance() <= 0.3 && ultrasonic->measureDistance() <= 0.3) //3 quick checks to lower error chance
                 { 
                     ultrasonic->newStimulus = false;
+
                     // Update visit count
                     ultrasonic->visitCount++;
 
@@ -310,6 +316,7 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
                     *  scores are posted to console.
                     */ 
                     ultrasonic->detect_from_picture(frame);
+
                 }
             }
             break;
