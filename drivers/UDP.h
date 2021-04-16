@@ -1,5 +1,5 @@
-#ifndef UDP_H
-#define UDP_H
+#ifndef __UDP_H_
+#define __UDP_H_
 
 // Author: Aymen Benylles
 // This code was adapted from the files "udp_transmit.cpp" and "AD7705Comm.h"
@@ -35,20 +35,20 @@
 #include <fcntl.h>
 #include <linux/types.h>
 
-class UDP
+/** @brief Transmit a UDP packet to a client (web page) that
+ *         contains the number of birds that have visited the
+ *         feeder in a day.
+ */
+class UDPTransmit
 {
-    private:
-    std::thread* UDPThread = NULL;
-    int running = 0;
-    int opCode;
-    
+    struct sockaddr_in serverAddress;
+    int newSocket, portNumber;
+
     public:
-    void start(int message);
-
-    void stop();
-
-    static void sendPacket(UDP* udp);
-
+    UDPTransmit(int visitCount);
+    void sendPacket(int packet);
+    void killProcess();
+    ~UDPTransmit();
 };
 
 #endif

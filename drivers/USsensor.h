@@ -29,9 +29,6 @@
 #include "tensorflow/lite/model.h"
 #include <cmath>
 #include <cstdlib>
-// UDP header
-#include "../udp/UdpTx/udp_tx.h"
-
 
 using namespace cv;
 using namespace std;
@@ -49,6 +46,7 @@ class Ultrasonic : public BirdCam
     const int speed_of_sound = 343;
     int trig;
     int echo;
+    int visitCount;
     int running = 0; 
     
     std::thread* USThread = NULL;
