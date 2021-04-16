@@ -2,6 +2,8 @@
 #include <QPixmap> 
 #include <QImage>
 
+
+//! Adds the most recent photo as a QLabel, and displays it
 PhotoViewer::PhotoViewer()
 {
     /**
@@ -12,8 +14,9 @@ PhotoViewer::PhotoViewer()
         QPixmap img = QPixmap::fromImage(cameraimage);
         photo->setPixmap(img);
         photo->setMinimumSize(400, 400);
-    
         DispPhoto = new QVBoxLayout;
         DispPhoto->addWidget(photo);
         setLayout(DispPhoto);
+
 }
+

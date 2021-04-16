@@ -1,11 +1,14 @@
 #include "window.h"
 #include "photoview.h"
+//#include "../drivers/latencyTimers.h"
 #include <QPixmap>
 
 /**
  * Code to create the Main Window for SmartBirdCafe GUI
  */
 
+
+//! Creates the main window of Smart Bird Cafe, holding three buttons
 Window::Window() 
 {
     /**
@@ -47,33 +50,45 @@ Window::Window()
 void Window::handleStartButton()
 {
     
-    
+    std::chrono::steady_clock::time_point startButtonPress = std::chrono::steady_clock::now(); 
     process = new QProcess(this);
     process->start("../drivers/build/birdcafe_raspicam");
     process->waitForStarted();
+    std::chrono::steady_clock::time_point processStarted = std::chrono::steady_clock::now(); 
     startbutton->setText("Camera on");
     startbutton->setEnabled(false);
+    float processStartDuration = std::chrono::duration <float> (processStarted - startButtonPress).count();
+
+    qInfo("Latency for Button push to process start : %f ms\n", 1000*processStartDuration); 
 
 }
 
-
+//! Takes the signal from the stop button and stops the external camera code, re-enables start button
 void Window::handleStopButton()
 {
     /**
     * Takes the signal from the stop button and stops the external camera code, reenables start button
     */
-    
+    std::chrono::steady_clock::time_point stopButtonPress = std::chrono::steady_clock::now(); 
     process->close();
+    std::chrono::steady_clock::time_point processEnded = std::chrono::steady_clock::now(); 
+    float processStopDuration = std::chrono::duration <float> (processEnded - stopButtonPress).count();
+    qInfo("Latency for Button push to process end : %f ms\n", 1000*processStopDuration); 
     startbutton->setEnabled(true);
     startbutton->setText("Start");
 }
 
+//! Takes the signal from the "View Photos" button and opens a seperate window with the most recent photo in it
 void Window::handlePhotoViewer()
 {
     /**
     * Opens the photos taken by the camera in a new window
     */
-        PV = new PhotoViewer();
-        PV->show();
+    std::chrono::steady_clock::time_point PVButtonPress = std::chrono::steady_clock::now(); 
+    PV = new PhotoViewer();
+    PV->show();
+    std::chrono::steady_clock::time_point PVOpen = std::chrono::steady_clock::now(); 
+    float PVLoad = std::chrono::duration <float> (PVOpen - PVButtonPress).count();
+    qInfo("Latency for Button push to open photo viewer : %f ms\n", 1000*PVLoad); 
 
 }
