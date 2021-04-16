@@ -1,9 +1,6 @@
 #include "photoview.h"
 #include <QPixmap> 
-
-/**
- * The code for the photo viewer window
-*/
+#include <QImage>
 
 PhotoViewer::PhotoViewer()
 {
@@ -11,9 +8,10 @@ PhotoViewer::PhotoViewer()
     * Adds the Photos as a label to the window
     */
         photo = new QLabel(this);
-        QPixmap pic("../Photos/birdcafe.ppm");
-        photo->setPixmap(pic);
-        photo->setMinimumSize(1, 1);
+        QImage cameraimage("../Photos/compressed_birdcafe.jpg");
+        QPixmap img = QPixmap::fromImage(cameraimage);
+        photo->setPixmap(img);
+        photo->setMinimumSize(400, 400);
     
         DispPhoto = new QVBoxLayout;
         DispPhoto->addWidget(photo);
