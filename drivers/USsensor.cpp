@@ -276,14 +276,16 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
     {   
         // Send visit count to web page via UDP packet
         UDPTransmit sendPacket(ultrasonic->visitCount);
-        
-        std::chrono::steady_clock::time_point USTimerStart = std::chrono::steady_clock::now();
-        if(ultrasonic->measureDistance() < 0.3)
+
+        switch(ultrasonic->newStimulus)
         {
-            if(ultrasonic->measureDistance() < 0.3)
+            case 1:
             {
-                if(ultrasonic->measureDistance() < 0.3) //3 quick checks to lower error chance
+                std::chrono::steady_clock::time_point USTimerStart = std::chrono::steady_clock::now();
+                if(ultrasonic->measureDistance() <= 0.3 && ultrasonic->measureDistance() <= 0.3 && ultrasonic->measureDistance() <= 0.3) //3 quick checks to lower error chance
                 { 
+                    ultrasonic->newStimulus = false;
+
                     // Update visit count
                     ultrasonic->visitCount++;
 
@@ -291,7 +293,7 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
                     auto USDuration = std::chrono::duration_cast <std::chrono::milliseconds> (USTimerStop - USTimerStart).count();
                     std::cout << "Ultrasonic Timer: " << USDuration << "ms" << std::endl;
                     ultrasonic->takePhoto();
-                    
+                            
                     /*
                     *  Input the image to be classified as imread("directory/name"). If there is no image
                     *  an error will be sent out to the console.
@@ -314,9 +316,19 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
                     *  scores are posted to console.
                     */ 
                     ultrasonic->detect_from_picture(frame);
-                    // std::this_thread::sleep_for(std::chrono::seconds(30));
+
                 }
-            }  
+            }
+            break;
+            case 0:
+            {
+                if(ultrasonic->measureDistance() >0.3 && ultrasonic->measureDistance() >0.3 && ultrasonic->measureDistance() >0.3)
+                {
+                    ultrasonic->newStimulus = true;
+                }
+            }
+            
+            
         }
     }
 }

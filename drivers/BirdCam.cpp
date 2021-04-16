@@ -72,18 +72,14 @@ void BirdCam::takePhoto()
 {
    std::chrono::steady_clock::time_point photoTimerStart = std::chrono::steady_clock::now(); 
 
-   if ( !raspicam::RaspiCam::open()) //checks if camera available
-   {
-      std::cerr << "Error opening camera" << std::endl;
-   }
     //capture
    raspicam::RaspiCam::grab();
    //allocate memory
-   unsigned char *data=new unsigned char[raspicam::RaspiCam::getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB )];
+   data=new unsigned char[raspicam::RaspiCam::getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB )];
    //extract the image in rgb format
    raspicam::RaspiCam::retrieve(data);//get camera image
    //save
-   if (FilePath.empty()) //if no filepath set, default to birdcafe.ppm in local, throw warning.
+   if (FilePath.empty()) //if no filepath set, default to birdcafe.ppm in local, print warning.
    {
       FilePath = "birdcafe.jpg";
       std::cerr << "WARNING: No file path set, picture will be saved in local directory." <<std::endl << "Set a file path using BirdCam::setFilePath()." <<std::endl;
@@ -99,10 +95,22 @@ void BirdCam::takePhoto()
       outFile<<"P6\n"<<raspicam::RaspiCam::getWidth() <<" "<<raspicam::RaspiCam::getHeight() <<" 255\n";
       outFile.write ( ( char* ) data, raspicam::RaspiCam::getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB ) );
    }
-   raspicam::RaspiCam::release();
-   delete data;
    std::chrono::steady_clock::time_point photoTimerStop = std::chrono::steady_clock::now(); 
    auto photoDuration = std::chrono::duration_cast <std::chrono::milliseconds> (photoTimerStop - photoTimerStart).count();
    std::cout << "Photo Timer: " << photoDuration << "ms" << std::endl;
 
+}
+
+void BirdCam::camStart()
+{
+   if ( !raspicam::RaspiCam::open()) //checks if camera available
+   {
+      std::cerr << "Error opening camera" << std::endl;
+   }
+}
+
+void BirdCam::camStop()
+{
+   raspicam::RaspiCam::release();
+   delete data;
 }

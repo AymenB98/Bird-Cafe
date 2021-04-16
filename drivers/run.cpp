@@ -64,7 +64,7 @@ void camStandardConfig( raspicam::RaspiCam *Camera )
 {
     Camera->setWidth (1280); 
     Camera->setHeight (958); 
-    Camera->setBrightness (55);
+    Camera->setBrightness (50);
 
     Camera->setSharpness (0);
     Camera->setContrast (0);
@@ -86,14 +86,12 @@ int main ( int argc,char **argv )
    camStandardConfig(cam1);
    cam1->setFilePath("../../Photos/birdcafe.jpg");
 
-   UDP *packet = new UDP();
-   packet->start(0);
+   cam1->camStart();
    cam1->start();
    getchar();
+   cam1->camStop();
    cam1->stop();
-   packet->stop();
    delete cam1;
-   delete packet;
    std::chrono::steady_clock::time_point fullTimerStop = std::chrono::steady_clock::now(); 
    auto fullDuration = std::chrono::duration_cast <std::chrono::milliseconds> (fullTimerStop-fullTimerStart).count();
    std::cout << "Full Timer: " << fullDuration << "ms" << std::endl;

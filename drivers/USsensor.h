@@ -48,6 +48,7 @@ class Ultrasonic : public BirdCam
     int echo;
     int visitCount;
     int running = 0; 
+    bool newStimulus = true;
     
     std::thread* USThread = NULL;
     std::vector<std::string> Labels;
