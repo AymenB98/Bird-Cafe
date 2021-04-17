@@ -59,7 +59,6 @@ class UdpSocket
 		{
 			$errorCode = socket_last_error();
 			$errorMsg = socket_strerror($errorCode);
-			
 		}
 		
 		// Bind socket
@@ -174,8 +173,8 @@ class UdpSocket
 		
 		// Display the time so that a human can read it
 		// This is when the user last clicked refresh
-		$lastVisitEpoch = time() - $timeDiffSeconds;
-		echo "<b>This page was last updated at: " .date("r", $lastVisitEpoch). "</br>";
+		$lastUpdateEpoch = time();
+		echo "<b>This page was last updated at: " .date("r", $lastUpdateEpoch). "</br>";
 		return $this->timeDiffMins = $timeDiffMins;
 	}
 
