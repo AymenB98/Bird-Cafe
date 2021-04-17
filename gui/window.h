@@ -11,6 +11,7 @@
 #include <QKeyEvent>
 #include <QCoreApplication>
 
+
 extern float processStartDuration;
 extern float startButtonPress;
 extern float processStarted;
