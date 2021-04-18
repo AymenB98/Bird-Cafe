@@ -5,6 +5,20 @@
 
 #include "USsensor.h"
 #include "UDP.h"
+#include "latencyTimers.h"
+
+
+float fullDuration;
+float tweetDuration;
+float USDuration;
+float imageReadDuration;
+float udpDuration;
+
+FILE* fullDurLog = fopen("../../fullDurLog.dat", "at");
+FILE* tweetDurLog = fopen("../../tweetDurLog.dat", "at");
+FILE* usDurLog = fopen("../../usDurLog.dat", "at");
+FILE* imReadDurLog = fopen("../../imReadDurLog.dat", "at");
+FILE* udpLog = fopen("../../udpLog.dat", "at");
 
 float Ultrasonic::distanceCalcUS(float pulseTime)
 {
@@ -27,7 +41,7 @@ float Ultrasonic::measureDistance()
         if((std::chrono::duration<float>(std::chrono::steady_clock::now()-loopStart).count()) >5) //throws error if stuck in loop
         {
             timeout = 1; //Prevents getting stuck in loop if hardware fault - will result in a very short distance being measured
-            std::cerr << "Echo pin stuck low" <<std::endl;
+            printf("Echo pin stuck low\n");
             
         }
     }
@@ -37,7 +51,7 @@ float Ultrasonic::measureDistance()
        if((std::chrono::duration<float>(std::chrono::steady_clock::now()-timerStart).count()) >5) //throws error if stuck in loop
         {
             timeout = 1; //Prevents getting stuck in loop if hardware fault - will result in a very long distance being measured
-            std::cerr << "Echo pin stuck high" <<std::endl;
+            printf("Echo pin stuck high\n");
         }
     }
     std::chrono::steady_clock::time_point timerStop = std::chrono::steady_clock::now();  //stop timer
@@ -46,10 +60,6 @@ float Ultrasonic::measureDistance()
     float pulseDur = std::chrono::duration<float>(timerStop-timerStart).count(); //force timer to float
     float distance = distanceCalcUS(pulseDur);
 
-    if (distance < 0.3)
-    {
-        std::cout << distance << std::endl;
-    }
     return distance;
 }
 
@@ -221,6 +231,7 @@ void Ultrasonic::detect_from_picture(Mat &src)
             *   to see if they are equal to "bird" if true, this edits a boolean variable
             *   'tweet' to be true.
             */
+            
             if(Labels[det_index] == "bird") 
             {
                 cout << "bird detected \n";
@@ -230,7 +241,8 @@ void Ultrasonic::detect_from_picture(Mat &src)
         }
 
     }
-
+    //OutClass = Labels[1];
+    //OutConfidence = detection_scores[1];
     // Process if tweet = true
     /*
     *   If tweet = true Python script to make a Tweet will be executed
@@ -241,7 +253,8 @@ void Ultrasonic::detect_from_picture(Mat &src)
         // Execute Python script to make Tweet
         system("python ../twitter_upload.py");
         std::chrono::steady_clock::time_point tweetTimerStop = std::chrono::steady_clock::now(); 
-        auto tweetDuration = std::chrono::duration_cast <std::chrono::milliseconds> (tweetTimerStop - tweetTimerStart).count();
+        tweetDuration = std::chrono::duration<float> (tweetTimerStop - tweetTimerStart).count();
+        fprintf(tweetDurLog, "%f\n", 1000*tweetDuration);  
         std::cout << "Tweet Timer: " << tweetDuration << "ms" << std::endl;
     }
 
@@ -275,7 +288,11 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
     while(ultrasonic->running) 
     {   
         // Send visit count to web page via UDP packet
+        std::chrono::steady_clock::time_point udpTimerStart = std::chrono::steady_clock::now();
         UDPTransmit sendPacket(ultrasonic->visitCount);
+        std::chrono::steady_clock::time_point udpTimerEnd = std::chrono::steady_clock::now();
+        udpDuration = std::chrono::duration <float> (udpTimerEnd - udpTimerStart).count();
+        fprintf(udpLog, "%f\n", 1000*udpDuration);  
 
         switch(ultrasonic->newStimulus)
         {
@@ -285,13 +302,12 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
                 if(ultrasonic->measureDistance() <= 0.3 && ultrasonic->measureDistance() <= 0.3 && ultrasonic->measureDistance() <= 0.3) //3 quick checks to lower error chance
                 { 
                     ultrasonic->newStimulus = false;
-
                     // Update visit count
                     ultrasonic->visitCount++;
 
                     std::chrono::steady_clock::time_point USTimerStop = std::chrono::steady_clock::now(); 
-                    auto USDuration = std::chrono::duration_cast <std::chrono::milliseconds> (USTimerStop - USTimerStart).count();
-                    std::cout << "Ultrasonic Timer: " << USDuration << "ms" << std::endl;
+                    USDuration = std::chrono::duration <float> (USTimerStop - USTimerStart).count();
+                    fprintf(usDurLog, "%f\n", 1000*USDuration); 
                     ultrasonic->takePhoto();
                             
                     /*
@@ -301,7 +317,8 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
                         std::chrono::steady_clock::time_point imageReadTimerStart = std::chrono::steady_clock::now(); 
                         Mat frame = imread("/home/pi/projects/BirdCafe/Bird-Cafe/Photos/birdcafe.jpg");
                         std::chrono::steady_clock::time_point imageReadTimerStop = std::chrono::steady_clock::now(); 
-                        auto imageReadDuration = std::chrono::duration_cast <std::chrono::milliseconds> (imageReadTimerStop - imageReadTimerStart).count();
+                        imageReadDuration = std::chrono::duration <float> (imageReadTimerStop - imageReadTimerStart).count();
+                        fprintf(imReadDurLog, "%f\n", 1000*imageReadDuration);  
                         std::cout << "image read Timer: " << imageReadDuration << "ms" << std::endl;
                         if (frame.empty()) 
                         {
@@ -316,7 +333,6 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
                     *  scores are posted to console.
                     */ 
                     ultrasonic->detect_from_picture(frame);
-
                 }
             }
             break;

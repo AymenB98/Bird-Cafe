@@ -48,7 +48,7 @@ class IndexPageTest extends TestCase
 
 
 	/**
-	 * @covers \UdpSocket::lastVisit
+	 * @covers \UdpSocket::lastUpdateTime
 	 */
 	public function testTimeDays()
 	{
@@ -63,7 +63,7 @@ class IndexPageTest extends TestCase
 	}
 
 	/**
-	 * @covers \UdpSocket::lastVisit
+	 * @covers \UdpSocket::lastUpdateTime
 	 */
 	public function testTimeDiffHours()
 	{
@@ -78,7 +78,7 @@ class IndexPageTest extends TestCase
 	}
 
 	/**
-	 * @covers \UdpSocket::lastVisit
+	 * @covers \UdpSocket::lastUpdateTime
 	 */
 	public function testTimeDiffMinutes()
 	{

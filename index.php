@@ -59,7 +59,6 @@ class UdpSocket
 		{
 			$errorCode = socket_last_error();
 			$errorMsg = socket_strerror($errorCode);
-			
 		}
 		
 		// Bind socket
@@ -81,7 +80,7 @@ class UdpSocket
 			echo "<b> Session closed. </br>";
 			// Display number of visits in last session
 			$visits = $this->lastSessionVisits();
-			echo "<b>" .$visits. " visits were registered in your last session.</br>";
+			echo "<b>" .$visits. " visit(s) were registered in your last session.</br>";
 			
 		}
 		// Only append data if packet received
@@ -174,8 +173,8 @@ class UdpSocket
 		
 		// Display the time so that a human can read it
 		// This is when the user last clicked refresh
-		$lastVisitEpoch = time() - $timeDiffSeconds;
-		echo "<b>This page was last updated at: " .date("r", $lastVisitEpoch). "</br>";
+		$lastUpdateEpoch = time();
+		echo "<b>This page was last updated at: " .date("r", $lastUpdateEpoch). "</br>";
 		return $this->timeDiffMins = $timeDiffMins;
 	}
 
@@ -204,7 +203,7 @@ class UdpSocket
 	}
 }
 
-$listenSocket = new UdpSocket();	
+$listenSocket = new UdpSocket();
 
 ?>
 
