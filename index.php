@@ -203,18 +203,7 @@ class UdpSocket
 	}
 }
 
-$startTime = hrtime(TRUE);
 $listenSocket = new UdpSocket();
-$endTime = hrtime(TRUE);	
-
-$totalTime = ($endTime - $startTime) / 1000000;
-
-$timeArray = array($totalTime);
-$timeFileHandle = fopen("time.csv", "a+") or die("Cannot open file.");
-fputcsv($timeFileHandle, $timeArray) or die("Cannot write to file.");
-fclose($timeFileHandle);
-
-echo "<b>" .$totalTime. "ms process time </br>";
 
 ?>
 
