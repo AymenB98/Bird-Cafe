@@ -80,7 +80,7 @@ class UdpSocket
 			echo "<b> Session closed. </br>";
 			// Display number of visits in last session
 			$visits = $this->lastSessionVisits();
-			echo "<b>" .$visits. " visits were registered in your last session.</br>";
+			echo "<b>" .$visits. " visit(s) were registered in your last session.</br>";
 			
 		}
 		// Only append data if packet received
