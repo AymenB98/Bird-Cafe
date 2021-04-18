@@ -9,9 +9,11 @@ set(DRIVER_LIB
   ../UDP.cpp
   )
 
+
 find_package(GTest REQUIRED)
 find_package(raspicam REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(PythonLibs REQUIRED)
 
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories("/usr/local/include/opencv4")
@@ -20,6 +22,7 @@ find_package(Threads)
 include_directories("/home/pi/tensorflow")
 include_directories("/home/pi/tensorflow/tensorflow/lite/tools/make/downloads/flatbuffers/include")
 include_directories("/home/pi/tensorflow/tensorflow/lite/tools/make/downloads/absl")
+include_directories(${PYTHON_INCLUDE_DIRS})
 
 add_library(birdcafe_cam_test STATIC ${DRIVER_LIB})
 
@@ -32,6 +35,7 @@ add_executable(runTests DriverTests.cpp
 			"${TEST_SOURCE_DIR}../TFlite_Classifier.h"
 			"${TEST_SOURCE_DIR}../latencyTimers.h"
 			${DRIVER_LIB})
+
 
 find_library(wiringPi_LIB wiringPi)
 
@@ -46,6 +50,7 @@ target_link_libraries(runTests
 		${OpenCV_Libs}
 	 	${OpenCV_LIBS}
 	 	${CMAKE_THREAD_LIBS_INIT}
+		${PYTHON_LIBRARIES}
 )
 
 

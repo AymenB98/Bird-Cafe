@@ -11,7 +11,7 @@
 
 
 namespace fs = std::experimental::filesystem;
-fs::path p = "../../Photos/testImage.ppm";
+fs::path p = "../../Photos/testImage.png";
 
 fs::path tp1 = "../COCO_labels.txt";
 fs::path tp2 = "../detect.tflite";
@@ -25,16 +25,19 @@ Ultrasonic *Test2 = new Ultrasonic(trig, echo);
 Ultrasonic *Test3 = new Ultrasonic(trig, echo);
 Ultrasonic *Test4 = new Ultrasonic(trig,echo);
 
+//Tests below for drivers
+//By Joe Costello 2254254C
+
 TEST(sensorTest, photoTakenTest)
 {
     bool exists = fs::exists(p);
     EXPECT_FALSE(exists);
     
-    Test1.setFilePath("../../Photos/testImage.ppm");
+    Test1.setFilePath("../../Photos/testImage.png");
     Test1.takePhoto();
     exists = fs::exists(p);
     EXPECT_TRUE(exists);
-    remove("../../Photos/testImage.ppm");
+    remove("../../Photos/testImage.png");
 }
 
 TEST(sensorTest, USPositiveDistanceTest)
@@ -69,29 +72,6 @@ TEST(TFTest, TestImageCheck)
     bool present = fs::exists(tp3);
     EXPECT_TRUE(present);
 
-}
-/
-TEST(sensorTest, TFLiteLatancyTest)
-{
-    //Clock initialised
-    chrono::steady_clock::time_point TF_Test_Start, TF_Test_End;
-
-    //Clock starts here
-    TF_Test_Start = chrono::steady_clock::now();
-
-    //Test image of a bird loaded in
-    Mat frame = imread("Bird_1.PNG");
-   
-    Test4->detect_from_picture(frame);
-
-    //Clock ends here
-    TF_Test_End = chrono::steady_clock::now();
-    //Total time for classification of test image calculated
-    float TF_Test_Duration =chrono::duration_cast <chrono::milliseconds> (TF_Test_Start - TF_Test_End).count();
-
-    //Test passes if test takes less than 500ms
-    EXPECT_TRUE(TF_Test_Duration <= 500);
-    delete Test4;
 }
 
 int main(int argc, char **argv)
