@@ -48,12 +48,13 @@ class SimpleTweet:
         # These can be found on the Twitter Developer account
         keys = open("/home/pi/projects/BirdCafe/Bird-Cafe/drivers/keys.txt", "r")
 
-        lines = keys.read().splitlines()
+        # Read API keys from .txt file and assign them to appropriate variables
+        apiKeys = keys.read().splitlines()
 
-        self.accessToken = lines[0]
-        self.accessTokenSecret = lines[1]
-        self.consumerKey = lines[2]
-        self.consumerSecret = lines[3]
+        self.accessToken = apiKeys[0]
+        self.accessTokenSecret = apiKeys[1]
+        self.consumerKey = apiKeys[2]
+        self.consumerSecret = apiKeys[3]
 
         keys.close()
 
