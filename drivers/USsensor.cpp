@@ -9,7 +9,7 @@
 #include <Python.h>
 #include <curses.h>
 
-// #define LATENCY_DEBUG
+ #define LATENCY_DEBUG
 
 // Pre-porcessor to seperate testing code with the rest of the code
 #ifdef LATENCY_DEBUG
@@ -22,7 +22,7 @@ float imageReadDuration;
 FILE* fullDurLog = fopen("fullDurLog.dat", "at");
 FILE* tweetDurLog = fopen("tweetDurLog.dat", "at");
 FILE* usDurLog = fopen("usDurLog.dat", "at");
-FILE* imReadDurLog = fopen("/home/pi/projects/BirdCafe/Bird-Cafe/imReadDurLog.dat", "at");
+FILE* imReadDurLog = fopen("imReadDurLog.dat", "at");
 #endif
 
 float Ultrasonic::distanceCalcUS(float pulseTime)
@@ -155,7 +155,7 @@ void Ultrasonic::detect_from_picture(Mat &src)
     std::chrono::high_resolution_clock::time_point imageReadTimerStart = std::chrono::high_resolution_clock::now(); 
 #endif
     // Load model
-    auto model = tflite::FlatBufferModel::BuildFromFile("/home/pi/projects/BirdCafe/Bird-Cafe/drivers/detect.tflite");
+    auto model = tflite::FlatBufferModel::BuildFromFile("../../drivers/detect.tflite");
     
     // Build the interpreter
 
@@ -165,7 +165,7 @@ void Ultrasonic::detect_from_picture(Mat &src)
     interpreter->AllocateTensors();
 
 	// Get the names
-	bool result = getFileContent("/home/pi/projects/BirdCafe/Bird-Cafe/drivers/COCO_labels.txt");
+	bool result = getFileContent("../../drivers/COCO_labels.txt");
 	if(!result)
 	{
         cout << "loading labels failed";
@@ -252,7 +252,7 @@ void Ultrasonic::detect_from_picture(Mat &src)
         // by A. Mukhopadhyay
         
         // Set file path for Twitter script
-        char pythonFile[] = "/home/pi/projects/BirdCafe/Bird-Cafe/drivers/twitter_upload.py";
+        char pythonFile[] = "../../drivers/twitter_upload.py";
         FILE* fp;
 
         Py_Initialize();
@@ -306,7 +306,7 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
                     *  Input the image to be classified as imread("directory/name"). If there is no image
                     *  an error will be sent out to the console.
                     */  
-                    Mat frame = imread("/home/pi/projects/BirdCafe/Bird-Cafe/Photos/birdcafe.jpg");
+                    Mat frame = imread("../../Photos/birdcafe.jpg");
                     
 #ifdef LATENCY_DEBUG
                     std::cout << "image read Timer: " << imageReadDuration << "s" << std::endl;

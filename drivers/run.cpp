@@ -54,7 +54,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <stdio.h>
 #include "latencyTimers.h"
 
-// #define LATENCY_DEBUG
+#define LATENCY_DEBUG
 using namespace std;
 
 const int trig = 18;
@@ -89,7 +89,7 @@ int main ( int argc,char **argv )
 
    Ultrasonic *cam1 = new Ultrasonic(trig, echo);
    camStandardConfig(cam1);
-   cam1->setFilePath("../Photos/birdcafe.jpg");
+   cam1->setFilePath("../../Photos/birdcafe.jpg");
 
    cam1->camStart();
    cam1->start();

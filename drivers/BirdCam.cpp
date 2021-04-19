@@ -40,11 +40,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //! \brief Defines BirdCam subclass
 //!**************************************************************
 
+#define LATENCY_DEBUG
+
 #include "BirdCam.h"
 #include "latencyTimers.h"
 
+#ifdef LATENCY_DEBUG
 float photoDuration; 
 FILE* photoDurLog = fopen("../../photoDurLog.dat", "at");
+#endif
 
 namespace fs = std::experimental::filesystem;
 
@@ -75,8 +79,9 @@ bool BirdCam::checkFilePathExists(std::string filePath) //not yet implemented - 
 
 void BirdCam::takePhoto()
 {
+#ifdef LATENCY_DEBUG
    std::chrono::steady_clock::time_point photoTimerStart = std::chrono::steady_clock::now(); 
-
+#endif
     //capture
    raspicam::RaspiCam::grab();
    //allocate memory
@@ -100,9 +105,11 @@ void BirdCam::takePhoto()
       outFile<<"P6\n"<<raspicam::RaspiCam::getWidth() <<" "<<raspicam::RaspiCam::getHeight() <<" 255\n";
       outFile.write ( ( char* ) data, raspicam::RaspiCam::getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB ) );
    }
+#ifdef LATENCY_DEBUG
    std::chrono::steady_clock::time_point photoTimerStop = std::chrono::steady_clock::now(); 
    photoDuration = std::chrono::duration <float> (photoTimerStop - photoTimerStart).count();
    fprintf(photoDurLog, "%f\n", 1000*photoDuration); 
+#endif
 }
 
 void BirdCam::camStart()

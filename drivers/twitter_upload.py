@@ -46,7 +46,7 @@ class SimpleTweet:
         self.tweet = tweetString
         # Variables for oauth
         # These can be found on the Twitter Developer account
-        keys = open("/home/pi/projects/BirdCafe/Bird-Cafe/drivers/keys.txt", "r")
+        keys = open("../../drivers/keys.txt", "r")
 
         # Read API keys from .txt file and assign them to appropriate variables
         apiKeys = keys.read().splitlines()
@@ -66,15 +66,15 @@ class SimpleTweet:
     #  
     #
     def makeTweet(self):
-        self.twitterApi.update_with_media("/home/pi/projects/BirdCafe/Bird-Cafe/Photos/compressed_birdcafe.jpg", status=self.tweet)
+        self.twitterApi.update_with_media("../../Photos/compressed_birdcafe.jpg", status=self.tweet)
     ## Lightly compress image to allow Twitter uplaod
     #  
     #
     def compressImage(self):
         # Open original image of bird
-        picture = Image.open("/home/pi/projects/BirdCafe/Bird-Cafe/Photos/birdcafe.jpg")
+        picture = Image.open("../../Photos/birdcafe.jpg")
         # Compress image for Twitter upload
-        picture.save("/home/pi/projects/BirdCafe/Bird-Cafe/Photos/compressed_birdcafe.jpg", optimize=True, quality=99)
+        picture.save("../../Photos/compressed_birdcafe.jpg", optimize=True, quality=99)
 
 
     ## Display name of Twitter account in use
