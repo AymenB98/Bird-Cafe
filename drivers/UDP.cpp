@@ -19,6 +19,7 @@
  *
  * Cross-compile with cross-gcc -I/path/to/cross-kernel/include
  */
+
 // #define LATENCY_DEBUG
 
 #ifdef LATENCY_DEBUG
@@ -34,6 +35,7 @@ FILE* udpLog = fopen("/home/pi/projects/BirdCafe/Bird-Cafe/udpLog.dat", "at");
  */
 UDPTransmit::UDPTransmit(int visitCount)
 {
+
 #ifdef LATENCY_DEBUG
     udpTimerStart = std::chrono::high_resolution_clock::now();
 #endif

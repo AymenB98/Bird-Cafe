@@ -53,9 +53,7 @@ class Ultrasonic : public BirdCam
     std::thread* USThread = NULL;
     std::vector<std::string> Labels;
     
-    float distanceCalcUS(float pulseTime);
-    
- 
+    float distanceCalcUS(float pulseTime);    
 
     public:
 

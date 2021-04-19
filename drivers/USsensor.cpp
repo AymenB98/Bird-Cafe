@@ -13,6 +13,7 @@
 
 // Pre-porcessor to seperate testing code with the rest of the code
 #ifdef LATENCY_DEBUG
+
 float fullDuration;
 float tweetDuration;
 float USDuration;
@@ -53,13 +54,13 @@ float Ultrasonic::measureDistance()
     while (digitalRead(echo) == HIGH)
     {
        if((std::chrono::duration<float>(std::chrono::high_resolution_clock::now()-timerStart).count()) >1) //throws error if stuck in loop
+
         {
             timeout = 1; //Prevents getting stuck in loop if hardware fault - will result in a very long distance being measured
             printf("Echo pin stuck high\n");
         }
     }
     std::chrono::high_resolution_clock::time_point timerStop = std::chrono::high_resolution_clock::now();  //stop timer
-    
 
     float pulseDur = std::chrono::duration<float>(timerStop-timerStart).count(); //force timer to float
     float distance = distanceCalcUS(pulseDur);
@@ -157,6 +158,7 @@ void Ultrasonic::detect_from_picture(Mat &src)
     auto model = tflite::FlatBufferModel::BuildFromFile("/home/pi/projects/BirdCafe/Bird-Cafe/drivers/detect.tflite");
     
     // Build the interpreter
+
     tflite::ops::builtin::BuiltinOpResolver resolver;
     tflite::InterpreterBuilder(*model.get(), resolver)(&interpreter);
 
@@ -181,6 +183,7 @@ void Ultrasonic::detect_from_picture(Mat &src)
 
     // Run the model
     interpreter->Invoke();      
+
 
     const float* detection_locations = interpreter->tensor(interpreter->outputs()[0])->data.f;
     const float* detection_classes=interpreter->tensor(interpreter->outputs()[1])->data.f;
@@ -267,7 +270,6 @@ void Ultrasonic::detect_from_picture(Mat &src)
         std::cout << "Tweet Timer: " << tweetDuration << "s" << std::endl;
 #endif
     }
-
 }
 
 void Ultrasonic::run(Ultrasonic* ultrasonic)
@@ -277,17 +279,8 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
 
     while(ultrasonic->running) 
     {  
-#ifdef LATENCY_DEBUG
-        // std::chrono::high_resolution_clock::time_point udpTimerStart = std::chrono::high_resolution_clock::now();
-#endif
         // Send visit count to web page via UDP packet
         UDPTransmit sendPacket(ultrasonic->visitCount);
-#ifdef LATENCY_DEBUG
-        // std::chrono::high_resolution_clock::time_point udpTimerEnd = std::chrono::high_resolution_clock::now();
-        // udpDuration = std::chrono::duration <float> (udpTimerEnd - udpTimerStart).count();
-        // fprintf(udpLog, "%f\n", 1000*udpDuration);  
-#endif
-
         switch(ultrasonic->newStimulus)
         {
             case 1:
@@ -295,6 +288,7 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
 #ifdef LATENCY_DEBUG
                 std::chrono::high_resolution_clock::time_point USTimerStart = std::chrono::high_resolution_clock::now();
 #endif
+
                 if(ultrasonic->measureDistance() <= 0.3 && ultrasonic->measureDistance() <= 0.3 && ultrasonic->measureDistance() <= 0.3) //3 quick checks to lower error chance
                 { 
                     ultrasonic->newStimulus = false;
@@ -323,14 +317,12 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
                         exit(-1); 
                     }
                         
-
                     /*
                     *  The function detect_from_picture() will pass the image to be classified
                     *  to the SSD object detection function. From this the the labels and detection
                     *  scores are posted to console.
                     */ 
                     ultrasonic->detect_from_picture(frame);
- 
                 }
             }
             break;
@@ -338,6 +330,7 @@ void Ultrasonic::run(Ultrasonic* ultrasonic)
             case 0:
             {
                 if(ultrasonic->measureDistance() > 0.3 && ultrasonic->measureDistance() > 0.3 && ultrasonic->measureDistance() > 0.3)
+
                 {
                     ultrasonic->newStimulus = true;
                 }

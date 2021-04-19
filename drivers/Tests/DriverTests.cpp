@@ -9,7 +9,6 @@
 #include "latencyTimers.h"
 
 
-
 namespace fs = std::experimental::filesystem;
 fs::path p = "../../Photos/testImage.png";
 
@@ -23,6 +22,7 @@ const int trig = 18;
 const int echo = 24;
 Ultrasonic *Test2 = new Ultrasonic(trig, echo);
 Ultrasonic *Test3 = new Ultrasonic(trig, echo);
+
 Ultrasonic *Test4 = new Ultrasonic(trig,echo);
 
 //Tests below for drivers
@@ -33,6 +33,7 @@ TEST(sensorTest, photoTakenTest)
     bool exists = fs::exists(p);
     EXPECT_FALSE(exists);
     
+
     Test1.setFilePath("../../Photos/testImage.png");
     Test1.takePhoto();
     exists = fs::exists(p);
@@ -81,3 +82,4 @@ int main(int argc, char **argv)
 }
 
 //#endif
+

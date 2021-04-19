@@ -67,7 +67,6 @@ class SimpleTweet:
     #
     def makeTweet(self):
         self.twitterApi.update_with_media("/home/pi/projects/BirdCafe/Bird-Cafe/Photos/compressed_birdcafe.jpg", status=self.tweet)
-
     ## Lightly compress image to allow Twitter uplaod
     #  
     #
@@ -76,6 +75,7 @@ class SimpleTweet:
         picture = Image.open("/home/pi/projects/BirdCafe/Bird-Cafe/Photos/birdcafe.jpg")
         # Compress image for Twitter upload
         picture.save("/home/pi/projects/BirdCafe/Bird-Cafe/Photos/compressed_birdcafe.jpg", optimize=True, quality=99)
+
 
     ## Display name of Twitter account in use
     #  

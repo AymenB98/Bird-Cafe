@@ -60,7 +60,6 @@ using namespace std;
 const int trig = 18;
 const int echo = 24;
 
-
 //! @brief Configures the camera settings - adapted from code in 'raspicam_test.cpp' by Ava Group, University of Cordoba 
 //! found here: https://github.com/cedricve/raspicam/blob/c4c0dc10d32980fdbd6adb20aa439054ce8b00fd/utils/raspicam_test.cpp
 void camStandardConfig( raspicam::RaspiCam *Camera )
@@ -91,6 +90,7 @@ int main ( int argc,char **argv )
    Ultrasonic *cam1 = new Ultrasonic(trig, echo);
    camStandardConfig(cam1);
    cam1->setFilePath("../Photos/birdcafe.jpg");
+
    cam1->camStart();
    cam1->start();
    getchar();

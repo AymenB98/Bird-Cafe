@@ -9,7 +9,6 @@ set(DRIVER_LIB
   ../UDP.cpp
   )
 
-
 find_package(GTest REQUIRED)
 find_package(raspicam REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -27,7 +26,7 @@ include_directories(${PYTHON_INCLUDE_DIRS})
 add_library(birdcafe_cam_test STATIC ${DRIVER_LIB})
 
 add_executable(runTests DriverTests.cpp
-			
+
 			"${TEST_SOURCE_DIR}../BirdCam.cpp"
 			"${TEST_SOURCE_DIR}../BirdCam.h"
 			"${TEST_SOURCE_DIR}../USsensor.h"
@@ -35,7 +34,6 @@ add_executable(runTests DriverTests.cpp
 			"${TEST_SOURCE_DIR}../TFlite_Classifier.h"
 			"${TEST_SOURCE_DIR}../latencyTimers.h"
 			${DRIVER_LIB})
-
 
 find_library(wiringPi_LIB wiringPi)
 
@@ -50,8 +48,8 @@ target_link_libraries(runTests
 		${OpenCV_Libs}
 	 	${OpenCV_LIBS}
 	 	${CMAKE_THREAD_LIBS_INIT}
+
 		${PYTHON_LIBRARIES}
+
 )
-
-
 

@@ -46,8 +46,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 float photoDuration; 
 FILE* photoDurLog = fopen("../../photoDurLog.dat", "at");
 
-
-
 namespace fs = std::experimental::filesystem;
 
 //setters
@@ -105,7 +103,6 @@ void BirdCam::takePhoto()
    std::chrono::steady_clock::time_point photoTimerStop = std::chrono::steady_clock::now(); 
    photoDuration = std::chrono::duration <float> (photoTimerStop - photoTimerStart).count();
    fprintf(photoDurLog, "%f\n", 1000*photoDuration); 
-
 }
 
 void BirdCam::camStart()

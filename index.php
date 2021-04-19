@@ -34,6 +34,7 @@ This was adapted from the file "graph.php" by Bernd Porr
 // https://github.com/berndporr/rpi_AD7705_daq
 // This was adapted from the file "graph.php" by Bernd Porr
 
+
 /** @brief 	Class which creates and binds UDP socket
  * 
  */
@@ -179,7 +180,6 @@ class UdpSocket
 		echo "<b>This page was last updated at: " .date("r", $lastUpdateEpoch). "</br>";
 		return $this->timeDiffMins = $timeDiffMins;
 	}
-
 
 	/** @brief	Determine number of visits in last session
 	 *
