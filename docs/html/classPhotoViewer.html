@@ -20,10 +20,12 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="bird.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Bird Cafe
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.1</span>
    </div>
+   <div id="projectbrief">A Raspberry Pi-powered smart bird feeder to track the birds that visit your garden or window-sill</div>
   </td>
  </tr>
  </tbody>
@@ -85,16 +87,16 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a9cdbfadcfed508bcbdf188e17f390c1c"><td class="memItemLeft" align="right" valign="top"><a id="a9cdbfadcfed508bcbdf188e17f390c1c"></a>
+<tr class="memitem:a79189a67f0c80e1996bd84442731bd69"><td class="memItemLeft" align="right" valign="top"><a id="a79189a67f0c80e1996bd84442731bd69"></a>
 QLabel *&#160;</td><td class="memItemRight" valign="bottom"><b>photo</b></td></tr>
-<tr class="separator:a9cdbfadcfed508bcbdf188e17f390c1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa7aa2a9e9ad30f6efaa4617c1d00a18"><td class="memItemLeft" align="right" valign="top"><a id="aaa7aa2a9e9ad30f6efaa4617c1d00a18"></a>
+<tr class="separator:a79189a67f0c80e1996bd84442731bd69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a680edd8dc749a8fef23cb1b85b6bd70a"><td class="memItemLeft" align="right" valign="top"><a id="a680edd8dc749a8fef23cb1b85b6bd70a"></a>
 QVBoxLayout *&#160;</td><td class="memItemRight" valign="bottom"><b>DispPhoto</b></td></tr>
-<tr class="separator:aaa7aa2a9e9ad30f6efaa4617c1d00a18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a680edd8dc749a8fef23cb1b85b6bd70a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="drivers_2photoview_8h_source.html#l00010">10</a> of file <a class="el" href="drivers_2photoview_8h_source.html">drivers/photoview.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="photoview_8h_source.html#l00010">10</a> of file <a class="el" href="photoview_8h_source.html">photoview.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad97467f36fec0ca11baa9b5fff4c9848"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad97467f36fec0ca11baa9b5fff4c9848">&#9670;&nbsp;</a></span>PhotoViewer()</h2>
@@ -114,7 +116,7 @@ QVBoxLayout *&#160;</td><td class="memItemRight" valign="bottom"><b>DispPhoto</b
 <p>Adds the most recent photo as a QLabel, and displays it. </p>
 <p class="">Adds the Photos as a label to the window</p>
 
-<p class="definition">Definition at line <a class="el" href="drivers_2photoview_8cpp_source.html#l00007">7</a> of file <a class="el" href="drivers_2photoview_8cpp_source.html">drivers/photoview.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="photoview_8cpp_source.html#l00007">7</a> of file <a class="el" href="photoview_8cpp_source.html">photoview.cpp</a>.</p>
 <div class="fragment"><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        photo = <span class="keyword">new</span> QLabel(<span class="keyword">this</span>);</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        QImage cameraimage(<span class="stringliteral">&quot;../Photos/compressed_birdcafe.jpg&quot;</span>);</div>
@@ -130,10 +132,8 @@ QVBoxLayout *&#160;</td><td class="memItemRight" valign="bottom"><b>DispPhoto</b
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="drivers_2photoview_8h_source.html">drivers/photoview.h</a></li>
-<li><a class="el" href="GUI_2photoview_8h_source.html">GUI/photoview.h</a></li>
-<li><a class="el" href="drivers_2photoview_8cpp_source.html">drivers/photoview.cpp</a></li>
-<li><a class="el" href="GUI_2photoview_8cpp_source.html">GUI/photoview.cpp</a></li>
+<li><a class="el" href="photoview_8h_source.html">photoview.h</a></li>
+<li><a class="el" href="photoview_8cpp_source.html">photoview.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

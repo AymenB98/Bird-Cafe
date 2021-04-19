@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['window_53',['Window',['../classWindow.html',1,'Window'],['../classWindow.html#a74e6087da23d3c24e9fac0245e5ec92c',1,'Window::Window()']]]
+  ['_7eudptransmit_50',['~UDPTransmit',['../classUDPTransmit.html#ac9c2cfebc43b8ed7d5baff2f31a11ee1',1,'UDPTransmit']]]
 ];

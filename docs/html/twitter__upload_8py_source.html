@@ -20,10 +20,12 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="bird.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Bird Cafe
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.1</span>
    </div>
+   <div id="projectbrief">A Raspberry Pi-powered smart bird feeder to track the birds that visit your garden or window-sill</div>
   </td>
  </tr>
  </tbody>
@@ -113,7 +115,7 @@ $(function() {
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        self.<a class="code" href="classtwitter__upload_1_1SimpleTweet.html#abe1fb1f08de1d70935adc53c005f60ce">tweet</a>tweet = tweetString</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="comment"># Variables for oauth</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="comment"># These can be found on the Twitter Developer account</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        keys = open(<span class="stringliteral">&quot;/home/pi/projects/BirdCafe/Bird-Cafe/drivers/keys.txt&quot;</span>, <span class="stringliteral">&quot;r&quot;</span>)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        keys = open(<span class="stringliteral">&quot;../../drivers/keys.txt&quot;</span>, <span class="stringliteral">&quot;r&quot;</span>)</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="comment"># Read API keys from .txt file and assign them to appropriate variables</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        apiKeys = keys.read().splitlines()</div>
@@ -131,14 +133,14 @@ $(function() {
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    </div>
 <div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="classtwitter__upload_1_1SimpleTweet.html#a6a770c2da01c4c1a5fb2905dcc2146ce">   68</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classtwitter__upload_1_1SimpleTweet.html#a6a770c2da01c4c1a5fb2905dcc2146ce">makeTweet</a>(self):</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        self.<a class="code" href="classtwitter__upload_1_1SimpleTweet.html#a237c52e57c449a9f6335ecf6e8ae32f8">twitterApi</a>twitterApi.update_with_media(<span class="stringliteral">&quot;/home/pi/projects/BirdCafe/Bird-Cafe/Photos/compressed_birdcafe.jpg&quot;</span>, status=self.<a class="code" href="classtwitter__upload_1_1SimpleTweet.html#abe1fb1f08de1d70935adc53c005f60ce">tweet</a>tweet)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    </div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="classtwitter__upload_1_1SimpleTweet.html#a47d34015bfe7864c0ff61532a5e64500">   74</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classtwitter__upload_1_1SimpleTweet.html#a47d34015bfe7864c0ff61532a5e64500">compressImage</a>(self):</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="comment"># Open original image of bird</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        picture = Image.open(<span class="stringliteral">&quot;/home/pi/projects/BirdCafe/Bird-Cafe/Photos/birdcafe.jpg&quot;</span>)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="comment"># Compress image for Twitter upload</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        picture.save(<span class="stringliteral">&quot;/home/pi/projects/BirdCafe/Bird-Cafe/Photos/compressed_birdcafe.jpg&quot;</span>, optimize=<span class="keyword">True</span>, quality=99)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        self.<a class="code" href="classtwitter__upload_1_1SimpleTweet.html#a237c52e57c449a9f6335ecf6e8ae32f8">twitterApi</a>twitterApi.update_with_media(<span class="stringliteral">&quot;../../Photos/compressed_birdcafe.jpg&quot;</span>, status=self.<a class="code" href="classtwitter__upload_1_1SimpleTweet.html#abe1fb1f08de1d70935adc53c005f60ce">tweet</a>tweet)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    </div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="classtwitter__upload_1_1SimpleTweet.html#a47d34015bfe7864c0ff61532a5e64500">   73</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classtwitter__upload_1_1SimpleTweet.html#a47d34015bfe7864c0ff61532a5e64500">compressImage</a>(self):</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment"># Open original image of bird</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        picture = Image.open(<span class="stringliteral">&quot;../../Photos/birdcafe.jpg&quot;</span>)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="comment"># Compress image for Twitter upload</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        picture.save(<span class="stringliteral">&quot;../../Photos/compressed_birdcafe.jpg&quot;</span>, optimize=<span class="keyword">True</span>, quality=99)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    </div>
 <div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="classtwitter__upload_1_1SimpleTweet.html#a41ba9f90cbc94509088cc63b19f0c6a3">   83</a></span>&#160;    <span class="keyword">def </span><a class="code" href="classtwitter__upload_1_1SimpleTweet.html#a41ba9f90cbc94509088cc63b19f0c6a3">printAccount</a>(self):</div>
@@ -157,7 +159,7 @@ $(function() {
 <div class="ttc" id="aclasstwitter__upload_1_1SimpleTweet_html_a19fc3adb25261a4e8626fdc54a78004b"><div class="ttname"><a href="classtwitter__upload_1_1SimpleTweet.html#a19fc3adb25261a4e8626fdc54a78004b">twitter_upload.SimpleTweet.accessToken</a></div><div class="ttdeci">accessToken</div><div class="ttdef"><b>Definition:</b> <a href="twitter__upload_8py_source.html#l00054">twitter_upload.py:54</a></div></div>
 <div class="ttc" id="aclasstwitter__upload_1_1SimpleTweet_html_a237c52e57c449a9f6335ecf6e8ae32f8"><div class="ttname"><a href="classtwitter__upload_1_1SimpleTweet.html#a237c52e57c449a9f6335ecf6e8ae32f8">twitter_upload.SimpleTweet.twitterApi</a></div><div class="ttdeci">twitterApi</div><div class="ttdef"><b>Definition:</b> <a href="twitter__upload_8py_source.html#l00063">twitter_upload.py:63</a></div></div>
 <div class="ttc" id="aclasstwitter__upload_1_1SimpleTweet_html_a41ba9f90cbc94509088cc63b19f0c6a3"><div class="ttname"><a href="classtwitter__upload_1_1SimpleTweet.html#a41ba9f90cbc94509088cc63b19f0c6a3">twitter_upload.SimpleTweet.printAccount</a></div><div class="ttdeci">def printAccount(self)</div><div class="ttdoc">Display name of Twitter account in use.</div><div class="ttdef"><b>Definition:</b> <a href="twitter__upload_8py_source.html#l00083">twitter_upload.py:83</a></div></div>
-<div class="ttc" id="aclasstwitter__upload_1_1SimpleTweet_html_a47d34015bfe7864c0ff61532a5e64500"><div class="ttname"><a href="classtwitter__upload_1_1SimpleTweet.html#a47d34015bfe7864c0ff61532a5e64500">twitter_upload.SimpleTweet.compressImage</a></div><div class="ttdeci">def compressImage(self)</div><div class="ttdoc">Lightly compress image to allow Twitter uplaod.</div><div class="ttdef"><b>Definition:</b> <a href="twitter__upload_8py_source.html#l00074">twitter_upload.py:74</a></div></div>
+<div class="ttc" id="aclasstwitter__upload_1_1SimpleTweet_html_a47d34015bfe7864c0ff61532a5e64500"><div class="ttname"><a href="classtwitter__upload_1_1SimpleTweet.html#a47d34015bfe7864c0ff61532a5e64500">twitter_upload.SimpleTweet.compressImage</a></div><div class="ttdeci">def compressImage(self)</div><div class="ttdoc">Lightly compress image to allow Twitter uplaod.</div><div class="ttdef"><b>Definition:</b> <a href="twitter__upload_8py_source.html#l00073">twitter_upload.py:73</a></div></div>
 <div class="ttc" id="aclasstwitter__upload_1_1SimpleTweet_html_a6a770c2da01c4c1a5fb2905dcc2146ce"><div class="ttname"><a href="classtwitter__upload_1_1SimpleTweet.html#a6a770c2da01c4c1a5fb2905dcc2146ce">twitter_upload.SimpleTweet.makeTweet</a></div><div class="ttdeci">def makeTweet(self)</div><div class="ttdoc">Upload compressed image with string.</div><div class="ttdef"><b>Definition:</b> <a href="twitter__upload_8py_source.html#l00068">twitter_upload.py:68</a></div></div>
 <div class="ttc" id="aclasstwitter__upload_1_1SimpleTweet_html_a8b4ff26b9b85c878b3ebeb18afcfda97"><div class="ttname"><a href="classtwitter__upload_1_1SimpleTweet.html#a8b4ff26b9b85c878b3ebeb18afcfda97">twitter_upload.SimpleTweet.consumerSecret</a></div><div class="ttdeci">consumerSecret</div><div class="ttdef"><b>Definition:</b> <a href="twitter__upload_8py_source.html#l00057">twitter_upload.py:57</a></div></div>
 <div class="ttc" id="aclasstwitter__upload_1_1SimpleTweet_html_a8c8410c00080ecfebbc7233baeff4304"><div class="ttname"><a href="classtwitter__upload_1_1SimpleTweet.html#a8c8410c00080ecfebbc7233baeff4304">twitter_upload.SimpleTweet.consumerKey</a></div><div class="ttdeci">consumerKey</div><div class="ttdef"><b>Definition:</b> <a href="twitter__upload_8py_source.html#l00056">twitter_upload.py:56</a></div></div>

@@ -20,10 +20,12 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="bird.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Bird Cafe
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.1</span>
    </div>
+   <div id="projectbrief">A Raspberry Pi-powered smart bird feeder to track the birds that visit your garden or window-sill</div>
   </td>
  </tr>
  </tbody>
@@ -66,6 +68,9 @@ $(function() {
 </div>
 </div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#define-members">Macros</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">USsensor.cpp File Reference</div>  </div>
 </div><!--header-->
@@ -80,6 +85,34 @@ $(function() {
 <code>#include &lt;curses.h&gt;</code><br />
 </div>
 <p><a href="USsensor_8cpp_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a9e0cc3b9806ddea8264f3a7334997a33"><td class="memItemLeft" align="right" valign="top"><a id="a9e0cc3b9806ddea8264f3a7334997a33"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>fullDuration</b></td></tr>
+<tr class="separator:a9e0cc3b9806ddea8264f3a7334997a33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f9f1d9f5e059652d959b0d2bec7e141"><td class="memItemLeft" align="right" valign="top"><a id="a1f9f1d9f5e059652d959b0d2bec7e141"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>tweetDuration</b></td></tr>
+<tr class="separator:a1f9f1d9f5e059652d959b0d2bec7e141"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a935e4d7ae14a3ebea3bfb714f8b82edb"><td class="memItemLeft" align="right" valign="top"><a id="a935e4d7ae14a3ebea3bfb714f8b82edb"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>USDuration</b></td></tr>
+<tr class="separator:a935e4d7ae14a3ebea3bfb714f8b82edb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4375d962751c2087b3115832b11e627c"><td class="memItemLeft" align="right" valign="top"><a id="a4375d962751c2087b3115832b11e627c"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>imageReadDuration</b></td></tr>
+<tr class="separator:a4375d962751c2087b3115832b11e627c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52f8b4c793b6aeaaec91eea5a152be78"><td class="memItemLeft" align="right" valign="top"><a id="a52f8b4c793b6aeaaec91eea5a152be78"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>fullDurLog</b> = fopen(&quot;fullDurLog.dat&quot;, &quot;at&quot;)</td></tr>
+<tr class="separator:a52f8b4c793b6aeaaec91eea5a152be78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7a1b7918de77c479dbc7af89cd4f424"><td class="memItemLeft" align="right" valign="top"><a id="aa7a1b7918de77c479dbc7af89cd4f424"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>tweetDurLog</b> = fopen(&quot;tweetDurLog.dat&quot;, &quot;at&quot;)</td></tr>
+<tr class="separator:aa7a1b7918de77c479dbc7af89cd4f424"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68a31632fe42cefc64de8dfb36959cf6"><td class="memItemLeft" align="right" valign="top"><a id="a68a31632fe42cefc64de8dfb36959cf6"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>usDurLog</b> = fopen(&quot;usDurLog.dat&quot;, &quot;at&quot;)</td></tr>
+<tr class="separator:a68a31632fe42cefc64de8dfb36959cf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ba2e6458f8d0f75b906a389d7e70ea5"><td class="memItemLeft" align="right" valign="top"><a id="a1ba2e6458f8d0f75b906a389d7e70ea5"></a>
+FILE *&#160;</td><td class="memItemRight" valign="bottom"><b>imReadDurLog</b> = fopen(&quot;imReadDurLog.dat&quot;, &quot;at&quot;)</td></tr>
+<tr class="separator:a1ba2e6458f8d0f75b906a389d7e70ea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p class="">Defines <a class="el" href="classUltrasonic.html" title="Class used for interfacing ultrasonic sensor.">Ultrasonic</a> subclass. </p>
 <hr  />

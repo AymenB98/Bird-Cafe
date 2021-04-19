@@ -20,10 +20,12 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="bird.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Bird Cafe
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.1</span>
    </div>
+   <div id="projectbrief">A Raspberry Pi-powered smart bird feeder to track the birds that visit your garden or window-sill</div>
   </td>
  </tr>
  </tbody>
@@ -148,8 +150,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a11376dc34a78f54eb98fa9fabef6e48e"><td class="memItemLeft" align="right" valign="top"><a id="a11376dc34a78f54eb98fa9fabef6e48e"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUltrasonic.html#a11376dc34a78f54eb98fa9fabef6e48e">distanceCalcUS</a> (float pulseTime)</td></tr>
-<tr class="memdesc:a11376dc34a78f54eb98fa9fabef6e48e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates distance of object from ultrasonic sensor in metres. <br /></td></tr>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>distanceCalcUS</b> (float pulseTime)</td></tr>
 <tr class="separator:a11376dc34a78f54eb98fa9fabef6e48e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -203,139 +204,140 @@ std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bott
 <p>The detect_from_picture function has been adapted from code written by Q-Engineering called 'TFLite_Classifier.cpp' available on <a href="https://www.github.com/Qengineering/TensorFlow_Lite_SSD_RPi_32-bits">https://www.github.com/Qengineering/TensorFlow_Lite_SSD_RPi_32-bits</a> The purpose of this function is to output classification labels and prediction scores for objects detected in a picture. </p>
 <p class="">&lt; tweet boolean is used as a check to execute code that posts picture to Twitter.</p>
 
-<p class="definition">Definition at line <a class="el" href="USsensor_8cpp_source.html#l00140">140</a> of file <a class="el" href="USsensor_8cpp_source.html">USsensor.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;{</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    </div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    std::unique_ptr&lt;tflite::Interpreter&gt; interpreter;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    Mat image;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">int</span> cam_width =src.cols;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordtype">int</span> cam_height=src.rows;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordtype">float</span> f;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">int</span> i;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordtype">string</span> name;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160; </div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="preprocessor">#ifdef LATENCY_DEBUG</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="comment">// Timer start variable for image classification</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    std::chrono::high_resolution_clock::time_point imageReadTimerStart = std::chrono::high_resolution_clock::now(); </div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="comment">// Load model</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keyword">auto</span> model = tflite::FlatBufferModel::BuildFromFile(<span class="stringliteral">&quot;/home/pi/projects/BirdCafe/Bird-Cafe/drivers/detect.tflite&quot;</span>);</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="comment">// Build the interpreter</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    tflite::ops::builtin::BuiltinOpResolver resolver;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    tflite::InterpreterBuilder(*model.get(), resolver)(&amp;interpreter);</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    interpreter-&gt;AllocateTensors();</div>
+<p class="definition">Definition at line <a class="el" href="USsensor_8cpp_source.html#l00141">141</a> of file <a class="el" href="USsensor_8cpp_source.html">USsensor.cpp</a>.</p>
+<div class="fragment"><div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;{</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    </div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    std::unique_ptr&lt;tflite::Interpreter&gt; interpreter;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    Mat image;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordtype">int</span> cam_width =src.cols;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordtype">int</span> cam_height=src.rows;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">float</span> f;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordtype">int</span> i;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">string</span> name;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="preprocessor">#ifdef LATENCY_DEBUG</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="comment">// Timer start variable for image classification</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    std::chrono::high_resolution_clock::time_point imageReadTimerStart = std::chrono::high_resolution_clock::now(); </div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="comment">// Load model</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keyword">auto</span> model = tflite::FlatBufferModel::BuildFromFile(<span class="stringliteral">&quot;../../drivers/detect.tflite&quot;</span>);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="comment">// Build the interpreter</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    tflite::ops::builtin::BuiltinOpResolver resolver;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    tflite::InterpreterBuilder(*model.get(), resolver)(&amp;interpreter);</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="comment">// Get the names</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordtype">bool</span> result = <a class="code" href="classUltrasonic.html#aa147319554a579f11e8ffbeb986cc96c">getFileContent</a>(<span class="stringliteral">&quot;/home/pi/projects/BirdCafe/Bird-Cafe/drivers/COCO_labels.txt&quot;</span>);</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">if</span>(!result)</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    {</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;loading labels failed&quot;</span>;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        exit(-1);</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    }</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="comment">// Copy image to input as input tensor</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    cv::resize(src, image, Size(width,height));</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    memcpy(interpreter-&gt;typed_input_tensor&lt;uchar&gt;(0), image.data, image.total() * image.elemSize());</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    interpreter-&gt;SetAllowFp16PrecisionForFp32(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    </div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="comment">// Quad core</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    interpreter-&gt;SetNumThreads(4);      </div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="comment">// Run the model</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    interpreter-&gt;Invoke();      </div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>* detection_locations = interpreter-&gt;tensor(interpreter-&gt;outputs()[0])-&gt;data.f;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>* detection_classes=interpreter-&gt;tensor(interpreter-&gt;outputs()[1])-&gt;data.f;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>* detection_scores = interpreter-&gt;tensor(interpreter-&gt;outputs()[2])-&gt;data.f;</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span>    num_detections = *interpreter-&gt;tensor(interpreter-&gt;outputs()[3])-&gt;data.f;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="comment">// Set confidence threshold for model</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> confidence_threshold = 0.44;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="comment">//Bool tweet used to check if classification of &quot;bird&quot; is above threshold</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordtype">bool</span> tweet = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160; </div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; num_detections; i++){</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keywordflow">if</span>(detection_scores[i] &gt;= confidence_threshold){</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            <span class="keywordtype">int</span>  det_index = (int)detection_classes[i]+1;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;            <span class="keywordtype">float</span> y1=detection_locations[4*i  ]*cam_height;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            <span class="keywordtype">float</span> x1=detection_locations[4*i+1]*cam_width;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            <span class="keywordtype">float</span> y2=detection_locations[4*i+2]*cam_height;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            <span class="keywordtype">float</span> x2=detection_locations[4*i+3]*cam_width;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            Rect rec((<span class="keywordtype">int</span>)x1, (<span class="keywordtype">int</span>)y1, (<span class="keywordtype">int</span>)(x2 - x1), (<span class="keywordtype">int</span>)(y2 - y1));</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;          </div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            rectangle(src,rec, Scalar(0, 0, 255), 1, 8, 0);</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;           </div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            putText(src, format(<span class="stringliteral">&quot;%s&quot;</span>, Labels[det_index].c_str()), Point(x1, y1-5) ,FONT_HERSHEY_SIMPLEX,0.5, Scalar(0, 0, 255), 1, 8, 0);</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;           </div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            <span class="comment">// An output to the terminal</span></div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            <span class="comment">/*  </span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">             *  This is used to output the detection scores from the confidence_threshold</span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment">             *  to a max of 1 alongside it&#39;s corresponding label for each of the objects</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="comment">             *  detected in the image provided.</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="comment">             */</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            cout &lt;&lt; detection_scores[i] &lt;&lt; <span class="stringliteral">&quot; : &quot;</span> &lt;&lt; Labels[det_index] &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            <span class="comment">// Check for bird</span></div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            <span class="comment">/*</span></div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="comment">            *   If statement which checks the predicted labels of the object classified</span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="comment">            *   to see if they are equal to &quot;bird&quot; if true, this edits a boolean variable</span></div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="comment">            *   &#39;tweet&#39; to be true.</span></div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="comment">            */</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            </div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            <span class="keywordflow">if</span>(Labels[det_index] == <span class="stringliteral">&quot;bird&quot;</span>) </div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            {</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                tweet = <span class="keyword">true</span>; </div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            }</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            </div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        }</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    }</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="preprocessor">#ifdef LATENCY_DEBUG</span></div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    std::chrono::high_resolution_clock::time_point imageReadTimerStop = std::chrono::high_resolution_clock::now(); </div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    imageReadDuration = std::chrono::duration &lt;float&gt; (imageReadTimerStop - imageReadTimerStart).count();</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    fprintf(imReadDurLog, <span class="stringliteral">&quot;%f\n&quot;</span>, 1000*imageReadDuration); </div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="comment">// If tweet = true Python script to make a Tweet will be executed</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  </div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="keywordflow">if</span>(tweet)</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    {</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="preprocessor">#ifdef LATENCY_DEBUG</span></div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        std::chrono::high_resolution_clock::time_point tweetTimerStart = std::chrono::high_resolution_clock::now(); </div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="comment">// Execute Python script to make Tweet</span></div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="comment">// Code below was based on open source code found at the following link:</span></div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        <span class="comment">// https://www.codeproject.com/Articles/820116/Embedding-Python-program-in-a-C-Cplusplus-code</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        <span class="comment">// by A. Mukhopadhyay</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        </div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        <span class="comment">// Set file path for Twitter script</span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="keywordtype">char</span> pythonFile[] = <span class="stringliteral">&quot;/home/pi/projects/BirdCafe/Bird-Cafe/drivers/twitter_upload.py&quot;</span>;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        FILE* fp;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160; </div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        Py_Initialize();</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="comment">// Open the file</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        fp = _Py_fopen(pythonFile, <span class="stringliteral">&quot;r&quot;</span>);</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <span class="comment">// Execute the file</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        PyRun_SimpleFile(fp, pythonFile);</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160; </div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        Py_Finalize();</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="preprocessor">#ifdef LATENCY_DEBUG</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        std::chrono::high_resolution_clock::time_point tweetTimerStop = std::chrono::high_resolution_clock::now(); </div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        tweetDuration = std::chrono::duration&lt;float&gt; (tweetTimerStop - tweetTimerStart).count();</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        printf(<span class="stringliteral">&quot;TweetTime: %f\n&quot;</span>, 1000*tweetDuration);  </div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Tweet Timer: &quot;</span> &lt;&lt; tweetDuration &lt;&lt; <span class="stringliteral">&quot;s&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    }</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;}</div>
-<div class="ttc" id="aclassUltrasonic_html_aa147319554a579f11e8ffbeb986cc96c"><div class="ttname"><a href="classUltrasonic.html#aa147319554a579f11e8ffbeb986cc96c">Ultrasonic::getFileContent</a></div><div class="ttdeci">bool getFileContent(std::string fileName)</div><div class="ttdoc">The getFileContent function has been adapted from code written by Q-Engineering called 'TFLite_Classi...</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00116">USsensor.cpp:116</a></div></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    interpreter-&gt;AllocateTensors();</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="comment">// Get the names</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordtype">bool</span> result = <a class="code" href="classUltrasonic.html#aa147319554a579f11e8ffbeb986cc96c">getFileContent</a>(<span class="stringliteral">&quot;../../drivers/COCO_labels.txt&quot;</span>);</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordflow">if</span>(!result)</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    {</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;loading labels failed&quot;</span>;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        exit(-1);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    }</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="comment">// Copy image to input as input tensor</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    cv::resize(src, image, Size(width,height));</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    memcpy(interpreter-&gt;typed_input_tensor&lt;uchar&gt;(0), image.data, image.total() * image.elemSize());</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    interpreter-&gt;SetAllowFp16PrecisionForFp32(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    </div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="comment">// Quad core</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    interpreter-&gt;SetNumThreads(4);      </div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="comment">// Run the model</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    interpreter-&gt;Invoke();      </div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160; </div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>* detection_locations = interpreter-&gt;tensor(interpreter-&gt;outputs()[0])-&gt;data.f;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>* detection_classes=interpreter-&gt;tensor(interpreter-&gt;outputs()[1])-&gt;data.f;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span>* detection_scores = interpreter-&gt;tensor(interpreter-&gt;outputs()[2])-&gt;data.f;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span>    num_detections = *interpreter-&gt;tensor(interpreter-&gt;outputs()[3])-&gt;data.f;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="comment">// Set confidence threshold for model</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">float</span> confidence_threshold = 0.44;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="comment">//Bool tweet used to check if classification of &quot;bird&quot; is above threshold</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="keywordtype">bool</span> tweet = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; </div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; num_detections; i++){</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        <span class="keywordflow">if</span>(detection_scores[i] &gt;= confidence_threshold){</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            <span class="keywordtype">int</span>  det_index = (int)detection_classes[i]+1;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            <span class="keywordtype">float</span> y1=detection_locations[4*i  ]*cam_height;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            <span class="keywordtype">float</span> x1=detection_locations[4*i+1]*cam_width;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            <span class="keywordtype">float</span> y2=detection_locations[4*i+2]*cam_height;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            <span class="keywordtype">float</span> x2=detection_locations[4*i+3]*cam_width;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160; </div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            Rect rec((<span class="keywordtype">int</span>)x1, (<span class="keywordtype">int</span>)y1, (<span class="keywordtype">int</span>)(x2 - x1), (<span class="keywordtype">int</span>)(y2 - y1));</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;          </div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            rectangle(src,rec, Scalar(0, 0, 255), 1, 8, 0);</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;           </div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            putText(src, format(<span class="stringliteral">&quot;%s&quot;</span>, Labels[det_index].c_str()), Point(x1, y1-5) ,FONT_HERSHEY_SIMPLEX,0.5, Scalar(0, 0, 255), 1, 8, 0);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;           </div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            <span class="comment">// An output to the terminal</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            <span class="comment">/*  </span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="comment">             *  This is used to output the detection scores from the confidence_threshold</span></div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="comment">             *  to a max of 1 alongside it&#39;s corresponding label for each of the objects</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="comment">             *  detected in the image provided.</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="comment">             */</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            cout &lt;&lt; detection_scores[i] &lt;&lt; <span class="stringliteral">&quot; : &quot;</span> &lt;&lt; Labels[det_index] &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160; </div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            <span class="comment">// Check for bird</span></div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            <span class="comment">/*</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="comment">            *   If statement which checks the predicted labels of the object classified</span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="comment">            *   to see if they are equal to &quot;bird&quot; if true, this edits a boolean variable</span></div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="comment">            *   &#39;tweet&#39; to be true.</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="comment">            */</span></div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            </div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            <span class="keywordflow">if</span>(Labels[det_index] == <span class="stringliteral">&quot;bird&quot;</span>) </div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            {</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                tweet = <span class="keyword">true</span>; </div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            }</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            </div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        }</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    }</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160; </div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="preprocessor">#ifdef LATENCY_DEBUG</span></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    std::chrono::high_resolution_clock::time_point imageReadTimerStop = std::chrono::high_resolution_clock::now(); </div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    imageReadDuration = std::chrono::duration &lt;float&gt; (imageReadTimerStop - imageReadTimerStart).count();</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    fprintf(imReadDurLog, <span class="stringliteral">&quot;%f\n&quot;</span>, 1000*imageReadDuration); </div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="comment">// If tweet = true Python script to make a Tweet will be executed</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  </div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keywordflow">if</span>(tweet)</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    {</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="preprocessor">#ifdef LATENCY_DEBUG</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        std::chrono::high_resolution_clock::time_point tweetTimerStart = std::chrono::high_resolution_clock::now(); </div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        <span class="comment">// Execute Python script to make Tweet</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        <span class="comment">// Code below was based on open source code found at the following link:</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        <span class="comment">// https://www.codeproject.com/Articles/820116/Embedding-Python-program-in-a-C-Cplusplus-code</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="comment">// by A. Mukhopadhyay</span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        </div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        <span class="comment">// Set file path for Twitter script</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="keywordtype">char</span> pythonFile[] = <span class="stringliteral">&quot;../../drivers/twitter_upload.py&quot;</span>;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        FILE* fp;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        Py_Initialize();</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        <span class="comment">// Open the file</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        fp = _Py_fopen(pythonFile, <span class="stringliteral">&quot;r&quot;</span>);</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <span class="comment">// Execute the file</span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        PyRun_SimpleFile(fp, pythonFile);</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        Py_Finalize();</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160; </div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="preprocessor">#ifdef LATENCY_DEBUG</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        std::chrono::high_resolution_clock::time_point tweetTimerStop = std::chrono::high_resolution_clock::now(); </div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        tweetDuration = std::chrono::duration&lt;float&gt; (tweetTimerStop - tweetTimerStart).count();</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        printf(<span class="stringliteral">&quot;TweetTime: %f\n&quot;</span>, 1000*tweetDuration);  </div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;Tweet Timer: &quot;</span> &lt;&lt; tweetDuration &lt;&lt; <span class="stringliteral">&quot;s&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    }</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;}</div>
+<div class="ttc" id="aclassUltrasonic_html_aa147319554a579f11e8ffbeb986cc96c"><div class="ttname"><a href="classUltrasonic.html#aa147319554a579f11e8ffbeb986cc96c">Ultrasonic::getFileContent</a></div><div class="ttdeci">bool getFileContent(std::string fileName)</div><div class="ttdoc">The getFileContent function has been adapted from code written by Q-Engineering called 'TFLite_Classi...</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00117">USsensor.cpp:117</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

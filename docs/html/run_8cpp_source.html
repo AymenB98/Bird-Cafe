@@ -20,10 +20,12 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="bird.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Bird Cafe
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.1</span>
    </div>
+   <div id="projectbrief">A Raspberry Pi-powered smart bird feeder to track the birds that visit your garden or window-sill</div>
   </td>
  </tr>
  </tbody>
@@ -87,41 +89,41 @@ $(function() {
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#include &quot;latencyTimers.h&quot;</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">// #define LATENCY_DEBUG</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#define LATENCY_DEBUG</span></div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">const</span> <span class="keywordtype">int</span> trig = 18;</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keyword">const</span> <span class="keywordtype">int</span> echo = 24;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="run_8cpp.html#a19c6c620f2053fe7fd485855778e6f40">   66</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="run_8cpp.html#a19c6c620f2053fe7fd485855778e6f40">camStandardConfig</a>( raspicam::RaspiCam *Camera )</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;{</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    Camera-&gt;setWidth (1280); </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    Camera-&gt;setHeight (958); </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    Camera-&gt;setBrightness (50);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    Camera-&gt;setSharpness (0);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    Camera-&gt;setContrast (0);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    Camera-&gt;setSaturation (5);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    Camera-&gt;setShutterSpeed(0);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    Camera-&gt;setISO (800);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    Camera-&gt;setFrameRate(30);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    Camera-&gt;setVideoStabilization ( <span class="keyword">true</span> );</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    Camera-&gt;setExposureCompensation (0);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    Camera-&gt;setAWB_RB(1,1);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="run_8cpp.html#a19c6c620f2053fe7fd485855778e6f40">   65</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="run_8cpp.html#a19c6c620f2053fe7fd485855778e6f40">camStandardConfig</a>( raspicam::RaspiCam *Camera )</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;{</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    Camera-&gt;setWidth (1280); </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    Camera-&gt;setHeight (958); </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    Camera-&gt;setBrightness (50);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    Camera-&gt;setSharpness (0);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    Camera-&gt;setContrast (0);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    Camera-&gt;setSaturation (5);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    Camera-&gt;setShutterSpeed(0);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    Camera-&gt;setISO (800);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    Camera-&gt;setFrameRate(30);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    Camera-&gt;setVideoStabilization ( <span class="keyword">true</span> );</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    Camera-&gt;setExposureCompensation (0);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    Camera-&gt;setAWB_RB(1,1);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keywordtype">int</span> main ( <span class="keywordtype">int</span> argc,<span class="keywordtype">char</span> **argv ) </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;{ </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor">#ifdef LATENCY_DEBUG</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;   std::chrono::high_resolution_clock::time_point fullTimerStart = std::chrono::high_resolution_clock::now();</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;   <a class="code" href="classUltrasonic.html">Ultrasonic</a> *cam1 = <span class="keyword">new</span> <a class="code" href="classUltrasonic.html">Ultrasonic</a>(trig, echo);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;   <a class="code" href="run_8cpp.html#a19c6c620f2053fe7fd485855778e6f40">camStandardConfig</a>(cam1);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;   cam1-&gt;<a class="code" href="classBirdCam.html#a4b5b780a6fff3f91f99237e66b91eb90">setFilePath</a>(<span class="stringliteral">&quot;../Photos/birdcafe.jpg&quot;</span>);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keywordtype">int</span> main ( <span class="keywordtype">int</span> argc,<span class="keywordtype">char</span> **argv ) </div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;{ </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#ifdef LATENCY_DEBUG</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;   std::chrono::high_resolution_clock::time_point fullTimerStart = std::chrono::high_resolution_clock::now();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;   <a class="code" href="classUltrasonic.html">Ultrasonic</a> *cam1 = <span class="keyword">new</span> <a class="code" href="classUltrasonic.html">Ultrasonic</a>(trig, echo);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;   <a class="code" href="run_8cpp.html#a19c6c620f2053fe7fd485855778e6f40">camStandardConfig</a>(cam1);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;   cam1-&gt;<a class="code" href="classBirdCam.html#a4b5b780a6fff3f91f99237e66b91eb90">setFilePath</a>(<span class="stringliteral">&quot;../../Photos/birdcafe.jpg&quot;</span>);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;   cam1-&gt;<a class="code" href="classBirdCam.html#a475254acb5579d09c22675c096786fe0">camStart</a>();</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;   cam1-&gt;<a class="code" href="classUltrasonic.html#aa0ede289109954e5b3c713bbebe8c8e1">start</a>();</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;   getchar();</div>
@@ -147,13 +149,13 @@ $(function() {
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}</div>
 <div class="ttc" id="aBirdCam_8h_html"><div class="ttname"><a href="BirdCam_8h.html">BirdCam.h</a></div><div class="ttdoc">Header file for BirdCam subclass.</div></div>
 <div class="ttc" id="aUSsensor_8h_html"><div class="ttname"><a href="USsensor_8h.html">USsensor.h</a></div><div class="ttdoc">Header file for Ultrasonic class.</div></div>
-<div class="ttc" id="aclassBirdCam_html_a475254acb5579d09c22675c096786fe0"><div class="ttname"><a href="classBirdCam.html#a475254acb5579d09c22675c096786fe0">BirdCam::camStart</a></div><div class="ttdeci">void camStart()</div><div class="ttdoc">Starts up camera.</div><div class="ttdef"><b>Definition:</b> <a href="BirdCam_8cpp_source.html#l00111">BirdCam.cpp:111</a></div></div>
-<div class="ttc" id="aclassBirdCam_html_a4b5b780a6fff3f91f99237e66b91eb90"><div class="ttname"><a href="classBirdCam.html#a4b5b780a6fff3f91f99237e66b91eb90">BirdCam::setFilePath</a></div><div class="ttdeci">void setFilePath(std::string filePath)</div><div class="ttdef"><b>Definition:</b> <a href="BirdCam_8cpp_source.html#l00054">BirdCam.cpp:54</a></div></div>
-<div class="ttc" id="aclassBirdCam_html_a8e4d35bd6f09f065639a97468ac79450"><div class="ttname"><a href="classBirdCam.html#a8e4d35bd6f09f065639a97468ac79450">BirdCam::camStop</a></div><div class="ttdeci">void camStop()</div><div class="ttdoc">Closes camera.</div><div class="ttdef"><b>Definition:</b> <a href="BirdCam_8cpp_source.html#l00119">BirdCam.cpp:119</a></div></div>
+<div class="ttc" id="aclassBirdCam_html_a475254acb5579d09c22675c096786fe0"><div class="ttname"><a href="classBirdCam.html#a475254acb5579d09c22675c096786fe0">BirdCam::camStart</a></div><div class="ttdeci">void camStart()</div><div class="ttdoc">Starts up camera.</div><div class="ttdef"><b>Definition:</b> <a href="BirdCam_8cpp_source.html#l00115">BirdCam.cpp:115</a></div></div>
+<div class="ttc" id="aclassBirdCam_html_a4b5b780a6fff3f91f99237e66b91eb90"><div class="ttname"><a href="classBirdCam.html#a4b5b780a6fff3f91f99237e66b91eb90">BirdCam::setFilePath</a></div><div class="ttdeci">void setFilePath(std::string filePath)</div><div class="ttdef"><b>Definition:</b> <a href="BirdCam_8cpp_source.html#l00056">BirdCam.cpp:56</a></div></div>
+<div class="ttc" id="aclassBirdCam_html_a8e4d35bd6f09f065639a97468ac79450"><div class="ttname"><a href="classBirdCam.html#a8e4d35bd6f09f065639a97468ac79450">BirdCam::camStop</a></div><div class="ttdeci">void camStop()</div><div class="ttdoc">Closes camera.</div><div class="ttdef"><b>Definition:</b> <a href="BirdCam_8cpp_source.html#l00123">BirdCam.cpp:123</a></div></div>
 <div class="ttc" id="aclassUltrasonic_html"><div class="ttname"><a href="classUltrasonic.html">Ultrasonic</a></div><div class="ttdoc">Class used for interfacing ultrasonic sensor.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8h_source.html#l00042">USsensor.h:43</a></div></div>
-<div class="ttc" id="aclassUltrasonic_html_aa0ede289109954e5b3c713bbebe8c8e1"><div class="ttname"><a href="classUltrasonic.html#aa0ede289109954e5b3c713bbebe8c8e1">Ultrasonic::start</a></div><div class="ttdeci">void start()</div><div class="ttdoc">Starts thread for ultrasonic sensor, checks its not already running.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00091">USsensor.cpp:91</a></div></div>
-<div class="ttc" id="aclassUltrasonic_html_ae5d433dfce8572b5cc1d75a909ae2c1c"><div class="ttname"><a href="classUltrasonic.html#ae5d433dfce8572b5cc1d75a909ae2c1c">Ultrasonic::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdoc">Stops + tidies ultrasonic sensor thread.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00101">USsensor.cpp:101</a></div></div>
-<div class="ttc" id="arun_8cpp_html_a19c6c620f2053fe7fd485855778e6f40"><div class="ttname"><a href="run_8cpp.html#a19c6c620f2053fe7fd485855778e6f40">camStandardConfig</a></div><div class="ttdeci">void camStandardConfig(raspicam::RaspiCam *Camera)</div><div class="ttdoc">Configures the camera settings - adapted from code in 'raspicam_test.cpp' by Ava Group,...</div><div class="ttdef"><b>Definition:</b> <a href="run_8cpp_source.html#l00066">run.cpp:66</a></div></div>
+<div class="ttc" id="aclassUltrasonic_html_aa0ede289109954e5b3c713bbebe8c8e1"><div class="ttname"><a href="classUltrasonic.html#aa0ede289109954e5b3c713bbebe8c8e1">Ultrasonic::start</a></div><div class="ttdeci">void start()</div><div class="ttdoc">Starts thread for ultrasonic sensor, checks its not already running.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00092">USsensor.cpp:92</a></div></div>
+<div class="ttc" id="aclassUltrasonic_html_ae5d433dfce8572b5cc1d75a909ae2c1c"><div class="ttname"><a href="classUltrasonic.html#ae5d433dfce8572b5cc1d75a909ae2c1c">Ultrasonic::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdoc">Stops + tidies ultrasonic sensor thread.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00102">USsensor.cpp:102</a></div></div>
+<div class="ttc" id="arun_8cpp_html_a19c6c620f2053fe7fd485855778e6f40"><div class="ttname"><a href="run_8cpp.html#a19c6c620f2053fe7fd485855778e6f40">camStandardConfig</a></div><div class="ttdeci">void camStandardConfig(raspicam::RaspiCam *Camera)</div><div class="ttdoc">Configures the camera settings - adapted from code in 'raspicam_test.cpp' by Ava Group,...</div><div class="ttdef"><b>Definition:</b> <a href="run_8cpp_source.html#l00065">run.cpp:65</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

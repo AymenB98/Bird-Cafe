@@ -20,10 +20,12 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="bird.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Bird Cafe
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.1</span>
    </div>
+   <div id="projectbrief">A Raspberry Pi-powered smart bird feeder to track the birds that visit your garden or window-sill</div>
   </td>
  </tr>
  </tbody>
@@ -121,10 +123,10 @@ $(function() {
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclassUDPTransmit_html"><div class="ttname"><a href="classUDPTransmit.html">UDPTransmit</a></div><div class="ttdoc">Transmit a UDP packet to a client (web page) that contains the number of birds that have visited the ...</div><div class="ttdef"><b>Definition:</b> <a href="UDP_8h_source.html#l00042">UDP.h:43</a></div></div>
-<div class="ttc" id="aclassUDPTransmit_html_a654f202eedc43d725010e5e33351e4ca"><div class="ttname"><a href="classUDPTransmit.html#a654f202eedc43d725010e5e33351e4ca">UDPTransmit::sendPacket</a></div><div class="ttdeci">void sendPacket(int packet)</div><div class="ttdoc">Create socket and send bird count to web page.</div><div class="ttdef"><b>Definition:</b> <a href="UDP_8cpp_source.html#l00067">UDP.cpp:67</a></div></div>
-<div class="ttc" id="aclassUDPTransmit_html_a738ca1acc32571b6cc336d0554f8edef"><div class="ttname"><a href="classUDPTransmit.html#a738ca1acc32571b6cc336d0554f8edef">UDPTransmit::killProcess</a></div><div class="ttdeci">void killProcess()</div><div class="ttdoc">Clear port so that it can be used again after run.</div><div class="ttdef"><b>Definition:</b> <a href="UDP_8cpp_source.html#l00081">UDP.cpp:81</a></div></div>
-<div class="ttc" id="aclassUDPTransmit_html_a9365b71041cd26b09bd9697cf19ae386"><div class="ttname"><a href="classUDPTransmit.html#a9365b71041cd26b09bd9697cf19ae386">UDPTransmit::UDPTransmit</a></div><div class="ttdeci">UDPTransmit(int visitCount)</div><div class="ttdoc">Constructor which creates a socket and sets up the address parameters.</div><div class="ttdef"><b>Definition:</b> <a href="UDP_8cpp_source.html#l00035">UDP.cpp:35</a></div></div>
-<div class="ttc" id="aclassUDPTransmit_html_ac9c2cfebc43b8ed7d5baff2f31a11ee1"><div class="ttname"><a href="classUDPTransmit.html#ac9c2cfebc43b8ed7d5baff2f31a11ee1">UDPTransmit::~UDPTransmit</a></div><div class="ttdeci">~UDPTransmit()</div><div class="ttdoc">Destructor which cleans up processes, allows port to be used again after this code is run.</div><div class="ttdef"><b>Definition:</b> <a href="UDP_8cpp_source.html#l00098">UDP.cpp:98</a></div></div>
+<div class="ttc" id="aclassUDPTransmit_html_a654f202eedc43d725010e5e33351e4ca"><div class="ttname"><a href="classUDPTransmit.html#a654f202eedc43d725010e5e33351e4ca">UDPTransmit::sendPacket</a></div><div class="ttdeci">void sendPacket(int packet)</div><div class="ttdoc">Create socket and send bird count to web page.</div><div class="ttdef"><b>Definition:</b> <a href="UDP_8cpp_source.html#l00072">UDP.cpp:72</a></div></div>
+<div class="ttc" id="aclassUDPTransmit_html_a738ca1acc32571b6cc336d0554f8edef"><div class="ttname"><a href="classUDPTransmit.html#a738ca1acc32571b6cc336d0554f8edef">UDPTransmit::killProcess</a></div><div class="ttdeci">void killProcess()</div><div class="ttdoc">Clear port so that it can be used again after run.</div><div class="ttdef"><b>Definition:</b> <a href="UDP_8cpp_source.html#l00086">UDP.cpp:86</a></div></div>
+<div class="ttc" id="aclassUDPTransmit_html_a9365b71041cd26b09bd9697cf19ae386"><div class="ttname"><a href="classUDPTransmit.html#a9365b71041cd26b09bd9697cf19ae386">UDPTransmit::UDPTransmit</a></div><div class="ttdeci">UDPTransmit(int visitCount)</div><div class="ttdoc">Constructor which creates a socket and sets up the address parameters.</div><div class="ttdef"><b>Definition:</b> <a href="UDP_8cpp_source.html#l00039">UDP.cpp:39</a></div></div>
+<div class="ttc" id="aclassUDPTransmit_html_ac9c2cfebc43b8ed7d5baff2f31a11ee1"><div class="ttname"><a href="classUDPTransmit.html#ac9c2cfebc43b8ed7d5baff2f31a11ee1">UDPTransmit::~UDPTransmit</a></div><div class="ttdeci">~UDPTransmit()</div><div class="ttdoc">Destructor which cleans up processes, allows port to be used again after this code is run.</div><div class="ttdef"><b>Definition:</b> <a href="UDP_8cpp_source.html#l00103">UDP.cpp:103</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

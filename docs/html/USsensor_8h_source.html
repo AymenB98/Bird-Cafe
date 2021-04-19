@@ -20,10 +20,12 @@
 <table cellspacing="0" cellpadding="0">
  <tbody>
  <tr style="height: 56px;">
+  <td id="projectlogo"><img alt="Logo" src="bird.png"/></td>
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Bird Cafe
-   &#160;<span id="projectnumber">1.0</span>
+   &#160;<span id="projectnumber">1.1</span>
    </div>
+   <div id="projectbrief">A Raspberry Pi-powered smart bird feeder to track the birds that visit your garden or window-sill</div>
   </td>
  </tr>
  </tbody>
@@ -120,45 +122,41 @@ $(function() {
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    std::thread* USThread = NULL;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    std::vector&lt;std::string&gt; Labels;</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">float</span> <a class="code" href="classUltrasonic.html#a11376dc34a78f54eb98fa9fabef6e48e">distanceCalcUS</a>(<span class="keywordtype">float</span> pulseTime);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="classUltrasonic.html#aeae45ebcd15d6c82de797aa77dc1a03d">Ultrasonic</a>(<span class="keywordtype">int</span> Trig, <span class="keywordtype">int</span> Echo);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment">//setters</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"></span>    <span class="keywordtype">void</span> <a class="code" href="classUltrasonic.html#a6de231cbee31b83717bbb89a37d7039e">setTrigger</a>(<span class="keywordtype">int</span> Trig);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classUltrasonic.html#a2f7d4f55ff3a9834d9f927f4c83c0e32">setEcho</a>(<span class="keywordtype">int</span> Echo);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">float</span> <a class="code" href="classUltrasonic.html#a2bfc12d9207a1cc9f1efef22682ee182">measureDistance</a>();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classUltrasonic.html#ac1df91b01624260ce4c19126e3aa0160">run</a>(<a class="code" href="classUltrasonic.html">Ultrasonic</a>* ultrasonic);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    </div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classUltrasonic.html#aa0ede289109954e5b3c713bbebe8c8e1">start</a>();</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classUltrasonic.html#ae5d433dfce8572b5cc1d75a909ae2c1c">stop</a>();</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classUltrasonic.html#aa147319554a579f11e8ffbeb986cc96c">getFileContent</a>(std::string fileName);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classUltrasonic.html#ab36757f08254e5bd2aaade974e5a1aa6">detect_from_picture</a>(Mat &amp;src);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;};</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">float</span> distanceCalcUS(<span class="keywordtype">float</span> pulseTime);    </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="classUltrasonic.html#aeae45ebcd15d6c82de797aa77dc1a03d">Ultrasonic</a>(<span class="keywordtype">int</span> Trig, <span class="keywordtype">int</span> Echo);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">//setters</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"></span>    <span class="keywordtype">void</span> <a class="code" href="classUltrasonic.html#a6de231cbee31b83717bbb89a37d7039e">setTrigger</a>(<span class="keywordtype">int</span> Trig);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classUltrasonic.html#a2f7d4f55ff3a9834d9f927f4c83c0e32">setEcho</a>(<span class="keywordtype">int</span> Echo);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">float</span> <a class="code" href="classUltrasonic.html#a2bfc12d9207a1cc9f1efef22682ee182">measureDistance</a>();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classUltrasonic.html#ac1df91b01624260ce4c19126e3aa0160">run</a>(<a class="code" href="classUltrasonic.html">Ultrasonic</a>* ultrasonic);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classUltrasonic.html#aa0ede289109954e5b3c713bbebe8c8e1">start</a>();</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classUltrasonic.html#ae5d433dfce8572b5cc1d75a909ae2c1c">stop</a>();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classUltrasonic.html#aa147319554a579f11e8ffbeb986cc96c">getFileContent</a>(std::string fileName);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classUltrasonic.html#ab36757f08254e5bd2aaade974e5a1aa6">detect_from_picture</a>(Mat &amp;src);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;};</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aBirdCam_8h_html"><div class="ttname"><a href="BirdCam_8h.html">BirdCam.h</a></div><div class="ttdoc">Header file for BirdCam subclass.</div></div>
 <div class="ttc" id="aclassBirdCam_html"><div class="ttname"><a href="classBirdCam.html">BirdCam</a></div><div class="ttdoc">Class used for interfacing with pi camera - subclass of RaspiCam.</div><div class="ttdef"><b>Definition:</b> <a href="BirdCam_8h_source.html#l00057">BirdCam.h:58</a></div></div>
 <div class="ttc" id="aclassUltrasonic_html"><div class="ttname"><a href="classUltrasonic.html">Ultrasonic</a></div><div class="ttdoc">Class used for interfacing ultrasonic sensor.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8h_source.html#l00042">USsensor.h:43</a></div></div>
-<div class="ttc" id="aclassUltrasonic_html_a11376dc34a78f54eb98fa9fabef6e48e"><div class="ttname"><a href="classUltrasonic.html#a11376dc34a78f54eb98fa9fabef6e48e">Ultrasonic::distanceCalcUS</a></div><div class="ttdeci">float distanceCalcUS(float pulseTime)</div><div class="ttdoc">Calculates distance of object from ultrasonic sensor in metres.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00027">USsensor.cpp:27</a></div></div>
-<div class="ttc" id="aclassUltrasonic_html_a2bfc12d9207a1cc9f1efef22682ee182"><div class="ttname"><a href="classUltrasonic.html#a2bfc12d9207a1cc9f1efef22682ee182">Ultrasonic::measureDistance</a></div><div class="ttdeci">float measureDistance()</div><div class="ttdoc">Function which triggers ultrasound pulse, reads echo pin, finds difference and returns distance in me...</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00033">USsensor.cpp:33</a></div></div>
-<div class="ttc" id="aclassUltrasonic_html_a2f7d4f55ff3a9834d9f927f4c83c0e32"><div class="ttname"><a href="classUltrasonic.html#a2f7d4f55ff3a9834d9f927f4c83c0e32">Ultrasonic::setEcho</a></div><div class="ttdeci">void setEcho(int Echo)</div><div class="ttdoc">Used to set echo pin.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00086">USsensor.cpp:86</a></div></div>
-<div class="ttc" id="aclassUltrasonic_html_a6de231cbee31b83717bbb89a37d7039e"><div class="ttname"><a href="classUltrasonic.html#a6de231cbee31b83717bbb89a37d7039e">Ultrasonic::setTrigger</a></div><div class="ttdeci">void setTrigger(int Trig)</div><div class="ttdoc">Used to set trigger pin.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00081">USsensor.cpp:81</a></div></div>
-<div class="ttc" id="aclassUltrasonic_html_aa0ede289109954e5b3c713bbebe8c8e1"><div class="ttname"><a href="classUltrasonic.html#aa0ede289109954e5b3c713bbebe8c8e1">Ultrasonic::start</a></div><div class="ttdeci">void start()</div><div class="ttdoc">Starts thread for ultrasonic sensor, checks its not already running.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00091">USsensor.cpp:91</a></div></div>
-<div class="ttc" id="aclassUltrasonic_html_aa147319554a579f11e8ffbeb986cc96c"><div class="ttname"><a href="classUltrasonic.html#aa147319554a579f11e8ffbeb986cc96c">Ultrasonic::getFileContent</a></div><div class="ttdeci">bool getFileContent(std::string fileName)</div><div class="ttdoc">The getFileContent function has been adapted from code written by Q-Engineering called 'TFLite_Classi...</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00116">USsensor.cpp:116</a></div></div>
-<div class="ttc" id="aclassUltrasonic_html_ab36757f08254e5bd2aaade974e5a1aa6"><div class="ttname"><a href="classUltrasonic.html#ab36757f08254e5bd2aaade974e5a1aa6">Ultrasonic::detect_from_picture</a></div><div class="ttdeci">void detect_from_picture(Mat &amp;src)</div><div class="ttdoc">The detect_from_picture function has been adapted from code written by Q-Engineering called 'TFLite_C...</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00140">USsensor.cpp:140</a></div></div>
-<div class="ttc" id="aclassUltrasonic_html_ac1df91b01624260ce4c19126e3aa0160"><div class="ttname"><a href="classUltrasonic.html#ac1df91b01624260ce4c19126e3aa0160">Ultrasonic::run</a></div><div class="ttdeci">static void run(Ultrasonic *ultrasonic)</div><div class="ttdoc">Runs ultrasonic sensor routine.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00273">USsensor.cpp:273</a></div></div>
-<div class="ttc" id="aclassUltrasonic_html_ae5d433dfce8572b5cc1d75a909ae2c1c"><div class="ttname"><a href="classUltrasonic.html#ae5d433dfce8572b5cc1d75a909ae2c1c">Ultrasonic::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdoc">Stops + tidies ultrasonic sensor thread.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00101">USsensor.cpp:101</a></div></div>
-<div class="ttc" id="aclassUltrasonic_html_aeae45ebcd15d6c82de797aa77dc1a03d"><div class="ttname"><a href="classUltrasonic.html#aeae45ebcd15d6c82de797aa77dc1a03d">Ultrasonic::Ultrasonic</a></div><div class="ttdeci">Ultrasonic(int Trig, int Echo)</div><div class="ttdoc">Constructor for Ultrasonic class. Ultrasnoic(int TriggerPin, int EchoPin)</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00070">USsensor.cpp:70</a></div></div>
+<div class="ttc" id="aclassUltrasonic_html_a2bfc12d9207a1cc9f1efef22682ee182"><div class="ttname"><a href="classUltrasonic.html#a2bfc12d9207a1cc9f1efef22682ee182">Ultrasonic::measureDistance</a></div><div class="ttdeci">float measureDistance()</div><div class="ttdoc">Function which triggers ultrasound pulse, reads echo pin, finds difference and returns distance in me...</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00034">USsensor.cpp:34</a></div></div>
+<div class="ttc" id="aclassUltrasonic_html_a2f7d4f55ff3a9834d9f927f4c83c0e32"><div class="ttname"><a href="classUltrasonic.html#a2f7d4f55ff3a9834d9f927f4c83c0e32">Ultrasonic::setEcho</a></div><div class="ttdeci">void setEcho(int Echo)</div><div class="ttdoc">Used to set echo pin.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00087">USsensor.cpp:87</a></div></div>
+<div class="ttc" id="aclassUltrasonic_html_a6de231cbee31b83717bbb89a37d7039e"><div class="ttname"><a href="classUltrasonic.html#a6de231cbee31b83717bbb89a37d7039e">Ultrasonic::setTrigger</a></div><div class="ttdeci">void setTrigger(int Trig)</div><div class="ttdoc">Used to set trigger pin.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00082">USsensor.cpp:82</a></div></div>
+<div class="ttc" id="aclassUltrasonic_html_aa0ede289109954e5b3c713bbebe8c8e1"><div class="ttname"><a href="classUltrasonic.html#aa0ede289109954e5b3c713bbebe8c8e1">Ultrasonic::start</a></div><div class="ttdeci">void start()</div><div class="ttdoc">Starts thread for ultrasonic sensor, checks its not already running.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00092">USsensor.cpp:92</a></div></div>
+<div class="ttc" id="aclassUltrasonic_html_aa147319554a579f11e8ffbeb986cc96c"><div class="ttname"><a href="classUltrasonic.html#aa147319554a579f11e8ffbeb986cc96c">Ultrasonic::getFileContent</a></div><div class="ttdeci">bool getFileContent(std::string fileName)</div><div class="ttdoc">The getFileContent function has been adapted from code written by Q-Engineering called 'TFLite_Classi...</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00117">USsensor.cpp:117</a></div></div>
+<div class="ttc" id="aclassUltrasonic_html_ab36757f08254e5bd2aaade974e5a1aa6"><div class="ttname"><a href="classUltrasonic.html#ab36757f08254e5bd2aaade974e5a1aa6">Ultrasonic::detect_from_picture</a></div><div class="ttdeci">void detect_from_picture(Mat &amp;src)</div><div class="ttdoc">The detect_from_picture function has been adapted from code written by Q-Engineering called 'TFLite_C...</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00141">USsensor.cpp:141</a></div></div>
+<div class="ttc" id="aclassUltrasonic_html_ac1df91b01624260ce4c19126e3aa0160"><div class="ttname"><a href="classUltrasonic.html#ac1df91b01624260ce4c19126e3aa0160">Ultrasonic::run</a></div><div class="ttdeci">static void run(Ultrasonic *ultrasonic)</div><div class="ttdoc">Runs ultrasonic sensor routine.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00275">USsensor.cpp:275</a></div></div>
+<div class="ttc" id="aclassUltrasonic_html_ae5d433dfce8572b5cc1d75a909ae2c1c"><div class="ttname"><a href="classUltrasonic.html#ae5d433dfce8572b5cc1d75a909ae2c1c">Ultrasonic::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdoc">Stops + tidies ultrasonic sensor thread.</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00102">USsensor.cpp:102</a></div></div>
+<div class="ttc" id="aclassUltrasonic_html_aeae45ebcd15d6c82de797aa77dc1a03d"><div class="ttname"><a href="classUltrasonic.html#aeae45ebcd15d6c82de797aa77dc1a03d">Ultrasonic::Ultrasonic</a></div><div class="ttdeci">Ultrasonic(int Trig, int Echo)</div><div class="ttdoc">Constructor for Ultrasonic class. Ultrasnoic(int TriggerPin, int EchoPin)</div><div class="ttdef"><b>Definition:</b> <a href="USsensor_8cpp_source.html#l00071">USsensor.cpp:71</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

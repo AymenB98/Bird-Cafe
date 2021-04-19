@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['maketweet_57',['MakeTweet',['../classMakeTweet.html',1,'']]]
+  ['photoviewer_53',['PhotoViewer',['../classPhotoViewer.html',1,'']]]
 ];
