@@ -52,7 +52,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <wiringPi.h>
 #include <thread>
 #include <stdio.h>
+#include "latencyTimers.h"
 
+// #define LATENCY_DEBUG
 using namespace std;
 
 const int trig = 18;
@@ -81,10 +83,13 @@ void camStandardConfig( raspicam::RaspiCam *Camera )
 
 int main ( int argc,char **argv ) 
 { 
-   std::chrono::steady_clock::time_point fullTimerStart = std::chrono::steady_clock::now();
+#ifdef LATENCY_DEBUG
+   std::chrono::high_resolution_clock::time_point fullTimerStart = std::chrono::high_resolution_clock::now();
+#endif
+
    Ultrasonic *cam1 = new Ultrasonic(trig, echo);
    camStandardConfig(cam1);
-   cam1->setFilePath("../../Photos/birdcafe.jpg");
+   cam1->setFilePath("../Photos/birdcafe.jpg");
 
    cam1->camStart();
    cam1->start();
@@ -92,9 +97,20 @@ int main ( int argc,char **argv )
    cam1->camStop();
    cam1->stop();
    delete cam1;
-   std::chrono::steady_clock::time_point fullTimerStop = std::chrono::steady_clock::now(); 
-   auto fullDuration = std::chrono::duration_cast <std::chrono::milliseconds> (fullTimerStop-fullTimerStart).count();
-   std::cout << "Full Timer: " << fullDuration << "ms" << std::endl;
+#ifdef LATENCY_DEBUG
+   std::chrono::high_resolution_clock::time_point fullTimerStop = std::chrono::high_resolution_clock::now(); 
+   fullDuration = std::chrono::duration<float> (fullTimerStop-fullTimerStart).count();
+   std::cout << "Full Timer: " << 1000*fullDuration << "s" << std::endl;
+   
+   // Latency Logging
+   fprintf(fullDurLog, "%f\n", 1000*fullDuration);   
 
+   fclose(fullDurLog);
+   fclose(usDurLog);
+   fclose(tweetDurLog);
+   fclose(photoDurLog);
+   fclose(imReadDurLog);
+   fclose(udpLog);
+#endif
    return 0;
 }

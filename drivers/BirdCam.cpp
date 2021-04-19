@@ -41,6 +41,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //!**************************************************************
 
 #include "BirdCam.h"
+#include "latencyTimers.h"
+
+float photoDuration; 
+FILE* photoDurLog = fopen("../../photoDurLog.dat", "at");
+
 namespace fs = std::experimental::filesystem;
 
 //setters
@@ -96,9 +101,8 @@ void BirdCam::takePhoto()
       outFile.write ( ( char* ) data, raspicam::RaspiCam::getImageTypeSize ( raspicam::RASPICAM_FORMAT_RGB ) );
    }
    std::chrono::steady_clock::time_point photoTimerStop = std::chrono::steady_clock::now(); 
-   auto photoDuration = std::chrono::duration_cast <std::chrono::milliseconds> (photoTimerStop - photoTimerStart).count();
-   std::cout << "Photo Timer: " << photoDuration << "ms" << std::endl;
-
+   photoDuration = std::chrono::duration <float> (photoTimerStop - photoTimerStart).count();
+   fprintf(photoDurLog, "%f\n", 1000*photoDuration); 
 }
 
 void BirdCam::camStart()

@@ -20,6 +20,14 @@
  * Cross-compile with cross-gcc -I/path/to/cross-kernel/include
  */
 
+// #define LATENCY_DEBUG
+
+#ifdef LATENCY_DEBUG
+float udpDuration;
+std::chrono::high_resolution_clock::time_point udpTimerStart;
+FILE* udpLog = fopen("/home/pi/projects/BirdCafe/Bird-Cafe/udpLog.dat", "at");
+#endif
+
 /** @brief Constructor which creates a socket and sets up the address
  *        parameters
  * 
@@ -27,6 +35,11 @@
  */
 UDPTransmit::UDPTransmit(int visitCount)
 {
+
+#ifdef LATENCY_DEBUG
+    udpTimerStart = std::chrono::high_resolution_clock::now();
+#endif
+
     newSocket = socket(PF_INET, SOCK_DGRAM, 0);
     portNumber = 5000;
     // Make sure socket has been created successfully
@@ -88,6 +101,13 @@ UDPTransmit::~UDPTransmit()
 {
     // Close the socket
     close(newSocket);
+
     // Allow the port to be used after this code has been run
     killProcess();
+#ifdef LATENCY_DEBUG
+    std::chrono::high_resolution_clock::time_point udpTimerEnd = std::chrono::high_resolution_clock::now();
+    udpDuration = std::chrono::duration <float> (udpTimerEnd - udpTimerStart).count();
+    fprintf(udpLog, "%f\n", 1000*udpDuration);  
+#endif
+
 }

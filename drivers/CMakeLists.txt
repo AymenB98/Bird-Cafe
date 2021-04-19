@@ -10,10 +10,13 @@ set(DRIVER_LIB
 
 
 find_package(raspicam REQUIRED)
-find_package(OpenCV REQUIRED) 
+
+find_package(OpenCV REQUIRED)
+find_package(PythonLibs REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories("/usr/local/include/opencv4")
-#include_directories("../SSD_Classifier/")
+include_directories(${PYTHON_INCLUDE_DIRS})
+
 find_package(Threads)
 
 
@@ -39,5 +42,5 @@ target_link_libraries (birdcafe_raspicam
 	 ${OpenCV_Libs}
 	 ${OpenCV_LIBS}
 	 ${CMAKE_THREAD_LIBS_INIT}
-)
-#####################################
+	 ${PYTHON_LIBRARIES}
+	 )

@@ -53,10 +53,7 @@ class Ultrasonic : public BirdCam
     std::thread* USThread = NULL;
     std::vector<std::string> Labels;
     
-    float distanceCalcUS(float pulseTime);
-    
-    bool getFileContent(std::string fileName);
-    void detect_from_picture(Mat &src);
+    float distanceCalcUS(float pulseTime);    
 
     public:
 
@@ -82,6 +79,7 @@ class Ultrasonic : public BirdCam
     //! \brief Stops + tidies ultrasonic sensor thread.
     void stop();
 
-
+    bool getFileContent(std::string fileName);
+    void detect_from_picture(Mat &src);
 };
 #endif

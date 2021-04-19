@@ -34,13 +34,14 @@ This was adapted from the file "graph.php" by Bernd Porr
 // https://github.com/berndporr/rpi_AD7705_daq
 // This was adapted from the file "graph.php" by Bernd Porr
 
-/* @brief 	Class which creates and binds UDP socket
+
+/** @brief 	Class which creates and binds UDP socket
  * 
  */
 class UdpSocket
 {	
 	public $socket, $errorCode, $birds, $imposters, $lastDate;
-	/* @brief	Constructor which receives data via UDP socket
+	/** @brief	Constructor which receives data via UDP socket
 	 * 
 	 * @return none 
 	 */
@@ -99,7 +100,9 @@ class UdpSocket
 		return $this->socket = $socket;
 	}
 
-	/* @brief	Retreive contents of .csv file and place in 2D array
+	/** @brief	Retreive contents of .csv file and place in 2D array
+	 * 
+	 * @param $csvHandle File handle for .csv file
 	 * 
 	 * @return $fullArray 2D array with full csv contents 
 	 */
@@ -118,9 +121,9 @@ class UdpSocket
 	return $this->fullArray = $fullArray;
 	}
 
-	/* @brief	Append array onto .csv file based on RX packet
+	/** @brief	Append array onto .csv file based on RX packet
 	 * 
-	 * @param $updateCode Character determining what kind of visit has occurred.
+	 * @param $message Visit number received from UDP packet
 	 * 
 	 * @return $lastTime How long since last visit 
 	 */
@@ -158,7 +161,7 @@ class UdpSocket
 		return $this->lastTime = $lastTime;
 	}
 
-	/* @brief	Calculate and display time since last visit.
+	/** @brief	Calculate and display time since last visit.
 	 * 
 	 * @param $lastStamp Most recent time stamp from .csv file.
 	 * 
@@ -178,8 +181,7 @@ class UdpSocket
 		return $this->timeDiffMins = $timeDiffMins;
 	}
 
-
-	/* @brief	Determine number of visits in last session
+	/** @brief	Determine number of visits in last session
 	 *
 	 * 
 	 * @return $lastTotal How many visits registered in last session
