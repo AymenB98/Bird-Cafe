@@ -1,4 +1,4 @@
-#include "UDP.h"
+
 // Author: Aymen Benylles
 // This code was adapted from the files "udp_transmit.cpp" and "AD7705Comm.h"
 // from the following GitHub repo: 
@@ -20,12 +20,15 @@
  * Cross-compile with cross-gcc -I/path/to/cross-kernel/include
  */
 
-// #define LATENCY_DEBUG
+#include "UDP.h"
+#include "latencyTimers.h"
+
+#define LATENCY_DEBUG
 
 #ifdef LATENCY_DEBUG
 float udpDuration;
 std::chrono::high_resolution_clock::time_point udpTimerStart;
-FILE* udpLog = fopen("/home/pi/projects/BirdCafe/Bird-Cafe/udpLog.dat", "at");
+FILE* udpLog = fopen("udpLog.dat", "at");
 #endif
 
 /** @brief Constructor which creates a socket and sets up the address
