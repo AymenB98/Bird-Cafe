@@ -9,7 +9,7 @@
 ## Description
 This is the software for an autonomous bird feeder which does the following:
 - detect a bird landing on the feeder.
-- take a picture of the bird and upload it to a server on a Raspberri Pi. 
+- take a picture of the bird and upload it to a server on a Raspberry Pi. 
 - use machine learning to make sure it was a bird that landed on the feeder, and not something else.
 - Tweet an image of the bird with a caption.
 
