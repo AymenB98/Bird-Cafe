@@ -81,7 +81,10 @@ class UdpSocket
 			echo "<b> Session closed. </br>";
 			// Display number of visits in last session
 			$visits = $this->lastSessionVisits();
-			echo "<b>" .$visits. " visit(s) were registered in your last session.</br>";
+			if($visits >= 0)
+			{
+				echo "<b>" .$visits. " visit(s) were registered in your last session.</br>";
+			}
 			
 		}
 		// Only append data if packet received
@@ -194,14 +197,24 @@ class UdpSocket
 		$csvArray = $this->csvContents($statsFile);
 		// Get number of rows in array
 		$rows = count($csvArray);
-		// Return number of visits in last session
-		$lastTotal = $csvArray[$rows - 1][1];
-		if($lastTotal > 7)
+		$fGetResult = fgetcsv($statsFile, 1000, ",");
+		fclose($statsFile);
+		if(($rows == 1) && ($fGetResult == FALSE))
 		{
-			echo "<b> Wow! You had a lot of visits in your last session. </br>";
-			echo "<b> Remember to clean your feeder to keep the local birds as healthy as possible. </br></br>"; 
+			return $this->lastTotal = 0;
 		}
-		return $this->lastTotal = $lastTotal;
+		else
+		{
+			// Return number of visits in last session
+			$lastTotal = $csvArray[$rows - 1][1];
+			if($lastTotal > 7)
+			{
+				echo "<b> Wow! You had a lot of visits in your last session. </br>";
+				echo "<b> Remember to clean your feeder to keep the local birds as healthy as possible. </br></br>"; 
+			}
+			return $this->lastTotal = $lastTotal;
+			
+		}
 	}
 }
 
